@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yuko_k | Portfolio</title>
+  <meta name="description" content="Yuko_k のポートフォリオ。Python・API連携・Difyなどを使った実用的なWebアプリ・ツール開発の実績を掲載。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS変数（カラーパレット）===== */
+    :root {
+      --coral:    #FF7B54;
+      --peach:    #FFB26B;
+      --mint:     #4ECDC4;
+      --mint-light: #A8E6CF;
+      --yellow:   #FFE66D;
+      --bg:       #FFF8F0;
+      --card-bg:  #FFFFFF;
+      --text:     #2D2D2D;
+      --muted:    #888888;
+      --border:   #F0E6D8;
+      --shadow:   rgba(255, 123, 84, 0.15);
+    }
+
+    /* ===== リセット ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== ナビ ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,248,240,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: var(--coral);
+      letter-spacing: -0.5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+    .nav-links a {
+      color: var(--text);
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--coral);
+      transition: width 0.25s;
+      border-radius: 99px;
+    }
+    .nav-links a:hover { color: var(--coral); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ===== ヒーロー ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-circles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.18;
+      animation: float 6s ease-in-out infinite;
+    }
+    .circle-1 { width: 340px; height: 340px; background: var(--coral); top: -80px; right: -60px; animation-delay: 0s; }
+    .circle-2 { width: 220px; height: 220px; background: var(--mint); bottom: 60px; left: -60px; animation-delay: 2s; }
+    .circle-3 { width: 150px; height: 150px; background: var(--yellow); top: 40%; left: 10%; animation-delay: 4s; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-18px); }
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero-emoji {
+      font-size: 4rem;
+      margin-bottom: 0.5rem;
+      display: block;
+      animation: waveHand 2s ease-in-out infinite;
+      transform-origin: 70% 70%;
+    }
+    @keyframes waveHand {
+      0%, 100% { transform: rotate(0deg); }
+      20%       { transform: rotate(-20deg); }
+      40%       { transform: rotate(15deg); }
+      60%       { transform: rotate(-10deg); }
+      80%       { transform: rotate(5deg); }
+    }
+    .hero-handle {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--muted);
+      margin-bottom: 2rem;
+      min-height: 2rem;
+    }
+    #typewriter::after {
+      content: '|';
+      animation: blink 0.75s step-end infinite;
+      color: var(--coral);
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 2.5rem;
+    }
+    .badge {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      box-shadow: 0 2px 8px var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .badge:hover { transform: translateY(-2px); box-shadow: 0 4px 14px var(--shadow); }
+    .hero-cta {
+      display: inline-flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn {
+      padding: 0.75rem 2rem;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px var(--shadow); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      color: #fff;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--coral);
+      color: var(--coral);
+    }
+
+    /* ===== セクション共通 ===== */
+    section { padding: 5rem 1.5rem; }
+    .container { max-width: 960px; margin: 0 auto; }
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ===== 波形デバイダー ===== */
+    .wave-divider {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .wave-divider svg { display: block; width: 100%; }
+
+    /* ===== About ===== */
+    #about { background: var(--card-bg); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .about-text p { color: #555; margin-bottom: 1rem; }
+    .about-text p:last-child { margin-bottom: 0; }
+    .skill-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+    .skill-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .skill-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
+      border-color: var(--coral);
+    }
+    .skill-icon { font-size: 1.3rem; }
+
+    /* ===== Works ===== */
+    #works { background: var(--bg); }
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(255,123,84,0.12);
+      border-color: var(--coral);
+    }
+    .project-emoji {
+      font-size: 2.4rem;
+      width: 56px; height: 56px;
+      background: var(--bg);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-category {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--coral);
+    }
+    .project-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .project-desc {
+      font-size: 0.85rem;
+      color: #666;
+      flex: 1;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.65rem;
+      border-radius: 99px;
+    }
+    .tag-js    { background: #FFF3D1; color: #C68B00; }
+    .tag-py    { background: #E3F0FF; color: #2B6CB0; }
+    .tag-gas   { background: #E8F5E9; color: #2E7D32; }
+    .tag-line  { background: #E8F5E9; color: #1B5E20; }
+    .tag-api   { background: #F3E8FF; color: #6B46C1; }
+    .tag-html  { background: #FFF0EB; color: #C0392B; }
+    .tag-ai    { background: #FFF8E1; color: #F57F17; }
+    .tag-tool  { background: #E0F7FA; color: #006064; }
+    .project-link-icon {
+      align-self: flex-end;
+      font-size: 0.8rem;
+      color: var(--coral);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: auto;
+    }
+
+    /* ===== こだわりセクション ===== */
+    #design { background: var(--card-bg); }
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.2rem;
+    }
+    .design-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.4rem;
+    }
+    .design-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .design-card p { font-size: 0.84rem; color: #666; line-height: 1.6; }
+    .color-swatches {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+    .swatch {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+    }
+
+    /* ===== Contact ===== */
+    #contact { background: linear-gradient(135deg, var(--coral), var(--peach)); text-align: center; }
+    #contact .section-title { color: #fff; justify-content: center; }
+    #contact .section-sub { color: rgba(255,255,255,0.85); }
+    .contact-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    .contact-btn {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.6);
+      color: #fff;
+      padding: 0.7rem 1.8rem;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .contact-btn:hover { background: rgba(255,255,255,0.35); transform: translateY(-2px); }
+
+    /* ===== フッター ===== */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.55);
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.82rem;
+    }
+    footer span { color: var(--coral); }
+
+    /* ===== スクロールアニメーション ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== レスポンシブ ===== */
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .skill-grid { grid-template-columns: 1fr 1fr; }
+      nav { padding: 0.7rem 1rem; }
+      .nav-links { gap: 1rem; font-size: 0.8rem; }
+    }
+    @media (max-width: 480px) {
+      .nav-links { display: none; }
+    }
+
+    /* ===== スクロールバー ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--coral); border-radius: 99px; }
+
+    /* ===== 仕組みボタン ===== */
+    .detail-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--coral);
+      background: rgba(255,123,84,0.08);
+      border: 1.5px solid rgba(255,123,84,0.3);
+      border-radius: 99px;
+      padding: 0.28rem 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+    .detail-btn:hover { background: rgba(255,123,84,0.16); transform: translateY(-1px); }
+
+    /* ===== モーダル ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 2rem;
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+      animation: popIn 0.25s ease;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.92); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: var(--bg);
+      border: none;
+      border-radius: 99px;
+      width: 32px; height: 32px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: var(--border); }
+    .modal-head {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.6rem;
+    }
+    .modal-emoji {
+      font-size: 2rem;
+      background: var(--bg);
+      border-radius: 14px;
+      width: 52px; height: 52px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .modal-title { font-size: 1.2rem; font-weight: 700; }
+    .modal-oneliner {
+      font-size: 0.9rem;
+      color: #555;
+      background: var(--bg);
+      border-left: 3px solid var(--coral);
+      border-radius: 0 10px 10px 0;
+      padding: 0.7rem 1rem;
+      margin-bottom: 1.4rem;
+      line-height: 1.7;
+    }
+    .modal-flow-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+    .flow-list { display: flex; flex-direction: column; gap: 0; }
+    .flow-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.9rem;
+      position: relative;
+    }
+    .flow-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .flow-icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      z-index: 1;
+    }
+    .flow-arrow {
+      width: 2px;
+      height: 22px;
+      background: linear-gradient(to bottom, var(--coral), var(--peach));
+      margin: 2px 0;
+      border-radius: 99px;
+    }
+    .flow-item:last-child .flow-arrow { display: none; }
+    .flow-text { padding: 0.5rem 0 0.8rem; }
+    .flow-label { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+    .flow-desc  { font-size: 0.8rem;  color: #777; margin-top: 0.1rem; line-height: 1.5; }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem; }
+    .modal-open-btn {
+      display: block;
+      margin-top: 1.2rem;
+      text-align: center;
+      background: linear-gradient(135deg, var(--coral), var(--peach));
+      color: #fff;
+      border-radius: 99px;
+      padding: 0.7rem 1.5rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .modal-open-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+
+  <!-- ナビゲーション -->
+  <nav>
+    <div class="nav-logo">Yuko_k</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#design">こだわり</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ヒーロー -->
+  <section id="hero">
+    <div class="hero-bg-circles" aria-hidden="true">
+      <div class="circle circle-1"></div>
+      <div class="circle circle-2"></div>
+      <div class="circle circle-3"></div>
+    </div>
+    <div class="hero-content">
+      <span class="hero-emoji">👋</span>
+      <h1 class="hero-handle">Yuko_k</h1>
+      <p class="hero-tagline"><span id="typewriter"></span></p>
+      <div class="hero-badges">
+        <span class="badge">🐍 Python</span>
+        <span class="badge">📊 スプレッドシート連携</span>
+        <span class="badge">💬 LINE API</span>
+        <span class="badge">🤖 Dify</span>
+        <span class="badge">✨ Claude Code</span>
+        <span class="badge">⚡ Cursor</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#works" class="btn btn-primary">🗂️ 実績を見る</a>
+        <a href="#contact" class="btn btn-outline">📩 お問い合わせ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 波形デバイダー -->
+  <div class="wave-divider" style="background:#FFF8F0; margin-top:-2px;">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C300,60 900,0 1200,30 L1200,60 L0,60 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-title fade-in">👩‍💻 About</div>
+      <p class="section-sub fade-in">ちょっとした不便を、便利に変えるのが好きです。</p>
+      <div class="about-grid">
+        <div class="about-text fade-in">
+          <p>はじめまして、<strong>Yuko_k</strong> です。</p>
+          <p>日常の「めんどくさい」を自動化・効率化するツールやWebアプリを作っています。<br>
+          PythonやGoogle Apps Script、LINE APIを使ったAPI連携が得意で、現場の課題に寄り添った実用的なツールを開発しています。</p>
+          <p>最近はAIツール（Dify・Claude Code・Cursor）を積極的に活用し、アイデアを素早く形にすることを楽しんでいます。</p>
+          <p>クラウドソーシングにて承ります 🙌<br>お気軽にご相談ください！</p>
+        </div>
+        <div class="skill-grid fade-in">
+          <div class="skill-card"><span class="skill-icon">🐍</span>Python</div>
+          <div class="skill-card"><span class="skill-icon">📋</span>Google Apps Script</div>
+          <div class="skill-card"><span class="skill-icon">📊</span>Spreadsheet API</div>
+          <div class="skill-card"><span class="skill-icon">💬</span>LINE Messaging API</div>
+          <div class="skill-card"><span class="skill-icon">🤖</span>Dify</div>
+          <div class="skill-card"><span class="skill-icon">✨</span>Claude Code</div>
+          <div class="skill-card"><span class="skill-icon">⚡</span>Cursor</div>
+          <div class="skill-card"><span class="skill-icon">🌐</span>HTML / CSS / JS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 波形デバイダー -->
+  <div class="wave-divider" style="background:#FFFFFF;">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C300,0 900,60 1200,30 L1200,60 L0,60 Z" fill="#FFF8F0"/>
+    </svg>
+  </div>
+
+  <!-- Works -->
+  <section id="works">
+    <div class="container">
+      <div class="section-title fade-in">🗂️ Works</div>
+      <p class="section-sub fade-in">実際に開発・公開したプロダクトです。随時更新中 ✨</p>
+      <div class="works-grid" id="works-grid">
+        <!-- JSで動的生成 -->
+      </div>
+    </div>
+  </section>
+
+  <!-- 波形デバイダー -->
+  <div class="wave-divider" style="background:#FFF8F0;">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C300,60 900,0 1200,30 L1200,60 L0,60 Z" fill="#FFFFFF"/>
+    </svg>
+  </div>
+
+  <!-- このサイトのこだわり -->
+  <section id="design">
+    <div class="container">
+      <div class="section-title fade-in">🎨 このサイトのこだわり</div>
+      <p class="section-sub fade-in">デザイン・実装で大切にしたポイントを記録しています。</p>
+      <div class="design-grid">
+
+        <div class="design-card fade-in">
+          <h3>🎨 カラーパレット</h3>
+          <p>温かみのある「コーラルオレンジ」をメインカラーに採用。親しみやすく、かつプロフェッショナルな印象を目指しました。</p>
+          <div class="color-swatches">
+            <div class="swatch" style="background:#FF7B54;" title="Coral"></div>
+            <div class="swatch" style="background:#FFB26B;" title="Peach"></div>
+            <div class="swatch" style="background:#4ECDC4;" title="Mint"></div>
+            <div class="swatch" style="background:#FFE66D;" title="Yellow"></div>
+            <div class="swatch" style="background:#FFF8F0;" title="Warm White"></div>
+          </div>
+        </div>
+
+        <div class="design-card fade-in">
+          <h3>✍️ フォント設計</h3>
+          <p>日本語は「Noto Sans JP」、英数字・ロゴには「Poppins」を採用。読みやすさとブランド感を両立しました。</p>
+        </div>
+
+        <div class="design-card fade-in">
+          <h3>🌊 波形デバイダー</h3>
+          <p>セクションの区切りにSVGの波形を使用。フラットなデザインに動きと奥行きを加え、ページのリズムを演出しています。</p>
+        </div>
+
+        <div class="design-card fade-in">
+          <h3>✍️ タイプライター演出</h3>
+          <p>ヒーローのキャッチコピーがタイプライター風にアニメーション表示。訪問者の目を引き、メッセージが記憶に残ります。</p>
+        </div>
+
+        <div class="design-card fade-in">
+          <h3>🃏 カードホバー効果</h3>
+          <p>プロジェクトカードにホバーすると浮き上がるアニメーション＋コーラルボーダーで、インタラクティブな体験を提供。</p>
+        </div>
+
+        <div class="design-card fade-in">
+          <h3>🏷️ 色分けタグ</h3>
+          <p>技術スタックタグを言語ごとに色分け。JavaScript・Python・GAS・LINE APIなどが一目でわかるよう設計しました。</p>
+        </div>
+
+        <div class="design-card fade-in">
+          <h3>👋 手振りアニメーション</h3>
+          <p>ヒーローの絵文字が手を振るアニメーション。ページを開いた瞬間、訪問者へのフレンドリーな挨拶になっています。</p>
+        </div>
+
+        <div class="design-card fade-in">
+          <h3>➕ 作品の追加方法</h3>
+          <p>HTMLファイル内の<code style="background:#f0e6d8;padding:0 4px;border-radius:4px;">PROJECTS</code>配列に1行追記するだけで新しい作品を追加できます。メンテナンス性を最優先に設計。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 波形デバイダー -->
+  <div class="wave-divider" style="background:#FFFFFF;">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,30 C300,0 900,60 1200,30 L1200,60 L0,60 Z" fill="#FF7B54"/>
+    </svg>
+  </div>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <div class="section-title">📩 Contact</div>
+      <p class="section-sub">お仕事のご依頼・ご相談はお気軽にどうぞ！</p>
+      <div class="contact-links">
+        <a href="https://github.com/yuuy3386" target="_blank" rel="noopener" class="contact-btn">
+          🐙 GitHub
+        </a>
+        <a href="mailto:yuuy3386@gmail.com" class="contact-btn">
+          ✉️ メールを送る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- モーダル -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-box" id="modal-box">
+      <button class="modal-close" id="modal-close" aria-label="閉じる">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 <span>Yuko_k</span> — Built with 🧡 &amp; Claude Code</p>
+  </footer>
+
+  <script>
+    // =====================================================
+    // 🗂️ プロジェクト一覧 — ここに追記するだけで作品が増えます！
+    // =====================================================
+    const PROJECTS = [
+      {
+        emoji: '🚚',
+        category: 'Webアプリ',
+        title: 'キッチンカーデモサイト',
+        description: 'キッチンカービジネス向けに制作したデモWebサイト。メニュー紹介・出店スケジュール・SNSリンクなどを盛り込んだ実用的な構成です。',
+        tags: [
+          { label: 'JavaScript', cls: 'tag-js' },
+          { label: 'HTML/CSS', cls: 'tag-html' },
+        ],
+        url: 'https://yuuy3386.github.io/kitchen-car-demo/',
+      },
+      {
+        emoji: '🛡️',
+        category: 'Webアプリ',
+        title: '防災チェック・行動ガイド',
+        description: '都道府県を選ぶだけで公式防災リンクが切り替わる。地震・水害・ペットの行動ガイドとシーン別の持ち出しチェックリストが、オフラインでも使える防災サポートアプリ。',
+        tags: [
+          { label: 'JavaScript', cls: 'tag-js' },
+          { label: 'HTML/CSS', cls: 'tag-html' },
+          { label: 'Open-Meteo API', cls: 'tag-api' },
+          { label: 'PWA対応', cls: 'tag-tool' },
+        ],
+        url: 'https://yuuy3386.github.io/bousai-check-app/',
+        detail: {
+          oneliner: '都道府県を選ぶだけで公式防災リンクが切り替わる。地震・水害・ペットの行動ガイドとシーン別の持ち出しチェックリストが、オフラインでも使える防災サポートアプリ。',
+          flow: [
+            { emoji: '🗾', label: '都道府県を選ぶ',          desc: '47都道府県に対応。選ぶと公式防災サイト・ハザードマップ・気象庁へのリンクが自動で切り替わる' },
+            { emoji: '🌦️', label: '天気・雨の目安を確認',    desc: 'Open-Meteo（無料API）で現在地または代表地点の天気・24時間降水確率を取得して表示' },
+            { emoji: '📋', label: 'シーンを選んでチェック',   desc: '「日常準備・発災直後・避難所・ペット用・車で避難」の5シーンに対応。家族構成（単身/夫婦/子どもあり）でリストが自動切り替え' },
+            { emoji: '🦮', label: 'ペット専用の備えも網羅',   desc: 'キャリー・薬・ワクチン証明など、ペット同行避難に必要なチェック項目を専用シーンで用意' },
+            { emoji: '🚨', label: '行動ガイドで「次の一手」', desc: '地震・豪雨・避難・ペットの4シナリオを5ステップで案内。状況に合わせた具体的な行動を確認できる' },
+            { emoji: '📱', label: 'オフライン・スマホ対応',    desc: 'PWA対応でスマホのホーム画面に追加可能。チェック内容はブラウザに自動保存されるので次回も続きから使える' },
+          ],
+          usecases: [
+            'ペットを飼っている家庭の防災準備サポート',
+            '子ども・高齢者がいる家族の持ち出しリスト管理',
+            '自治体・地域コミュニティへの防災啓発ツールとして',
+            '学校・企業の防災訓練の前準備チェックに',
+          ],
+        },
+      },
+      {
+        emoji: '💴',
+        category: 'ツール / LINE Bot',
+        title: 'おかねのせんせい',
+        description: 'LINEに使ったお金を送るだけ。AIが「経費かどうか」を判定して、自動で記録してくれる月額0円の経費管理ツール。',
+        tags: [
+          { label: 'LINE API', cls: 'tag-line' },
+          { label: 'Google Apps Script', cls: 'tag-gas' },
+          { label: 'Groq AI', cls: 'tag-ai' },
+          { label: 'Spreadsheet', cls: 'tag-api' },
+        ],
+        url: 'https://script.google.com/macros/s/AKfycbyMW9JRxUsN9D_fptxgDZtje5VESdyLyQsuYG4yel28v0GMAB2jvfgGTs6kmXX9r3I/exec',
+        detail: {
+          oneliner: 'LINEに「ランチ 800円」と送るだけ。AIが経費かどうかを判定して、スプレッドシートに自動記録。Webページで支出一覧もいつでも確認できる、月額0円の経費管理ツールです。',
+          flow: [
+            { emoji: '📱', label: 'あなた（LINE）',         desc: '「ランチ 800円」とLINEで送る' },
+            { emoji: '📨', label: 'メッセージ受け取り窓口', desc: 'LINEがメッセージを受け取り、次のステップへ届ける' },
+            { emoji: '⚙️', label: '司令塔（GAS）',          desc: 'メッセージを受け取り、AIへの問い合わせ・記録・返信をすべて管理。サーバー不要で無料で動く' },
+            { emoji: '🤖', label: 'AI（Groq）',             desc: '「これは経費になるか？ なるなら何の科目？」を判定して結果を返す。完全無料のAI' },
+            { emoji: '📊', label: 'スプレッドシートに記録', desc: '日付・内容・金額・勘定科目・理由を自動で追記。データベース代わりに使用' },
+            { emoji: '💬', label: 'LINEに返信',             desc: '「✅ 経費OK【接待交際費】」など判定結果がLINEに届く' },
+            { emoji: '🌐', label: 'Webで確認',              desc: 'URLを開くだけで今月の支出一覧・経費合計・クイズ履歴が一覧できる' },
+          ],
+        },
+      },
+      {
+        emoji: '📰',
+        category: 'ツール / LINE Bot',
+        title: 'ニュースBot',
+        description: '設定したらほったらかしでOK。AIがニュースを要約してLINEに毎朝・毎週自動配信。大人向け・子ども向けの2種類で届く、月額0円のニュース配信ツール。',
+        tags: [
+          { label: 'LINE API', cls: 'tag-line' },
+          { label: 'Google Apps Script', cls: 'tag-gas' },
+          { label: 'Groq AI', cls: 'tag-ai' },
+          { label: 'NHK RSS', cls: 'tag-tool' },
+          { label: 'Spreadsheet', cls: 'tag-api' },
+        ],
+        url: 'https://script.google.com/macros/s/AKfycbzFfoOGnzphvlH53r5XmuwJ-kUwmPXap47d6wijBURu2l5NgjmCmefNM10Qa43Pfd1E/exec',
+        detail: {
+          oneliner: '設定したらほったらかしでOK。AIがニュースを要約してLINEに毎朝・毎週自動配信。大人向け・子ども向けの2種類で届く、月額0円のニュース配信ツール。',
+          flow: [
+            { emoji: '📡', label: 'NHK RSSフィード（毎朝7時・自動）', desc: '最新の経済・社会ニュースを自動取得。APIキー不要・無料' },
+            { emoji: '⚙️', label: '司令塔（GAS）',                     desc: 'AIへの問い合わせ・記録・配信まですべてを担当。サーバー不要で無料で動く' },
+            { emoji: '🤖', label: 'AI（Groq）',                         desc: '同じニュースを「大人向け（生活への影響）」と「子ども向け（やさしい言葉）」の2種類に要約' },
+            { emoji: '📊', label: 'スプレッドシートに記録',             desc: '配信日時・カテゴリ・タイトル・要約・URLを自動で追記' },
+            { emoji: '💬', label: 'LINEにプッシュ配信',                 desc: '毎朝「📰 今日のニュース」が2通届く（大人向け＋子ども向け）' },
+            { emoji: '🌐', label: 'Webで履歴確認',                      desc: 'URLを開くだけで配信済みニュース一覧・カテゴリフィルター・大人/子ども切り替えが使える' },
+          ],
+          flow2: {
+            label: '📅 毎週日曜：週まとめ配信',
+            steps: [
+              { emoji: '📋', label: '先週分を自動取得', desc: 'スプレッドシートから直近7日分のニュースを収集' },
+              { emoji: '🤖', label: 'AIが週まとめを作成', desc: '「今週のポイント3選／生活への影響／来週の注目テーマ」を生成' },
+              { emoji: '💬', label: 'LINEに配信', desc: '日曜朝に「📊 今週のまとめ」が届く' },
+            ],
+          },
+          usecases: [
+            '業界・テーマを変えたニュース配信（不動産・医療・教育など）',
+            '社内向けの情報共有Bot（スタッフへの朝の情報配信）',
+            '学校・塾での子ども向けニュース学習ツール',
+            '対象者（大人/子ども/シニアなど）に合わせた言い換え配信',
+          ],
+        },
+      },
+    ];
+    // =====================================================
+    // ここまでがプロジェクト設定
+    // =====================================================
+
+    // プロジェクトカードを生成
+    const grid = document.getElementById('works-grid');
+    PROJECTS.forEach((p, i) => {
+      const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
+      const detailBtn = p.detail
+        ? `<button class="detail-btn" data-idx="${i}">🔍 仕組みを見る</button>`
+        : '';
+      const card = document.createElement('a');
+      card.href = p.url;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.className = 'project-card fade-in';
+      card.style.transitionDelay = `${i * 0.08}s`;
+      card.innerHTML = `
+        <div class="project-emoji">${p.emoji}</div>
+        <div class="project-category">${p.category}</div>
+        <div class="project-title">${p.title}</div>
+        <div class="project-desc">${p.description}</div>
+        <div class="project-tags">${tagsHtml}</div>
+        ${detailBtn}
+        <div class="project-link-icon">▶ 開いて見る</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // モーダル
+    const overlay  = document.getElementById('modal-overlay');
+    const modalContent = document.getElementById('modal-content');
+
+    function buildFlowHtml(steps) {
+      return steps.map(f => `
+        <div class="flow-item">
+          <div class="flow-left">
+            <div class="flow-icon">${f.emoji}</div>
+            <div class="flow-arrow"></div>
+          </div>
+          <div class="flow-text">
+            <div class="flow-label">${f.label}</div>
+            <div class="flow-desc">${f.desc}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openModal(idx) {
+      const p = PROJECTS[idx];
+      const d = p.detail;
+      const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
+
+      // 週次フロー（オプション）
+      const flow2Html = d.flow2 ? `
+        <div class="modal-flow-title" style="margin-top:1.2rem;">${d.flow2.label}</div>
+        <div class="flow-list">${buildFlowHtml(d.flow2.steps)}</div>
+      ` : '';
+
+      // 応用例（オプション）
+      const usecasesHtml = d.usecases ? `
+        <div class="modal-flow-title" style="margin-top:1.2rem;">💡 こんな使い方・応用例</div>
+        <ul style="padding-left:1.2rem; font-size:0.83rem; color:#555; line-height:2;">
+          ${d.usecases.map(u => `<li>${u}</li>`).join('')}
+        </ul>
+      ` : '';
+
+      modalContent.innerHTML = `
+        <div class="modal-head">
+          <div class="modal-emoji">${p.emoji}</div>
+          <div class="modal-title">${p.title}</div>
+        </div>
+        <div class="modal-oneliner">${d.oneliner}</div>
+        <div class="modal-flow-title">📅 毎日の処理の流れ</div>
+        <div class="flow-list">${buildFlowHtml(d.flow)}</div>
+        ${flow2Html}
+        ${usecasesHtml}
+        <div class="modal-tags">${tagsHtml}</div>
+        <a href="${p.url}" target="_blank" rel="noopener" class="modal-open-btn">▶ 実際に開いて試す</a>
+      `;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+    document.getElementById('works-grid').addEventListener('click', e => {
+      const btn = e.target.closest('.detail-btn');
+      if (btn) {
+        e.preventDefault();
+        openModal(Number(btn.dataset.idx));
+      }
+    });
+
+    // タイプライターアニメーション
+    const messages = [
+      '実用的なWebアプリ・ツールを作っています',
+      'Python × API連携が得意です',
+      'LINE & スプレッドシート連携もお任せ！',
+      'AIツールを駆使してアイデアを形に 🤖',
+    ];
+    let mi = 0, ci = 0, deleting = false;
+    const tw = document.getElementById('typewriter');
+    function typeLoop() {
+      const msg = messages[mi];
+      if (!deleting) {
+        tw.textContent = msg.slice(0, ++ci);
+        if (ci === msg.length) { deleting = true; setTimeout(typeLoop, 1800); return; }
+        setTimeout(typeLoop, 60);
+      } else {
+        tw.textContent = msg.slice(0, --ci);
+        if (ci === 0) { deleting = false; mi = (mi + 1) % messages.length; setTimeout(typeLoop, 300); return; }
+        setTimeout(typeLoop, 35);
+      }
+    }
+    typeLoop();
+
+    // スクロールアニメーション
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
