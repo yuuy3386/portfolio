@@ -746,11 +746,13 @@
   <section id="contact">
     <div class="container">
       <div class="section-title">📩 Contact</div>
-      <p class="section-sub">お仕事のご依頼・ご相談はお気軽にどうぞ！</p>
+      <p class="section-sub">お仕事のご依頼・ご相談はお気軽にどうぞ！<br>ランサーズ・クラウドワークスからもお問い合わせいただけます。</p>
       <div class="contact-links">
+        <!-- GitHub リンクは整備完了後に追加予定
         <a href="https://github.com/yuuy3386" target="_blank" rel="noopener" class="contact-btn">
           🐙 GitHub
         </a>
+        -->
         <a href="mailto:yuuy3386@gmail.com" class="contact-btn">
           ✉️ メールを送る
         </a>
@@ -774,17 +776,25 @@
     // =====================================================
     // 🗂️ プロジェクト一覧 — ここに追記するだけで作品が増えます！
     // =====================================================
+    // =====================================================
+    // github フィールドについて：
+    //   空文字 '' → GitHubボタン非表示（整備中）
+    //   URL を入れる → カードにGitHubボタンが自動表示
+    //   例: github: 'https://github.com/yuuy3386/bousai-check-app',
+    // =====================================================
     const PROJECTS = [
       {
         emoji: '🚚',
         category: 'Webアプリ',
-        title: 'キッチンカーデモサイト',
-        description: 'キッチンカービジネス向けに制作したデモWebサイト。メニュー紹介・出店スケジュール・SNSリンクなどを盛り込んだ実用的な構成です。',
+        title: 'キッチンカー向けPOSツール（デモ）',
+        description: 'キッチンカー専用の会計・在庫・月次管理ツール。商品タップで合計計算、スプレッドシートへの自動記録まで対応。スマホ最適化済み。',
         tags: [
           { label: 'JavaScript', cls: 'tag-js' },
           { label: 'HTML/CSS', cls: 'tag-html' },
+          { label: 'Spreadsheet API', cls: 'tag-api' },
         ],
         url: 'https://yuuy3386.github.io/kitchen-car-demo/',
+        github: '', // 整備後に URL を追記するとボタンが表示されます
       },
       {
         emoji: '🛡️',
@@ -798,6 +808,7 @@
           { label: 'PWA対応', cls: 'tag-tool' },
         ],
         url: 'https://yuuy3386.github.io/bousai-check-app/',
+        github: '', // 整備後に URL を追記するとボタンが表示されます
         detail: {
           oneliner: '都道府県を選ぶだけで公式防災リンクが切り替わる。地震・水害・ペットの行動ガイドとシーン別の持ち出しチェックリストが、オフラインでも使える防災サポートアプリ。',
           flow: [
@@ -828,6 +839,7 @@
           { label: 'Spreadsheet', cls: 'tag-api' },
         ],
         url: 'https://script.google.com/macros/s/AKfycbyMW9JRxUsN9D_fptxgDZtje5VESdyLyQsuYG4yel28v0GMAB2jvfgGTs6kmXX9r3I/exec',
+        github: '', // 整備後に URL を追記するとボタンが表示されます
         detail: {
           oneliner: 'LINEに「ランチ 800円」と送るだけ。AIが経費かどうかを判定して、スプレッドシートに自動記録。Webページで支出一覧もいつでも確認できる、月額0円の経費管理ツールです。',
           flow: [
@@ -854,6 +866,7 @@
           { label: 'Spreadsheet', cls: 'tag-api' },
         ],
         url: 'https://script.google.com/macros/s/AKfycbzFfoOGnzphvlH53r5XmuwJ-kUwmPXap47d6wijBURu2l5NgjmCmefNM10Qa43Pfd1E/exec',
+        github: '', // 整備後に URL を追記するとボタンが表示されます
         detail: {
           oneliner: '設定したらほったらかしでOK。AIがニュースを要約してLINEに毎朝・毎週自動配信。大人向け・子ども向けの2種類で届く、月額0円のニュース配信ツール。',
           flow: [
@@ -892,6 +905,9 @@
       const detailBtn = p.detail
         ? `<button class="detail-btn" data-idx="${i}">🔍 仕組みを見る</button>`
         : '';
+      const githubBtn = p.github
+        ? `<a class="detail-btn" href="${p.github}" target="_blank" rel="noopener" style="margin-left:6px">🐙 GitHub</a>`
+        : '';
       const card = document.createElement('a');
       card.href = p.url;
       card.target = '_blank';
@@ -904,7 +920,7 @@
         <div class="project-title">${p.title}</div>
         <div class="project-desc">${p.description}</div>
         <div class="project-tags">${tagsHtml}</div>
-        ${detailBtn}
+        <div style="display:flex;gap:6px;flex-wrap:wrap">${detailBtn}${githubBtn}</div>
         <div class="project-link-icon">▶ 開いて見る</div>
       `;
       grid.appendChild(card);
