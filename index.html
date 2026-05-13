@@ -10,17 +10,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --accent:   #E05A2B;
-      --accent-l: #F5845A;
-      --navy:    #1E293B;
-      --navy-m:  #334155;
-      --bg:      #F8FAFC;
-      --bg2:     #F1F5F9;
+      --accent:   #C96A38;
+      --accent-l: #E08A58;
+      --navy:    #2B3B50;
+      --navy-m:  #3D526A;
+      --bg:      #FAF9F6;
+      --bg2:     #F2EEE8;
       --card:    #FFFFFF;
-      --text:    #1E293B;
-      --sub:     #475569;
-      --muted:   #64748B;
-      --border:  #E2E8F0;
+      --text:    #1E2A38;
+      --sub:     #4A5D6E;
+      --muted:   #7A8FA0;
+      --border:  #E0D8CF;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -155,6 +155,12 @@
     @media(max-width:680px){ .about-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
     .about-text p { color: var(--sub); font-size: 0.92rem; line-height: 1.85; margin-bottom: 1rem; }
     .about-text p:last-child { margin-bottom: 0; }
+    .story-quote {
+      border-left: 3px solid var(--accent); padding: 0.8rem 1rem;
+      background: var(--bg2); border-radius: 0 8px 8px 0;
+      font-size: 0.9rem; color: var(--sub); line-height: 1.75;
+      margin: 1.25rem 0; font-style: italic;
+    }
     .spec-list { display: flex; flex-direction: column; gap: 0.75rem; }
     .spec-item {
       background: var(--bg); border: 1px solid var(--border);
@@ -357,30 +363,30 @@
 <section id="about">
   <div class="container">
     <p class="sec-eyebrow fade-in">About</p>
-    <h2 class="sec-title fade-in">取り組んでいること</h2>
+    <h2 class="sec-title fade-in">なぜ作り始めたか</h2>
     <div class="about-wrap">
       <div class="about-text fade-in">
-        <p>日常や現場で感じる「手間」「入力」「確認作業」を、少しでも楽にできるツール作りに取り組んでいます。</p>
-        <p>Python・Google Apps Script・LINE APIを使い、通知・記録・データ整理などを自動化するWebツールを制作しています。</p>
-        <p>実際に使うことを前提に、スマホ操作・見やすさ・入力しやすさも意識して設計しています。新しいシステムを覚える手間をかけずに使えるよう、LINEやスプレッドシートといった身近なツールと連携させることが多いです。</p>
-        <p>Cursor・Claude Code・DifyなどのAIツールを開発に取り入れながら、試行錯誤を繰り返しています。</p>
+        <p>キッチンカーの運営に関わる中で、混雑時の対応に課題を感じていました。注文が重なると、どの組み合わせがセット対象かを頭の中で整理しながら、お客様へのお得感の説明も口頭でこなす必要がありました。</p>
+        <blockquote class="story-quote">セット対象かどうかを頭の中で整理しながら、お得感も都度口頭でお伝えしていました。それを自動でできないかと思ったのが最初のきっかけです。</blockquote>
+        <p>自分が実際に使うことを前提に設計したので、タップするだけでセット自動判定・会計・売上管理が一画面で完結する仕組みにしました。</p>
+        <p>その経験から、現場で使う人の手間を減らすことを軸に、LINE・スプレッドシート・APIを組み合わせた業務効率化ツールを作り続けています。</p>
       </div>
       <div class="spec-list fade-in">
         <div class="spec-item">
-          <div class="spec-label">入力作業の削減</div>
-          <div class="spec-text">送るだけ・タップするだけで記録・通知が完結する設計。手入力の手間とミスを減らします。</div>
+          <div class="spec-label">使う人の目線で設計する</div>
+          <div class="spec-text">自分自身がユーザーなので、「忙しい場面でも迷わない」「説明書がなくても使える」を最優先にしています。</div>
         </div>
         <div class="spec-item">
-          <div class="spec-label">身近なツールとの連携</div>
-          <div class="spec-text">LINE・Googleスプレッドシートを活用し、新しいアプリを導入しなくても動く仕組みを作ります。</div>
+          <div class="spec-label">動くものを早めに作って試す</div>
+          <div class="spec-text">完璧を目指すより、まず実際に使ってみて改善するスタイルで開発しています。リリース後も使いながら直し続けます。</div>
         </div>
         <div class="spec-item">
-          <div class="spec-label">スマホで完結する操作性</div>
-          <div class="spec-text">現場での利用を想定し、PC不要・スマホのみで完結するUIを優先しています。</div>
+          <div class="spec-label">LINEやスプレッドシートを活用</div>
+          <div class="spec-text">新しいアプリを覚えなくても使えるよう、すでに使い慣れたツールと連携させることを意識しています。</div>
         </div>
         <div class="spec-item">
-          <div class="spec-label">維持コストを抑えた設計</div>
-          <div class="spec-text">GAS・無料API・GitHub Pagesなどを組み合わせ、月額0円で動くツールを多く作っています。</div>
+          <div class="spec-label">月額コストをかけない設計</div>
+          <div class="spec-text">小規模の現場でも導入しやすいよう、GAS・無料API・GitHub Pagesを組み合わせてランニングコストを抑えています。</div>
         </div>
       </div>
     </div>
@@ -422,7 +428,7 @@
       <div class="process-card fade-in">
         <div class="p-num">04</div>
         <div class="p-title">複数ツールを組み合わせた自動化</div>
-        <p class="p-text">現在のツールは個別課題の解決が中心ですが、複数のAPI・AIを組み合わせてより複雑な業務フローを自動化することに挑戦したいと考えています。Difyを使ったマルチエージェント構成や、音声・画像入力への対応も試しています。</p>
+        <p class="p-text">現在のツールは個別課題の解決が中心ですが、複数のAPI・AIを組み合わせてより複雑な業務フローを自動化することに取り組んでいます。Difyを使ったワークフロー構成など、できることの幅を少しずつ広げています。</p>
       </div>
     </div>
   </div>
@@ -467,7 +473,7 @@
 <section id="contact">
   <div class="container">
     <h2 class="sec-title fade-in">Contact</h2>
-    <p class="sec-desc fade-in">LINE Bot・スプレッドシート自動化・AI連携ツール・Webアプリ開発など、お気軽にご連絡ください。</p>
+    <p class="sec-desc fade-in">「こんなこと自動化できますか？」という相談から大歓迎です。まだアイデア段階でも、話を聞くだけでもOKです。LINE Bot・スプレッドシート連携・業務効率化ツールの開発についてお気軽にどうぞ。</p>
     <div class="contact-links">
       <a href="mailto:yuuy3386@gmail.com" class="contact-btn">メールを送る</a>
       <!-- GitHub は整備完了後に追加予定
@@ -497,8 +503,8 @@ const DEMOS = [
   {
     forWho: 'キッチンカー運営者向け',
     title: 'キッチンカー向けPOSツール',
-    desc: '商品タップで会計・セット提案・月次管理まで一画面で完結。スプレッドシートへの自動記録にも対応。スマホのみで現場の会計業務を回せます。',
-    tags: ['JavaScript', 'HTML/CSS', 'Spreadsheet API'],
+    desc: '商品タップで合計計算・セット自動提案・お釣り表示まで完結。会計データをGoogle Apps Script経由でスプレッドシートに自動記録。スマホ1台で現場の会計業務を回せます。',
+    tags: ['JavaScript', 'HTML/CSS', 'Google Apps Script'],
     url: 'https://yuuy3386.github.io/kitchen-car-demo/',
     emoji: '🚚',
   },
@@ -523,9 +529,9 @@ const PROJECTS = [
     title: 'キッチンカー向けPOSツール（デモ）',
     desc: '混雑時の会計・在庫・売上管理をスマホ一台で完結させる現場向けツール。',
     challenge: '混雑時に会計・セット提案・売上記録が手作業になりやすく、ミスや記録漏れが発生していた。',
-    solution: '商品タップで合計計算・セット自動提案・スプレッドシート記録まで自動化するWebアプリを作成。',
-    innovation: 'スマホ操作を前提にボタンを大きく設計。注文内容が一目でわかるUIと、月次CSV出力機能を実装。',
-    tags: [{ label:'JavaScript', cls:'tag-js' }, { label:'HTML/CSS', cls:'tag-html' }, { label:'Spreadsheet API', cls:'tag-api' }],
+    solution: '商品タップで合計計算・セット自動提案・スプレッドシート記録まで自動化。Google Apps ScriptをWebアプリとしてデプロイし、ボタン一つで実際のスプレッドシートにデータを送信できる仕組みを実装。',
+    innovation: 'スマホ操作を前提に電卓式キーパッドでお預かり金額を入力。タップするたびにお釣りが自動表示される設計。月次CSV出力・原価管理・セット割引まで一画面に集約。',
+    tags: [{ label:'JavaScript', cls:'tag-js' }, { label:'HTML/CSS', cls:'tag-html' }, { label:'Google Apps Script', cls:'tag-gas' }],
     url: 'https://yuuy3386.github.io/kitchen-car-demo/',
     github: '',
   },
