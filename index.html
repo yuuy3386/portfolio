@@ -4,147 +4,266 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yuko_k | 業務効率化ツール開発</title>
-  <meta name="description" content="LINE・スプレッドシート・APIを使った業務効率化ツールを制作しています。入力・通知・確認の手間を減らすWebツールを公開中。" />
+  <meta name="description" content="LINE・スプレッドシート・GASを使った業務効率化ツールを制作しています。入力・通知・確認の手間を減らすWebツールを公開中。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
       --accent:   #C96A38;
       --accent-l: #E08A58;
-      --navy:    #2B3B50;
-      --navy-m:  #3D526A;
-      --bg:      #FAF9F6;
-      --bg2:     #F2EEE8;
-      --card:    #FFFFFF;
-      --text:    #1E2A38;
-      --sub:     #4A5D6E;
-      --muted:   #7A8FA0;
-      --border:  #E0D8CF;
+      --navy:     #2B3B50;
+      --navy-m:   #3D526A;
+      --bg:       #FAF9F6;
+      --bg2:      #F2EEE8;
+      --card:     #FFFFFF;
+      --text:     #1E2A38;
+      --sub:      #4A5D6E;
+      --muted:    #7A8FA0;
+      --border:   #E0D8CF;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
     a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
 
     /* ===== Nav ===== */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(248,250,252,0.95); backdrop-filter: blur(12px);
+      background: rgba(250,249,246,0.95); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 0 2rem; height: 56px;
+      padding: 0 1.5rem; height: 54px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-logo { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); letter-spacing: 0.02em; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; font-size: 0.83rem; font-weight: 500; }
+    .nav-logo { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; color: var(--text); letter-spacing: 0.02em; }
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; font-size: 0.82rem; font-weight: 500; }
     .nav-links a { color: var(--muted); transition: color 0.15s; }
     .nav-links a:hover { color: var(--text); }
-    @media(max-width:640px){ .nav-links { display: none; } }
+    @media(max-width:600px){ .nav-links { display: none; } }
 
-    /* ===== Section共通 ===== */
-    section { padding: 6rem 1.5rem; }
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+      padding: 0.75rem 1.6rem; border-radius: 10px;
+      font-weight: 700; font-size: 0.92rem; cursor: pointer; border: none;
+      transition: opacity 0.15s, transform 0.15s; white-space: nowrap;
+    }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      box-shadow: 0 4px 14px rgba(201,106,56,0.32);
+      font-size: 1rem; padding: 0.85rem 2rem;
+    }
+    .btn-ghost {
+      background: var(--card); border: 1.5px solid var(--border);
+      color: var(--navy-m);
+    }
+    .btn-ghost:hover { border-color: var(--navy-m); }
+
+    /* ===== Section 共通 ===== */
+    section { padding: 5rem 1.25rem; }
     .container { max-width: 960px; margin: 0 auto; }
-    .sec-eyebrow { font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.6rem; }
-    .sec-title { font-family: 'Inter', sans-serif; font-size: clamp(1.5rem,3.5vw,2rem); font-weight: 700; color: var(--text); margin-bottom: 0.6rem; line-height: 1.3; }
-    .sec-desc { color: var(--sub); font-size: 0.9rem; line-height: 1.8; margin-bottom: 3rem; max-width: 600px; }
+    .sec-eyebrow {
+      font-family: 'Inter', sans-serif; font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
+      margin-bottom: 0.45rem;
+    }
+    .sec-title {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1.35rem,3vw,1.8rem);
+      font-weight: 700; color: var(--text);
+      margin-bottom: 2rem; line-height: 1.3;
+    }
 
     /* ===== Hero ===== */
     #hero {
-      padding: 5.5rem 1.5rem 4.5rem;
+      padding: 5.25rem 1.25rem 3.75rem;
       background: var(--bg);
       border-bottom: 1px solid var(--border);
     }
-    .hero-grid {
+    .hero-wrap {
       max-width: 960px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 290px;
-      gap: 3.5rem; align-items: start;
+      display: grid; grid-template-columns: 1fr 300px;
+      gap: 3rem; align-items: center;
     }
-    @media(max-width:740px) { .hero-grid { grid-template-columns: 1fr; gap: 2rem; } }
-    .hero-label {
-      font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.5rem;
+    @media(max-width:740px){
+      .hero-wrap { grid-template-columns: 1fr; gap: 0; }
     }
-    .hero-name {
+
+    /* Hero left */
+    .hero-eyebrow {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.6rem;
+    }
+    .hero-h1 {
       font-family: 'Inter', sans-serif;
-      font-size: clamp(1.75rem,4vw,2.5rem);
-      font-weight: 700; color: var(--text);
-      margin-bottom: 1.25rem;
-      letter-spacing: -0.01em;
+      font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+      font-weight: 800; color: var(--text);
+      line-height: 1.22; letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .hero-h1 em {
+      font-style: normal; color: var(--accent);
     }
     .hero-copy {
-      font-size: 0.92rem;
-      color: var(--sub); line-height: 1.85;
-      margin-bottom: 1.5rem;
+      font-size: 0.9rem; color: var(--sub); line-height: 1.8;
+      margin-bottom: 1.4rem; max-width: 420px;
     }
-    .hero-copy p + p { margin-top: 0.75rem; }
-    .hero-tech-label {
-      font-size: 0.7rem; font-weight: 600; color: var(--muted);
-      letter-spacing: 0.06em; margin-bottom: 0.5rem;
+
+    /* Automation flow strip */
+    .hero-flow {
+      display: flex; align-items: center; gap: 0.4rem;
+      flex-wrap: wrap; margin-bottom: 1.25rem;
     }
-    .hero-pills {
-      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    .flow-chip {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.35rem 0.75rem;
+      font-size: 0.78rem; font-weight: 600; color: var(--navy-m);
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+    .flow-chip.highlight {
+      background: #FEF3C7; border-color: #FDE68A; color: #92400E;
+    }
+    .flow-arr { font-size: 0.75rem; color: var(--muted); }
+
+    /* Strength badges */
+    .hero-badges {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
       margin-bottom: 1.75rem;
     }
-    .pill {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 5px; padding: 0.25rem 0.65rem;
-      font-size: 0.76rem; font-weight: 500; color: var(--navy-m);
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.3rem 0.85rem;
+      font-size: 0.75rem; font-weight: 600; color: var(--navy-m);
     }
-    .hero-cta { display: flex; gap: 0.7rem; flex-wrap: wrap; }
-    /* Hero right column */
-    .hero-side {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 1.3rem;
+    .badge-zero {
+      background: #FEF9EC; border-color: #FDE68A; color: #92400E;
     }
-    .side-heading {
-      font-size: 0.7rem; font-weight: 600; color: var(--muted);
-      text-transform: uppercase; letter-spacing: 0.08em;
-      margin-bottom: 0.75rem;
+
+    .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+
+    /* Hero right — avatar */
+    .hero-avatar-wrap {
+      position: relative;
+      display: flex; justify-content: center; align-items: flex-end;
     }
-    .side-item {
-      display: flex; align-items: flex-start; gap: 0.6rem;
-      font-size: 0.83rem; color: var(--sub); line-height: 1.5;
-      padding: 0.55rem 0; border-bottom: 1px solid var(--border);
+    @media(max-width:740px){
+      .hero-avatar-wrap {
+        order: -1;
+        padding-bottom: 0;
+        margin-bottom: 1.5rem;
+      }
     }
-    .side-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .side-dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: var(--accent); flex-shrink: 0; margin-top: 0.42rem;
+    .hero-avatar-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 55% 55%, #F5E9DC 0%, #FAF4EF 55%, transparent 72%);
+      border-radius: 50%; z-index: 0;
     }
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.35rem;
-      padding: 0.7rem 1.75rem; border-radius: 8px;
-      font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none;
-      transition: opacity 0.15s, transform 0.15s;
+    .hero-avatar-img {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 290px;
+      margin: 0 auto;
+      border-radius: 50%;
+      /* Fallback: if image not found, show placeholder circle */
     }
-    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-ghost { background: transparent; border: 1.5px solid var(--border); color: var(--navy-m); }
-    .btn-ghost:hover { border-color: var(--navy-m); }
+    /* Placeholder shown when image fails to load */
+    .hero-avatar-img-fallback {
+      position: relative; z-index: 1;
+      width: 220px; height: 220px; margin: 0 auto;
+      background: var(--bg2); border-radius: 50%;
+      border: 2px dashed var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-size: 0.72rem; color: var(--muted);
+      text-align: center; padding: 1rem;
+    }
+    .hero-avatar-img-fallback span { font-size: 2rem; margin-bottom: 0.4rem; }
 
     /* ===== Demo ===== */
-    #demo { background: var(--navy); }
+    #demo { background: var(--navy); padding: 4.5rem 1.25rem; }
     #demo .sec-eyebrow { color: #94A3B8; }
-    #demo .sec-title { color: #F1F5F9; }
-    #demo .sec-desc { color: #94A3B8; }
-    .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 1.25rem; }
+    #demo .sec-title { color: #F1F5F9; margin-bottom: 0.5rem; }
+    .demo-sub { color: #64748B; font-size: 0.83rem; margin-bottom: 2.5rem; }
+    .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 1.2rem; }
     .demo-card {
       background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px; padding: 1.75rem;
-      display: flex; flex-direction: column; gap: 0.9rem;
-      transition: border-color 0.2s;
+      border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: border-color 0.2s, transform 0.2s;
     }
-    .demo-card:hover { border-color: rgba(255,255,255,0.25); }
-    .demo-for { font-size: 0.72rem; font-weight: 600; color: #94A3B8; letter-spacing: 0.06em; text-transform: uppercase; }
-    .demo-title { font-size: 1.05rem; font-weight: 700; color: #F1F5F9; }
-    .demo-desc { font-size: 0.84rem; color: #94A3B8; line-height: 1.75; flex: 1; }
-    .demo-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .demo-tag { font-size: 0.7rem; font-weight: 500; padding: 0.2rem 0.6rem; border-radius: 4px; background: rgba(255,255,255,0.07); color: #CBD5E1; }
+    .demo-card:hover { border-color: rgba(255,255,255,0.22); transform: translateY(-2px); }
+
+    /* Mock UI */
+    .demo-mock {
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 1rem; min-height: 155px;
+      display: flex; align-items: flex-start; justify-content: center;
+    }
+    .mock-pos { width: 100%; font-size: 0.68rem; }
+    .mock-menu { display: flex; gap: 0.4rem; margin-bottom: 0.55rem; }
+    .mock-btn {
+      flex: 1; background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 7px; padding: 0.38rem 0.25rem; text-align: center;
+      color: #E2E8F0; line-height: 1.45;
+    }
+    .mock-btn .mk-price { font-size: 0.7rem; font-weight: 700; color: #FCD34D; }
+    .mock-orders { font-size: 0.63rem; color: #94A3B8; margin-bottom: 0.5rem; }
+    .mock-order-row { display: flex; justify-content: space-between; padding: 0.13rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .mock-set-banner {
+      background: rgba(253,224,71,0.14); border: 1px solid rgba(253,224,71,0.38);
+      border-radius: 7px; padding: 0.42rem 0.55rem;
+      color: #FDE68A; font-size: 0.63rem; line-height: 1.4;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
+      animation: set-pulse 3s ease-in-out infinite;
+    }
+    @keyframes set-pulse {
+      0%,100%{ box-shadow: 0 0 0 0 rgba(253,224,71,0); }
+      50%{ box-shadow: 0 0 0 5px rgba(253,224,71,0.1); }
+    }
+    .mock-apply {
+      background: #FCD34D; color: #1E2A38; border: none;
+      border-radius: 4px; padding: 0.18rem 0.45rem;
+      font-size: 0.6rem; font-weight: 700; cursor: pointer; white-space: nowrap;
+    }
+    .mock-bousai { width: 100%; font-size: 0.68rem; }
+    .mock-pref {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 5px; padding: 0.28rem 0.55rem; color: #CBD5E1;
+      font-size: 0.66rem; margin-bottom: 0.55rem; display: inline-block;
+    }
+    .mock-check-item {
+      display: flex; align-items: flex-start; gap: 0.4rem;
+      padding: 0.28rem 0; font-size: 0.65rem; color: #94A3B8;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .mock-check-item.done { color: #6EE7B7; }
+    .mock-check-box {
+      width: 13px; height: 13px; border-radius: 3px; border: 1.5px solid currentColor;
+      flex-shrink: 0; margin-top: 1px; display: flex; align-items: center;
+      justify-content: center; font-size: 0.55rem;
+    }
+    .mock-guide-row { display: flex; gap: 0.35rem; margin-top: 0.45rem; }
+    .mock-guide-chip {
+      background: rgba(96,165,250,0.14); border: 1px solid rgba(96,165,250,0.28);
+      border-radius: 4px; padding: 0.22rem 0.45rem;
+      font-size: 0.6rem; color: #93C5FD;
+    }
+
+    /* Demo card body */
+    .demo-body { padding: 1rem 1.2rem 1.2rem; flex: 1; display: flex; flex-direction: column; gap: 0.55rem; }
+    .demo-for { font-size: 0.66rem; font-weight: 600; color: #64748B; letter-spacing: 0.05em; text-transform: uppercase; }
+    .demo-title { font-size: 0.98rem; font-weight: 700; color: #F1F5F9; }
+    .demo-desc { font-size: 0.79rem; color: #94A3B8; line-height: 1.65; flex: 1; }
+    .demo-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .demo-tag { font-size: 0.65rem; font-weight: 500; padding: 0.17rem 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.07); color: #CBD5E1; }
     .demo-link {
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      display: flex; align-items: center; justify-content: center; gap: 0.35rem;
       background: var(--accent); color: #fff;
-      font-weight: 600; font-size: 0.88rem;
-      padding: 0.75rem 1.25rem; border-radius: 8px;
+      font-weight: 700; font-size: 0.84rem;
+      padding: 0.7rem 1rem; border-radius: 8px;
       transition: opacity 0.15s; margin-top: 0.25rem;
     }
     .demo-link:hover { opacity: 0.88; }
@@ -153,117 +272,101 @@
     #about { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .about-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
     @media(max-width:680px){ .about-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
-    .about-text p { color: var(--sub); font-size: 0.92rem; line-height: 1.85; margin-bottom: 1rem; }
+    .about-text p { color: var(--sub); font-size: 0.9rem; line-height: 1.85; margin-bottom: 0.9rem; }
     .about-text p:last-child { margin-bottom: 0; }
     .story-quote {
-      border-left: 3px solid var(--accent); padding: 0.8rem 1rem;
+      border-left: 3px solid var(--accent); padding: 0.7rem 1rem;
       background: var(--bg2); border-radius: 0 8px 8px 0;
-      font-size: 0.9rem; color: var(--sub); line-height: 1.75;
-      margin: 1.25rem 0; font-style: italic;
+      font-size: 0.88rem; color: var(--sub); line-height: 1.75;
+      margin: 1rem 0; font-style: italic;
     }
-    .spec-list { display: flex; flex-direction: column; gap: 0.75rem; }
-    .spec-item {
+    .value-cards { display: flex; flex-direction: column; gap: 0.7rem; }
+    .value-card {
       background: var(--bg); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1rem 1.2rem;
-      display: flex; flex-direction: column; gap: 0.25rem;
+      border-radius: 10px; padding: 0.85rem 1.1rem;
+      display: flex; align-items: flex-start; gap: 0.75rem;
     }
-    .spec-label { font-size: 0.8rem; font-weight: 700; color: var(--text); }
-    .spec-text { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+    .value-icon { font-size: 1.15rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .value-label { font-size: 0.81rem; font-weight: 700; color: var(--text); }
+    .value-text { font-size: 0.76rem; color: var(--muted); line-height: 1.55; margin-top: 0.12rem; }
 
     /* ===== Works ===== */
     #works { background: var(--bg); }
-    .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 1.25rem; }
+    .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px,1fr)); gap: 1.2rem; }
     .work-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 1.5rem; display: flex; flex-direction: column; gap: 0.85rem;
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      overflow: hidden; display: flex; flex-direction: column;
       transition: box-shadow 0.2s, border-color 0.2s;
     }
-    .work-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.06); border-color: #CBD5E1; }
-    .work-head { display: flex; align-items: center; gap: 0.75rem; }
-    .work-icon { font-size: 1.5rem; width: 44px; height: 44px; background: var(--bg2); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .work-cat { font-size: 0.68rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
-    .work-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
-    .work-desc { font-size: 0.84rem; color: var(--sub); line-height: 1.7; }
-    .story { display: flex; flex-direction: column; gap: 0.45rem; border-top: 1px solid var(--border); padding-top: 0.85rem; }
+    .work-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); border-color: #CBD5E1; }
+    .work-thumb { padding: 0.9rem 1.1rem 0.8rem; display: flex; flex-direction: column; gap: 0.45rem; }
+    .thumb-emoji { font-size: 1.55rem; }
+    .thumb-flow { display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; }
+    .thumb-node {
+      background: rgba(255,255,255,0.55); border-radius: 5px;
+      padding: 0.18rem 0.48rem; font-size: 0.6rem; font-weight: 600; color: #1E2A38;
+    }
+    .thumb-arrow { font-size: 0.62rem; color: rgba(30,42,56,0.35); }
+    .work-body { padding: 1rem 1.2rem 1.2rem; flex: 1; display: flex; flex-direction: column; gap: 0.7rem; }
+    .work-cat { font-size: 0.66rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
+    .work-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; color: var(--text); }
+    .work-desc { font-size: 0.82rem; color: var(--sub); line-height: 1.68; }
+    .story { display: flex; flex-direction: column; gap: 0.38rem; border-top: 1px solid var(--border); padding-top: 0.7rem; }
     .story-row { display: flex; gap: 0.5rem; align-items: flex-start; }
     .s-label {
-      font-size: 0.66rem; font-weight: 700; white-space: nowrap; flex-shrink: 0;
-      padding: 0.15rem 0.4rem; border-radius: 4px; margin-top: 0.2rem;
+      font-size: 0.62rem; font-weight: 700; white-space: nowrap; flex-shrink: 0;
+      padding: 0.14rem 0.38rem; border-radius: 4px; margin-top: 0.18rem;
     }
     .s-label.q { background: #FEE2E2; color: #991B1B; }
     .s-label.a { background: #DCFCE7; color: #166534; }
     .s-label.p { background: #EEF2FF; color: #3730A3; }
-    .s-text { font-size: 0.8rem; color: var(--sub); line-height: 1.65; }
-    .work-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .tag { font-size: 0.69rem; font-weight: 500; padding: 0.18rem 0.55rem; border-radius: 4px; }
+    .s-text { font-size: 0.78rem; color: var(--sub); line-height: 1.6; }
+    .work-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .tag { font-size: 0.67rem; font-weight: 500; padding: 0.17rem 0.5rem; border-radius: 4px; }
     .tag-js   { background:#FEF9C3; color:#854D0E; }
-    .tag-py   { background:#DBEAFE; color:#1D4ED8; }
     .tag-gas  { background:#DCFCE7; color:#166534; }
     .tag-line { background:#D1FAE5; color:#065F46; }
     .tag-api  { background:#EDE9FE; color:#5B21B6; }
     .tag-html { background:#FEE2E2; color:#991B1B; }
     .tag-ai   { background:#FEF3C7; color:#92400E; }
     .tag-tool { background:#E0F2FE; color:#075985; }
-    .work-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.85rem; }
+    .work-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem; }
     .work-link {
       flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.3rem;
       background: var(--accent); color: #fff;
-      font-weight: 600; font-size: 0.82rem;
-      padding: 0.6rem 1rem; border-radius: 7px;
+      font-weight: 700; font-size: 0.81rem;
+      padding: 0.58rem 0.9rem; border-radius: 7px;
       transition: opacity 0.15s;
     }
     .work-link:hover { opacity: 0.88; }
     .detail-btn {
       display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.78rem; font-weight: 600; color: var(--navy-m);
+      font-size: 0.76rem; font-weight: 600; color: var(--navy-m);
       background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 7px; padding: 0.6rem 0.9rem; cursor: pointer;
+      border-radius: 7px; padding: 0.58rem 0.85rem; cursor: pointer;
       transition: background 0.15s;
     }
     .detail-btn:hover { background: var(--border); }
 
-    /* ===== Process ===== */
-    #process { background: var(--card); border-top: 1px solid var(--border); }
-    .process-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px,1fr)); gap: 1.1rem; }
-    .process-card {
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.4rem;
-    }
-    .p-num { font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--border); line-height: 1; margin-bottom: 0.6rem; }
-    .p-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text); }
-    .p-text { font-size: 0.81rem; color: var(--sub); line-height: 1.75; }
-
-    /* ===== Principle ===== */
-    #design { background: var(--bg); border-top: 1px solid var(--border); }
-    .design-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 1.1rem; }
-    .design-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 10px; padding: 1.3rem;
-    }
-    .design-card h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.45rem; color: var(--text); }
-    .design-card p { font-size: 0.81rem; color: var(--sub); line-height: 1.7; }
-    .d-tag {
-      display: inline-block; font-size: 0.68rem; font-weight: 600;
-      background: #FEF3C7; color: #92400E;
-      border-radius: 4px; padding: 0.1rem 0.45rem; margin-right: 0.4rem; margin-bottom: 0.5rem;
-    }
-
     /* ===== Contact ===== */
-    #contact { background: var(--navy); text-align: center; }
-    #contact .sec-title { color: #F1F5F9; margin-bottom: 0.6rem; }
-    #contact .sec-desc { color: #94A3B8; margin: 0 auto 2rem; }
+    #contact {
+      background: var(--navy); text-align: center;
+      padding: 5rem 1.25rem;
+    }
+    #contact .sec-title { color: #F1F5F9; margin-bottom: 0.5rem; }
+    .contact-desc { color: #94A3B8; font-size: 0.86rem; line-height: 1.8; margin: 0 auto 2rem; max-width: 440px; }
     .contact-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
     .contact-btn {
       background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
-      color: #F1F5F9; padding: 0.7rem 1.75rem; border-radius: 8px;
-      font-weight: 600; font-size: 0.88rem;
+      color: #F1F5F9; padding: 0.72rem 1.75rem; border-radius: 8px;
+      font-weight: 600; font-size: 0.87rem;
       display: flex; align-items: center; gap: 0.4rem;
       transition: background 0.15s;
     }
     .contact-btn:hover { background: rgba(255,255,255,0.14); }
 
     /* ===== Footer ===== */
-    footer { background: #0F172A; color: #475569; text-align: center; padding: 1.5rem; font-size: 0.8rem; }
+    footer { background: #0F172A; color: #475569; text-align: center; padding: 1.4rem; font-size: 0.78rem; }
 
     /* ===== Modal ===== */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
@@ -275,22 +378,22 @@
     .modal-icon { font-size: 1.5rem; background: var(--bg2); border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .modal-title { font-size: 1.1rem; font-weight: 700; }
     .modal-summary { font-size: 0.87rem; color: var(--sub); background: var(--bg); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin-bottom: 1.25rem; line-height: 1.75; }
-    .flow-label-s { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem; }
+    .flow-label-s { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem; }
     .flow-list { display: flex; flex-direction: column; }
     .flow-item { display: flex; align-items: flex-start; gap: 0.9rem; }
     .flow-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
     .flow-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .flow-arrow { width: 1.5px; height: 20px; background: var(--border); margin: 2px 0; }
-    .flow-item:last-child .flow-arrow { display: none; }
+    .flow-arrow-line { width: 1.5px; height: 20px; background: var(--border); margin: 2px 0; }
+    .flow-item:last-child .flow-arrow-line { display: none; }
     .flow-text { padding: 0.45rem 0 0.7rem; }
     .flow-name { font-size: 0.85rem; font-weight: 700; color: var(--text); }
     .flow-detail { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; line-height: 1.55; }
     .modal-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1.1rem; }
-    .modal-open { display: block; margin-top: 1.1rem; text-align: center; background: var(--accent); color: #fff; border-radius: 8px; padding: 0.75rem 1.5rem; font-weight: 600; font-size: 0.88rem; transition: opacity 0.15s; }
+    .modal-open { display: block; margin-top: 1.1rem; text-align: center; background: var(--accent); color: #fff; border-radius: 8px; padding: 0.75rem 1.5rem; font-weight: 700; font-size: 0.88rem; transition: opacity 0.15s; }
     .modal-open:hover { opacity: 0.88; }
 
     /* ===== Scroll fade ===== */
-    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     /* ===== Scrollbar ===== */
@@ -308,44 +411,61 @@
     <li><a href="#about">About</a></li>
     <li><a href="#demo">デモ</a></li>
     <li><a href="#works">Works</a></li>
-    <li><a href="#process">開発で意識したこと</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
 <!-- Hero -->
 <section id="hero">
-  <div class="hero-grid">
-    <div>
-      <p class="hero-label">業務効率化ツール開発</p>
-      <h1 class="hero-name">Yuko_k</h1>
-      <div class="hero-copy">
-        <p>LINE・スプレッドシート・APIを使った<br>業務効率化ツールを制作しています。</p>
-        <p>日常や現場業務の「入力」「通知」「確認」の手間を減らすために、キッチンカー向けPOS、ニュース自動配信、LINE Botなど、実際に使うことを前提としたWebツールを制作・公開しています。</p>
+  <div class="hero-wrap">
+
+    <!-- Left: copy -->
+    <div class="hero-left">
+      <p class="hero-eyebrow">業務効率化ツール開発</p>
+      <h1 class="hero-h1">現場の手間を<br><em>自動化</em>します</h1>
+      <p class="hero-copy">
+        LINE・スプレッドシート・GASを組み合わせて、<br>
+        「入力」「通知」「集計」の繰り返し作業をなくすツールを作っています。
+      </p>
+
+      <!-- Automation flow -->
+      <div class="hero-flow">
+        <div class="flow-chip">📱 LINE</div>
+        <span class="flow-arr">→</span>
+        <div class="flow-chip">⚡ GAS</div>
+        <span class="flow-arr">→</span>
+        <div class="flow-chip highlight">📊 スプレッドシート</div>
       </div>
-      <p class="hero-tech-label">使用技術</p>
-      <div class="hero-pills">
-        <span class="pill">Python</span>
-        <span class="pill">LINE API</span>
-        <span class="pill">Google Apps Script</span>
-        <span class="pill">Spreadsheet API</span>
-        <span class="pill">Dify</span>
-        <span class="pill">Claude Code</span>
-        <span class="pill">Cursor</span>
+
+      <!-- Strength badges -->
+      <div class="hero-badges">
+        <span class="badge badge-zero">¥0 月額コスト</span>
+        <span class="badge">📱 スマホ完結</span>
+        <span class="badge">🔧 現場目線で設計</span>
       </div>
+
+      <!-- CTA -->
       <div class="hero-cta">
-        <a href="#demo" class="btn btn-primary">デモを触ってみる</a>
+        <a href="#demo" class="btn btn-primary">デモを触ってみる →</a>
         <a href="#works" class="btn btn-ghost">実績を見る</a>
       </div>
     </div>
-    <div class="hero-side">
-      <p class="side-heading">できること</p>
-      <div class="side-item"><span class="side-dot"></span><span>LINEに送るだけで記録・通知が完結</span></div>
-      <div class="side-item"><span class="side-dot"></span><span>スプレッドシートへの自動記録・集計</span></div>
-      <div class="side-item"><span class="side-dot"></span><span>毎日・毎週の定型配信を自動化</span></div>
-      <div class="side-item"><span class="side-dot"></span><span>スマホのみで操作が完結するUI設計</span></div>
-      <div class="side-item"><span class="side-dot"></span><span>月額コストをかけない構成</span></div>
+
+    <!-- Right: avatar illustration -->
+    <div class="hero-avatar-wrap">
+      <div class="hero-avatar-bg"></div>
+      <img
+        src="./avatar.png"
+        alt="Yuko_k — 業務効率化ツール開発者"
+        class="hero-avatar-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+      />
+      <div class="hero-avatar-img-fallback" style="display:none;">
+        <span>👩‍💻</span>
+        <div>avatar.png をリポジトリに追加してください</div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -353,8 +473,8 @@
 <section id="demo">
   <div class="container">
     <p class="sec-eyebrow fade-in">Live Demo</p>
-    <h2 class="sec-title fade-in">実際に触れるデモ</h2>
-    <p class="sec-desc fade-in">ブラウザ上で動作確認できるWebアプリを公開しています。コードだけでなく、動作を通じて「何が解決できるか」が伝わるようにしています。</p>
+    <h2 class="sec-title fade-in" style="color:#F1F5F9;">実際に触れるデモ</h2>
+    <p class="demo-sub fade-in">ブラウザ上で動作確認できます。</p>
     <div class="demo-grid" id="demo-grid"></div>
   </div>
 </section>
@@ -366,27 +486,38 @@
     <h2 class="sec-title fade-in">なぜ作り始めたか</h2>
     <div class="about-wrap">
       <div class="about-text fade-in">
-        <p>キッチンカーの運営に関わる中で、混雑時の対応に課題を感じていました。注文が重なると、どの組み合わせがセット対象かを頭の中で整理しながら、お客様へのお得感の説明も口頭でこなす必要がありました。</p>
-        <blockquote class="story-quote">セット対象かどうかを頭の中で整理しながら、お得感も都度口頭でお伝えしていました。それを自動でできないかと思ったのが最初のきっかけです。</blockquote>
-        <p>自分が実際に使うことを前提に設計したので、タップするだけでセット自動判定・会計・売上管理が一画面で完結する仕組みにしました。</p>
-        <p>その経験から、現場で使う人の手間を減らすことを軸に、LINE・スプレッドシート・APIを組み合わせた業務効率化ツールを作り続けています。</p>
+        <p>キッチンカーの運営に関わる中で、混雑時の会計作業に課題を感じていました。セット対象かどうかを頭の中で判断しながら、お得感も口頭で伝える——その手間をなくしたいのが最初のきっかけでした。</p>
+        <blockquote class="story-quote">「自分が実際に使う」を前提に設計すると、本当に必要なものだけが残ります。</blockquote>
+        <p>その経験から、LINE・スプレッドシート・GASを組み合わせた業務効率化ツールを作り続けています。</p>
       </div>
-      <div class="spec-list fade-in">
-        <div class="spec-item">
-          <div class="spec-label">使う人の目線で設計する</div>
-          <div class="spec-text">自分自身がユーザーなので、「忙しい場面でも迷わない」「説明書がなくても使える」を最優先にしています。</div>
+      <div class="value-cards fade-in">
+        <div class="value-card">
+          <div class="value-icon">👁️</div>
+          <div>
+            <div class="value-label">使う人の目線で設計</div>
+            <div class="value-text">忙しい場面でも迷わない・説明書なしで使えることを最優先にしています。</div>
+          </div>
         </div>
-        <div class="spec-item">
-          <div class="spec-label">動くものを早めに作って試す</div>
-          <div class="spec-text">完璧を目指すより、まず実際に使ってみて改善するスタイルで開発しています。リリース後も使いながら直し続けます。</div>
+        <div class="value-card">
+          <div class="value-icon">⚡</div>
+          <div>
+            <div class="value-label">まず動かして試す</div>
+            <div class="value-text">完璧な設計より、実際に使って改善するサイクルを回しています。</div>
+          </div>
         </div>
-        <div class="spec-item">
-          <div class="spec-label">LINEやスプレッドシートを活用</div>
-          <div class="spec-text">新しいアプリを覚えなくても使えるよう、すでに使い慣れたツールと連携させることを意識しています。</div>
+        <div class="value-card">
+          <div class="value-icon">📱</div>
+          <div>
+            <div class="value-label">使い慣れたツールと連携</div>
+            <div class="value-text">LINEやスプレッドシートを入口に。新アプリを覚えなくても使える設計。</div>
+          </div>
         </div>
-        <div class="spec-item">
-          <div class="spec-label">月額コストをかけない設計</div>
-          <div class="spec-text">小規模の現場でも導入しやすいよう、GAS・無料API・GitHub Pagesを組み合わせてランニングコストを抑えています。</div>
+        <div class="value-card">
+          <div class="value-icon">¥</div>
+          <div>
+            <div class="value-label">月額コストゼロ</div>
+            <div class="value-text">GAS・無料API・GitHub Pagesを組み合わせてランニングコストを抑えます。</div>
+          </div>
         </div>
       </div>
     </div>
@@ -398,74 +529,7 @@
   <div class="container">
     <p class="sec-eyebrow fade-in">Works</p>
     <h2 class="sec-title fade-in">開発実績</h2>
-    <p class="sec-desc fade-in">どんな課題を・どう解決したか、各ツールの背景とアプローチをまとめています。</p>
     <div class="works-grid" id="works-grid"></div>
-  </div>
-</section>
-
-<!-- Process -->
-<section id="process">
-  <div class="container">
-    <p class="sec-eyebrow fade-in">Process</p>
-    <h2 class="sec-title fade-in">開発で意識したこと</h2>
-    <p class="sec-desc fade-in">機能の実装だけでなく、開発中に考えたこと・試行錯誤・改善の過程を記録しています。</p>
-    <div class="process-grid">
-      <div class="process-card fade-in">
-        <div class="p-num">01</div>
-        <div class="p-title">使う場面から逆算して設計する</div>
-        <p class="p-text">最初は機能を増やすことに意識が向きましたが、実際に使う場面を考える中で、入力数を減らすこと・スマホで迷わず操作できることを優先するよう設計を変えました。「作りたいもの」より「使う人が何を求めているか」から考えるようにしています。</p>
-      </div>
-      <div class="process-card fade-in">
-        <div class="p-num">02</div>
-        <div class="p-title">エラーを一つずつ切り分ける</div>
-        <p class="p-text">API連携では認証エラーや保存先のズレで詰まることが多くありました。エラーメッセージを確認し、原因を切り分けながら修正する習慣がつきました。「なぜ動かないか」を言語化することで、次の開発で同じミスを繰り返しにくくなっています。</p>
-      </div>
-      <div class="process-card fade-in">
-        <div class="p-num">03</div>
-        <div class="p-title">シンプルに保つことの難しさ</div>
-        <p class="p-text">初期バージョンは機能を詰め込みすぎて操作が複雑になりがちでした。実際に使ってもらいながらフィードバックをもらい、使われない機能を削り・よく使う操作を前面に出すことでシンプルにしました。削ることの方が追加より難しいと実感しています。</p>
-      </div>
-      <div class="process-card fade-in">
-        <div class="p-num">04</div>
-        <div class="p-title">複数ツールを組み合わせた自動化</div>
-        <p class="p-text">現在のツールは個別課題の解決が中心ですが、複数のAPI・AIを組み合わせてより複雑な業務フローを自動化することに取り組んでいます。Difyを使ったワークフロー構成など、できることの幅を少しずつ広げています。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Principle -->
-<section id="design">
-  <div class="container">
-    <p class="sec-eyebrow fade-in">Principle</p>
-    <h2 class="sec-title fade-in">実装・UI・運用面のこだわり</h2>
-    <p class="sec-desc fade-in">「作って終わり」ではなく、実際に使い続けられるツールにするために意識していることです。</p>
-    <div class="design-grid">
-      <div class="design-card fade-in">
-        <h3>スマホで使い切れること</h3>
-        <p>現場での利用を想定し、PC不要・スマホだけで全操作が完結する設計を優先しています。ボタンは大きく、スクロールは少なく。</p>
-      </div>
-      <div class="design-card fade-in">
-        <h3>入力回数を減らす</h3>
-        <p>タップ数・入力項目を最小限に。「送るだけ」「選ぶだけ」で完結するように設計し、操作ミスが起きにくい仕組みを意識しています。</p>
-      </div>
-      <div class="design-card fade-in">
-        <h3>1画面で操作が完結する</h3>
-        <p>画面遷移を減らし、必要な操作が1ページ内で完結するよう設計しています。説明書なしで使えるUIを目指しています。</p>
-      </div>
-      <div class="design-card fade-in">
-        <h3>データが自動で記録される</h3>
-        <p>会計履歴・チェック状態・配信記録など、操作した結果がスプレッドシートやLocalStorageに自動保存される設計にしています。</p>
-      </div>
-      <div class="design-card fade-in">
-        <h3>LINE連携で導線をシンプルに</h3>
-        <p>すでに使い慣れたLINEを入力口にすることで、新しいアプリを開く・ログインするという手間をなくしています。</p>
-      </div>
-      <div class="design-card fade-in">
-        <h3>運用を想定した設計</h3>
-        <p>開発後も「本当に使われているか」「操作でつまずいていないか」を確認し、改善を続けることを前提に作っています。</p>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -473,79 +537,74 @@
 <section id="contact">
   <div class="container">
     <h2 class="sec-title fade-in">Contact</h2>
-    <p class="sec-desc fade-in">「こんなこと自動化できますか？」という相談から大歓迎です。まだアイデア段階でも、話を聞くだけでもOKです。LINE Bot・スプレッドシート連携・業務効率化ツールの開発についてお気軽にどうぞ。</p>
+    <p class="contact-desc fade-in">「こんなこと自動化できますか？」という相談から大歓迎です。まだアイデア段階でもOKです。</p>
     <div class="contact-links">
-      <a href="mailto:yuuy3386@gmail.com" class="contact-btn">メールを送る</a>
-      <!-- GitHub は整備完了後に追加予定
-      <a href="https://github.com/yuuy3386" target="_blank" rel="noopener" class="contact-btn">GitHub</a>
-      -->
+      <a href="mailto:yuuy3386@gmail.com" class="contact-btn">📧 メールを送る</a>
     </div>
   </div>
 </section>
 
 <!-- Modal -->
 <div class="modal-overlay" id="modal-overlay">
-  <div class="modal-box" id="modal-box">
+  <div class="modal-box">
     <button class="modal-close" id="modal-close">✕</button>
     <div id="modal-content"></div>
   </div>
 </div>
 
-<footer>
-  <p>© 2026 Yuko_k</p>
-</footer>
+<footer><p>© 2026 Yuko_k</p></footer>
 
 <script>
-// ===================================================
-// デモ一覧
-// ===================================================
+// ===== Data =====
 const DEMOS = [
   {
+    mockType: 'pos',
     forWho: 'キッチンカー運営者向け',
     title: 'キッチンカー向けPOSツール',
-    desc: '商品タップで合計計算・セット自動提案・お釣り表示まで完結。会計データをGoogle Apps Script経由でスプレッドシートに自動記録。スマホ1台で現場の会計業務を回せます。',
-    tags: ['JavaScript', 'HTML/CSS', 'Google Apps Script'],
+    desc: '商品タップで合計計算・セット自動提案・電卓でお釣り表示まで完結。Google Apps Script経由でスプレッドシートに自動記録。',
+    tags: ['JavaScript', 'Google Apps Script'],
     url: 'https://yuuy3386.github.io/kitchen-car-demo/',
     emoji: '🚚',
   },
   {
+    mockType: 'bousai',
     forWho: '家族・ペット飼育者向け',
     title: '防災チェック・行動ガイド',
-    desc: '都道府県を選ぶと公式防災リンクが切り替わる。地震・水害・ペット同伴の行動ガイドとシーン別チェックリストがオフラインでも動きます。',
-    tags: ['JavaScript', 'Open-Meteo API', 'PWA対応'],
+    desc: '都道府県を選ぶと公式防災リンクが切り替わる。地震・水害・ペット同伴の行動ガイドがオフラインで動きます。',
+    tags: ['JavaScript', 'Open-Meteo API'],
     url: 'https://yuuy3386.github.io/bousai-check-app/',
     emoji: '🛡️',
   },
 ];
 
-// ===================================================
-// プロジェクト一覧
-// github: '' → 非表示 / URL → ボタン表示
-// ===================================================
 const PROJECTS = [
   {
     emoji: '🚚',
     category: 'Webアプリ / 業務効率化',
-    title: 'キッチンカー向けPOSツール（デモ）',
+    title: 'キッチンカー向けPOSツール',
     desc: '混雑時の会計・在庫・売上管理をスマホ一台で完結させる現場向けツール。',
-    challenge: '混雑時に会計・セット提案・売上記録が手作業になりやすく、ミスや記録漏れが発生していた。',
-    solution: '商品タップで合計計算・セット自動提案・スプレッドシート記録まで自動化。Google Apps ScriptをWebアプリとしてデプロイし、ボタン一つで実際のスプレッドシートにデータを送信できる仕組みを実装。',
-    innovation: 'スマホ操作を前提に電卓式キーパッドでお預かり金額を入力。タップするたびにお釣りが自動表示される設計。月次CSV出力・原価管理・セット割引まで一画面に集約。',
+    challenge: '混雑時に会計・セット提案・売上記録が手作業になり、ミスや記録漏れが発生していた。',
+    solution: '商品タップで合計計算・セット自動提案・スプレッドシート記録まで自動化。GASをWebアプリとしてデプロイし、ボタン一つで実際のスプレッドシートにデータ送信。',
+    innovation: 'スマホ操作前提で電卓式キーパッドを採用。月次CSV出力・原価管理・セット割引を一画面に集約。',
     tags: [{ label:'JavaScript', cls:'tag-js' }, { label:'HTML/CSS', cls:'tag-html' }, { label:'Google Apps Script', cls:'tag-gas' }],
     url: 'https://yuuy3386.github.io/kitchen-car-demo/',
     github: '',
+    thumbColor: 'linear-gradient(135deg, #FEF3C7 0%, #FED7AA 100%)',
+    thumbFlow: ['商品タップ', 'セット自動判定', 'スプレッドシート記録'],
   },
   {
     emoji: '🛡️',
-    category: 'Webアプリ / 防災・社会貢献',
+    category: 'Webアプリ / 防災',
     title: '防災チェック・行動ガイド',
     desc: '「いざというとき何をすればいい？」をスマホ一つで確認できる、地域対応の防災サポートアプリ。',
     challenge: '防災情報は自治体ごとに異なるが、まとめてアクセスできる手軽なツールがなかった。',
     solution: '47都道府県対応の公式リンク自動切り替え・天気API連携・シーン別チェックリストを1ページに統合。',
-    innovation: 'ペット同伴避難シーン・家族構成別リスト・PWAオフライン対応など、実用面を作り込んだ。',
+    innovation: 'ペット同伴避難シーン・家族構成別リスト・PWAオフライン対応など実用面を作り込んだ。',
     tags: [{ label:'JavaScript', cls:'tag-js' }, { label:'Open-Meteo API', cls:'tag-api' }, { label:'PWA', cls:'tag-tool' }],
     url: 'https://yuuy3386.github.io/bousai-check-app/',
     github: '',
+    thumbColor: 'linear-gradient(135deg, #DBEAFE 0%, #C7D2FE 100%)',
+    thumbFlow: ['都道府県選択', '公式リンク切替', 'チェックリスト'],
   },
   {
     emoji: '💴',
@@ -554,17 +613,19 @@ const PROJECTS = [
     desc: 'LINEに「ランチ800円」と送るだけ。AIが経費を自動判定してスプレッドシートに記録。月額0円。',
     challenge: '個人事業主が経費を記録する手間が大きく、後からまとめて入力するため漏れが起きやすい。',
     solution: 'LINEに自然文を送るだけで、Groq AIが勘定科目を自動判定。スプレッドシートへの記録とLINE返信まで全自動化。',
-    innovation: 'APIキー不要の無料AIを選定し、月額0円を実現。WebダッシュボードでいつでもブラウザからCSV確認できる構成にした。',
+    innovation: 'APIキー不要の無料AIを選定し、月額0円を実現。WebダッシュボードでCSV確認できる構成にした。',
     tags: [{ label:'LINE API', cls:'tag-line' }, { label:'Google Apps Script', cls:'tag-gas' }, { label:'Groq AI', cls:'tag-ai' }],
     url: 'https://script.google.com/macros/s/AKfycbyMW9JRxUsN9D_fptxgDZtje5VESdyLyQsuYG4yel28v0GMAB2jvfgGTs6kmXX9r3I/exec',
     github: '',
+    thumbColor: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)',
+    thumbFlow: ['LINE送信', 'AI判定', 'スプレッドシート記録'],
     detail: {
       oneliner: 'LINEに「ランチ 800円」と送るだけ。AIが経費かどうかを判定して、スプレッドシートに自動記録。月額0円の経費管理ツール。',
       flow: [
         { emoji:'📱', label:'あなた（LINE）', desc:'「ランチ 800円」とLINEで送る' },
         { emoji:'📨', label:'LINE Messaging API', desc:'メッセージを受け取り、次のステップへ届ける' },
-        { emoji:'⚙️', label:'Google Apps Script', desc:'メッセージを受け取り、AIへの問い合わせ・記録・返信をすべて管理。サーバー不要で無料で動く' },
-        { emoji:'🤖', label:'Groq AI（llama-3.3-70b）', desc:'「これは経費になるか？ なるなら何の科目？」を判定して結果を返す。完全無料のAI' },
+        { emoji:'⚙️', label:'Google Apps Script', desc:'AI問い合わせ・記録・返信をすべて管理。サーバー不要で無料' },
+        { emoji:'🤖', label:'Groq AI（llama-3.3-70b）', desc:'「経費になるか？ なるなら何の科目？」を判定して結果を返す' },
         { emoji:'📊', label:'Googleスプレッドシート', desc:'日付・内容・金額・勘定科目・理由を自動で追記' },
         { emoji:'💬', label:'LINE返信', desc:'「✅ 経費OK【接待交際費】」など判定結果がLINEに届く' },
         { emoji:'🌐', label:'Webダッシュボード', desc:'URLを開くだけで今月の支出一覧・経費合計が確認できる' },
@@ -575,13 +636,15 @@ const PROJECTS = [
     emoji: '📰',
     category: 'LINE Bot / AI自動化',
     title: 'ニュースBot',
-    desc: '設定したらほったらかしでOK。AIがニュースを要約して毎朝・毎週LINEに自動配信。月額0円。',
+    desc: '設定したらほったらかしでOK。AIがニュースを要約して毎朝LINEに自動配信。月額0円。',
     challenge: 'ニュースを毎朝確認したいが時間がない。子どもにも分かる言葉で届けたいという需要があった。',
     solution: 'NHK RSSを毎朝自動取得し、Groq AIが大人向け・子ども向けの2種類に要約してLINEへプッシュ配信。',
     innovation: 'APIキー不要のNHK RSSを使い無料を維持。毎週日曜の週まとめ配信・Webダッシュボードも実装。',
     tags: [{ label:'LINE API', cls:'tag-line' }, { label:'Google Apps Script', cls:'tag-gas' }, { label:'Groq AI', cls:'tag-ai' }, { label:'NHK RSS', cls:'tag-tool' }],
     url: 'https://script.google.com/macros/s/AKfycbzFfoOGnzphvlH53r5XmuwJ-kUwmPXap47d6wijBURu2l5NgjmCmefNM10Qa43Pfd1E/exec',
     github: '',
+    thumbColor: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)',
+    thumbFlow: ['NHK RSS取得', 'AI要約', 'LINEに配信'],
     detail: {
       oneliner: '設定したらほったらかしでOK。AIがニュースを要約してLINEに毎朝・毎週自動配信。大人向け・子ども向けの2種類。月額0円。',
       flow: [
@@ -604,70 +667,107 @@ const PROJECTS = [
         '業界・テーマを変えたニュース配信（不動産・医療・教育など）',
         '社内向けの情報共有Bot（スタッフへの朝の情報配信）',
         '学校・塾での子ども向けニュース学習ツール',
-        '対象者（大人/子ども/シニアなど）に合わせた言い換え配信',
       ],
     },
   },
 ];
 
-// ===== デモカード生成 =====
+// ===== Mock UIs =====
+function buildPosMock() {
+  return `<div class="mock-pos">
+    <div class="mock-menu">
+      <div class="mock-btn"><div>🍔</div><div style="font-size:.6rem">バーガー</div><div class="mk-price">¥500</div></div>
+      <div class="mock-btn"><div>🍟</div><div style="font-size:.6rem">ポテト</div><div class="mk-price">¥200</div></div>
+      <div class="mock-btn"><div>🥤</div><div style="font-size:.6rem">ドリンク</div><div class="mk-price">¥180</div></div>
+    </div>
+    <div class="mock-orders">
+      <div class="mock-order-row"><span>バーガー × 1</span><span>¥500</span></div>
+      <div class="mock-order-row"><span>ポテト × 1</span><span>¥200</span></div>
+    </div>
+    <div class="mock-set-banner">
+      <span>🎯 バーガー＋ドリンクで ¥80 割引！</span>
+      <button class="mock-apply">適用する</button>
+    </div>
+  </div>`;
+}
+
+function buildBousaiMock() {
+  return `<div class="mock-bousai">
+    <div class="mock-pref">📍 東京都 ▼</div>
+    <div class="mock-check-item done"><div class="mock-check-box">✓</div><span>避難場所を確認した</span></div>
+    <div class="mock-check-item done"><div class="mock-check-box">✓</div><span>非常食を用意した（3日分）</span></div>
+    <div class="mock-check-item"><div class="mock-check-box"></div><span>水を用意した（3日分）</span></div>
+    <div class="mock-check-item"><div class="mock-check-box"></div><span>薬・お薬手帳を準備した</span></div>
+    <div class="mock-guide-row">
+      <div class="mock-guide-chip">🌊 水害</div>
+      <div class="mock-guide-chip">🐾 ペット</div>
+      <div class="mock-guide-chip">👨‍👩‍👧 家族</div>
+    </div>
+  </div>`;
+}
+
+// ===== Demo cards =====
 const demoGrid = document.getElementById('demo-grid');
 DEMOS.forEach((d, i) => {
   const tagsHtml = d.tags.map(t => `<span class="demo-tag">${t}</span>`).join('');
+  const mockHtml = d.mockType === 'pos' ? buildPosMock() : buildBousaiMock();
   const card = document.createElement('div');
   card.className = 'demo-card fade-in';
   card.style.transitionDelay = `${i * 0.08}s`;
   card.innerHTML = `
-    <div class="demo-for">${d.forWho}</div>
-    <div class="demo-title">${d.emoji} ${d.title}</div>
-    <div class="demo-desc">${d.desc}</div>
-    <div class="demo-tags">${tagsHtml}</div>
-    <a href="${d.url}" target="_blank" rel="noopener" class="demo-link">デモを開いて操作する →</a>
-  `;
+    <div class="demo-mock">${mockHtml}</div>
+    <div class="demo-body">
+      <div class="demo-for">${d.forWho}</div>
+      <div class="demo-title">${d.emoji} ${d.title}</div>
+      <div class="demo-desc">${d.desc}</div>
+      <div class="demo-tags">${tagsHtml}</div>
+      <a href="${d.url}" target="_blank" rel="noopener" class="demo-link">デモを開いて操作する →</a>
+    </div>`;
   demoGrid.appendChild(card);
 });
 
-// ===== Worksカード生成 =====
+// ===== Works cards =====
 const worksGrid = document.getElementById('works-grid');
 PROJECTS.forEach((p, i) => {
   const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
   const detailBtn = p.detail ? `<button class="detail-btn" data-idx="${i}">仕組みを見る</button>` : '';
-  const githubBtn = p.github ? `<a class="detail-btn" href="${p.github}" target="_blank" rel="noopener" style="text-decoration:none">GitHub</a>` : '';
-
+  const flowHtml = (p.thumbFlow || []).map((n, idx, arr) =>
+    `<span class="thumb-node">${n}</span>${idx < arr.length-1 ? '<span class="thumb-arrow">→</span>' : ''}`
+  ).join('');
   const card = document.createElement('div');
   card.className = 'work-card fade-in';
   card.style.transitionDelay = `${i * 0.07}s`;
   card.innerHTML = `
-    <div class="work-head">
-      <div class="work-icon">${p.emoji}</div>
-      <div>
-        <div class="work-cat">${p.category}</div>
-        <div class="work-title">${p.title}</div>
+    <div class="work-thumb" style="background:${p.thumbColor||'#F2EEE8'};">
+      <div class="thumb-emoji">${p.emoji}</div>
+      <div class="thumb-flow">${flowHtml}</div>
+    </div>
+    <div class="work-body">
+      <div class="work-cat">${p.category}</div>
+      <div class="work-title">${p.title}</div>
+      <div class="work-desc">${p.desc}</div>
+      <div class="story">
+        <div class="story-row"><span class="s-label q">課題</span><span class="s-text">${p.challenge}</span></div>
+        <div class="story-row"><span class="s-label a">解決</span><span class="s-text">${p.solution}</span></div>
+        <div class="story-row"><span class="s-label p">工夫</span><span class="s-text">${p.innovation}</span></div>
       </div>
-    </div>
-    <div class="work-desc">${p.desc}</div>
-    <div class="story">
-      <div class="story-row"><span class="s-label q">課題</span><span class="s-text">${p.challenge}</span></div>
-      <div class="story-row"><span class="s-label a">解決</span><span class="s-text">${p.solution}</span></div>
-      <div class="story-row"><span class="s-label p">工夫</span><span class="s-text">${p.innovation}</span></div>
-    </div>
-    <div class="work-tags">${tagsHtml}</div>
-    <div class="work-actions">
-      <a href="${p.url}" target="_blank" rel="noopener" class="work-link">デモを開く →</a>
-      ${detailBtn}${githubBtn}
-    </div>
-  `;
+      <div class="work-tags">${tagsHtml}</div>
+      <div class="work-actions">
+        <a href="${p.url}" target="_blank" rel="noopener" class="work-link">デモを開く →</a>
+        ${detailBtn}
+      </div>
+    </div>`;
   worksGrid.appendChild(card);
 });
 
-// ===== モーダル =====
+// ===== Modal =====
 const overlay = document.getElementById('modal-overlay');
 const modalContent = document.getElementById('modal-content');
 
-function buildFlow(steps) {
+function buildFlowHtml(steps) {
   return steps.map(f => `
     <div class="flow-item">
-      <div class="flow-left"><div class="flow-icon">${f.emoji}</div><div class="flow-arrow"></div></div>
+      <div class="flow-left"><div class="flow-icon">${f.emoji}</div><div class="flow-arrow-line"></div></div>
       <div class="flow-text"><div class="flow-name">${f.label}</div><div class="flow-detail">${f.desc}</div></div>
     </div>`).join('');
 }
@@ -678,17 +778,17 @@ function openModal(idx) {
   const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
   const flow2Html = d.flow2 ? `
     <div class="flow-label-s" style="margin-top:1.2rem">${d.flow2.label}</div>
-    <div class="flow-list">${buildFlow(d.flow2.steps)}</div>` : '';
+    <div class="flow-list">${buildFlowHtml(d.flow2.steps)}</div>` : '';
   const usecasesHtml = d.usecases ? `
-    <div class="flow-label-s" style="margin-top:1.2rem">応用例・カスタマイズ</div>
-    <ul style="padding-left:1.2rem;font-size:0.81rem;color:var(--sub);line-height:2">
+    <div class="flow-label-s" style="margin-top:1.2rem">応用例</div>
+    <ul style="padding-left:1.2rem;font-size:.81rem;color:var(--sub);line-height:2">
       ${d.usecases.map(u => `<li>${u}</li>`).join('')}
     </ul>` : '';
   modalContent.innerHTML = `
     <div class="modal-head"><div class="modal-icon">${p.emoji}</div><div class="modal-title">${p.title}</div></div>
     <div class="modal-summary">${d.oneliner}</div>
     <div class="flow-label-s">処理の流れ</div>
-    <div class="flow-list">${buildFlow(d.flow)}</div>
+    <div class="flow-list">${buildFlowHtml(d.flow)}</div>
     ${flow2Html}${usecasesHtml}
     <div class="modal-tags">${tagsHtml}</div>
     <a href="${p.url}" target="_blank" rel="noopener" class="modal-open">実際に開いて試す →</a>`;
@@ -704,10 +804,12 @@ document.getElementById('works-grid').addEventListener('click', e => {
   if (btn) openModal(Number(btn.dataset.idx));
 });
 
-// ===== スクロールフェードイン =====
+// ===== Scroll fade =====
 const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08 });
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.07 });
 document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 </script>
 </body>
