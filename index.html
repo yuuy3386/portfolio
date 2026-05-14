@@ -28,6 +28,15 @@
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
+    /* ===== SVG Icons ===== */
+    .ic {
+      width: 15px; height: 15px; flex-shrink: 0;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+      display: inline-block; vertical-align: middle;
+    }
+    .ic-lg { width: 18px; height: 18px; }
+
     /* ===== Nav ===== */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
@@ -52,7 +61,7 @@
     .btn:hover { opacity: 0.88; transform: translateY(-1px); }
     .btn-primary {
       background: var(--accent); color: #fff;
-      box-shadow: 0 4px 14px rgba(201,106,56,0.32);
+      box-shadow: 0 4px 14px rgba(201,106,56,0.30);
       font-size: 1rem; padding: 0.85rem 2rem;
     }
     .btn-ghost {
@@ -90,8 +99,6 @@
     @media(max-width:740px){
       .hero-wrap { grid-template-columns: 1fr; gap: 0; }
     }
-
-    /* Hero left */
     .hero-eyebrow {
       font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
       letter-spacing: 0.1em; color: var(--accent); margin-bottom: 0.6rem;
@@ -103,29 +110,28 @@
       line-height: 1.22; letter-spacing: -0.02em;
       margin-bottom: 1rem;
     }
-    .hero-h1 em {
-      font-style: normal; color: var(--accent);
-    }
+    .hero-h1 em { font-style: normal; color: var(--accent); }
     .hero-copy {
       font-size: 0.9rem; color: var(--sub); line-height: 1.8;
-      margin-bottom: 1.4rem; max-width: 420px;
+      margin-bottom: 1.5rem; max-width: 420px;
     }
 
-    /* Automation flow strip */
+    /* Flow strip */
     .hero-flow {
       display: flex; align-items: center; gap: 0.4rem;
-      flex-wrap: wrap; margin-bottom: 1.25rem;
+      flex-wrap: wrap; margin-bottom: 1.2rem;
     }
     .flow-chip {
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.35rem 0.75rem;
-      font-size: 0.78rem; font-weight: 600; color: var(--navy-m);
-      display: flex; align-items: center; gap: 0.3rem;
+      border-radius: 8px; padding: 0.33rem 0.72rem;
+      font-size: 0.77rem; font-weight: 600; color: var(--navy-m);
+      display: inline-flex; align-items: center; gap: 0.35rem;
     }
     .flow-chip.highlight {
       background: #FEF3C7; border-color: #FDE68A; color: #92400E;
     }
-    .flow-arr { font-size: 0.75rem; color: var(--muted); }
+    .flow-chip .ic { color: inherit; }
+    .flow-arr { font-size: 0.72rem; color: var(--border); font-weight: 600; }
 
     /* Strength badges */
     .hero-badges {
@@ -133,28 +139,24 @@
       margin-bottom: 1.75rem;
     }
     .badge {
-      display: inline-flex; align-items: center; gap: 0.3rem;
+      display: inline-flex; align-items: center; gap: 0.32rem;
       background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 999px; padding: 0.3rem 0.85rem;
-      font-size: 0.75rem; font-weight: 600; color: var(--navy-m);
+      border-radius: 999px; padding: 0.28rem 0.85rem;
+      font-size: 0.74rem; font-weight: 600; color: var(--navy-m);
     }
-    .badge-zero {
-      background: #FEF9EC; border-color: #FDE68A; color: #92400E;
-    }
+    .badge .ic { color: var(--accent); }
+    .badge-zero { background: #FEF9EC; border-color: #FDE68A; color: #92400E; }
+    .badge-zero .ic { color: #D97706; }
 
     .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
 
-    /* Hero right — avatar */
+    /* Avatar */
     .hero-avatar-wrap {
       position: relative;
       display: flex; justify-content: center; align-items: flex-end;
     }
     @media(max-width:740px){
-      .hero-avatar-wrap {
-        order: -1;
-        padding-bottom: 0;
-        margin-bottom: 1.5rem;
-      }
+      .hero-avatar-wrap { order: -1; margin-bottom: 1.5rem; }
     }
     .hero-avatar-bg {
       position: absolute; inset: 0;
@@ -163,12 +165,8 @@
     }
     .hero-avatar-img {
       position: relative; z-index: 1;
-      width: 100%; max-width: 290px;
-      margin: 0 auto;
-      border-radius: 50%;
-      /* Fallback: if image not found, show placeholder circle */
+      width: 100%; max-width: 290px; margin: 0 auto; border-radius: 50%;
     }
-    /* Placeholder shown when image fails to load */
     .hero-avatar-img-fallback {
       position: relative; z-index: 1;
       width: 220px; height: 220px; margin: 0 auto;
@@ -179,7 +177,6 @@
       font-size: 0.72rem; color: var(--muted);
       text-align: center; padding: 1rem;
     }
-    .hero-avatar-img-fallback span { font-size: 2rem; margin-bottom: 0.4rem; }
 
     /* ===== Demo ===== */
     #demo { background: var(--navy); padding: 4.5rem 1.25rem; }
@@ -194,8 +191,6 @@
       transition: border-color 0.2s, transform 0.2s;
     }
     .demo-card:hover { border-color: rgba(255,255,255,0.22); transform: translateY(-2px); }
-
-    /* Mock UI */
     .demo-mock {
       background: rgba(255,255,255,0.04);
       border-bottom: 1px solid rgba(255,255,255,0.08);
@@ -251,8 +246,6 @@
       border-radius: 4px; padding: 0.22rem 0.45rem;
       font-size: 0.6rem; color: #93C5FD;
     }
-
-    /* Demo card body */
     .demo-body { padding: 1rem 1.2rem 1.2rem; flex: 1; display: flex; flex-direction: column; gap: 0.55rem; }
     .demo-for { font-size: 0.66rem; font-weight: 600; color: #64748B; letter-spacing: 0.05em; text-transform: uppercase; }
     .demo-title { font-size: 0.98rem; font-weight: 700; color: #F1F5F9; }
@@ -284,9 +277,16 @@
     .value-card {
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 10px; padding: 0.85rem 1.1rem;
-      display: flex; align-items: flex-start; gap: 0.75rem;
+      display: flex; align-items: flex-start; gap: 0.8rem;
     }
-    .value-icon { font-size: 1.15rem; flex-shrink: 0; margin-top: 0.05rem; }
+    .vi-wrap {
+      width: 34px; height: 34px; flex-shrink: 0;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .vi-wrap .ic { width: 17px; height: 17px; }
     .value-label { font-size: 0.81rem; font-weight: 700; color: var(--text); }
     .value-text { font-size: 0.76rem; color: var(--muted); line-height: 1.55; margin-top: 0.12rem; }
 
@@ -350,23 +350,56 @@
 
     /* ===== Contact ===== */
     #contact {
-      background: var(--navy); text-align: center;
-      padding: 5rem 1.25rem;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 6rem 1.25rem;
     }
-    #contact .sec-title { color: #F1F5F9; margin-bottom: 0.5rem; }
-    .contact-desc { color: #94A3B8; font-size: 0.86rem; line-height: 1.8; margin: 0 auto 2rem; max-width: 440px; }
-    .contact-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
-    .contact-btn {
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
-      color: #F1F5F9; padding: 0.72rem 1.75rem; border-radius: 8px;
-      font-weight: 600; font-size: 0.87rem;
-      display: flex; align-items: center; gap: 0.4rem;
-      transition: background 0.15s;
+    .contact-inner {
+      max-width: 600px; margin: 0 auto; text-align: center;
     }
-    .contact-btn:hover { background: rgba(255,255,255,0.14); }
+    .contact-eyebrow {
+      font-family: 'Inter', sans-serif; font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .contact-box {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 2.75rem 2.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+    }
+    @media(max-width:500px){ .contact-box { padding: 2rem 1.5rem; } }
+    .contact-quote {
+      font-size: clamp(1.1rem, 3vw, 1.35rem);
+      font-weight: 700; color: var(--text);
+      line-height: 1.45; margin-bottom: 1.1rem;
+    }
+    .contact-quote span {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--accent), var(--accent-l));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .contact-desc {
+      font-size: 0.88rem; color: var(--sub); line-height: 1.85;
+      margin-bottom: 1.75rem;
+    }
+    .contact-main-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--accent); color: #fff;
+      font-weight: 700; font-size: 0.95rem;
+      padding: 0.9rem 2rem; border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(201,106,56,0.28);
+      transition: opacity 0.15s, transform 0.15s;
+      margin-bottom: 1.1rem;
+    }
+    .contact-main-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .contact-main-btn .ic { color: #fff; width: 16px; height: 16px; }
+    .contact-note {
+      font-size: 0.76rem; color: var(--muted);
+    }
 
     /* ===== Footer ===== */
-    footer { background: #0F172A; color: #475569; text-align: center; padding: 1.4rem; font-size: 0.78rem; }
+    footer { background: var(--navy); color: #475569; text-align: center; padding: 1.4rem; font-size: 0.78rem; }
 
     /* ===== Modal ===== */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
@@ -396,7 +429,6 @@
     .fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-    /* ===== Scrollbar ===== */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
@@ -418,8 +450,6 @@
 <!-- Hero -->
 <section id="hero">
   <div class="hero-wrap">
-
-    <!-- Left: copy -->
     <div class="hero-left">
       <p class="hero-eyebrow">業務効率化ツール開発</p>
       <h1 class="hero-h1">現場の手間を<br><em>自動化</em>します</h1>
@@ -428,44 +458,66 @@
         「入力」「通知」「集計」の繰り返し作業をなくすツールを作っています。
       </p>
 
-      <!-- Automation flow -->
+      <!-- Automation flow — SVG icons -->
       <div class="hero-flow">
-        <div class="flow-chip">📱 LINE</div>
+        <div class="flow-chip">
+          <!-- chat bubble -->
+          <svg class="ic" viewBox="0 0 20 20"><path d="M17 9c0-3.87-3.13-7-7-7S3 5.13 3 9c0 2.1 1 4 2.6 5.3L5 17l2.8-1.4C8.5 15.87 9.23 16 10 16c3.87 0 7-3.13 7-7z"/></svg>
+          LINE
+        </div>
         <span class="flow-arr">→</span>
-        <div class="flow-chip">⚡ GAS</div>
+        <div class="flow-chip">
+          <!-- lightning bolt -->
+          <svg class="ic" viewBox="0 0 20 20"><path d="M11 2L5 11h6l-2 7 8-10h-6l2-6z"/></svg>
+          GAS
+        </div>
         <span class="flow-arr">→</span>
-        <div class="flow-chip highlight">📊 スプレッドシート</div>
+        <div class="flow-chip highlight">
+          <!-- grid/spreadsheet -->
+          <svg class="ic" viewBox="0 0 20 20"><rect x="3" y="3" width="14" height="14" rx="2"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="3" y1="13" x2="17" y2="13"/><line x1="8" y1="3" x2="8" y2="17"/></svg>
+          スプレッドシート
+        </div>
       </div>
 
-      <!-- Strength badges -->
+      <!-- Strength badges — SVG icons -->
       <div class="hero-badges">
-        <span class="badge badge-zero">¥0 月額コスト</span>
-        <span class="badge">📱 スマホ完結</span>
-        <span class="badge">🔧 現場目線で設計</span>
+        <span class="badge badge-zero">
+          <!-- yen circle -->
+          <svg class="ic" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M7 6.5l3 4.5 3-4.5"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="7" y1="12.5" x2="13" y2="12.5"/></svg>
+          ¥0 月額コスト
+        </span>
+        <span class="badge">
+          <!-- smartphone -->
+          <svg class="ic" viewBox="0 0 20 20"><rect x="6" y="2" width="8" height="16" rx="2"/><circle cx="10" cy="15.5" r="0.7" fill="currentColor" stroke="none"/></svg>
+          スマホ完結
+        </span>
+        <span class="badge">
+          <!-- wrench -->
+          <svg class="ic" viewBox="0 0 20 20"><path d="M14.5 3a3.5 3.5 0 0 0-3.46 4l-6 6a1.5 1.5 0 0 0 2.12 2.12l6-6A3.5 3.5 0 0 0 18 5.5a3.5 3.5 0 0 0-.4-1.6l-2.3 2.3L14 5l2.1-2.1A3.5 3.5 0 0 0 14.5 3z"/></svg>
+          現場目線で設計
+        </span>
       </div>
 
-      <!-- CTA -->
       <div class="hero-cta">
         <a href="#demo" class="btn btn-primary">デモを触ってみる →</a>
         <a href="#works" class="btn btn-ghost">実績を見る</a>
       </div>
     </div>
 
-    <!-- Right: avatar illustration -->
+    <!-- Avatar -->
     <div class="hero-avatar-wrap">
       <div class="hero-avatar-bg"></div>
       <img
         src="./avatar.png"
-        alt="Yuko_k — 業務効率化ツール開発者"
+        alt="Yuko_k"
         class="hero-avatar-img"
         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
       />
       <div class="hero-avatar-img-fallback" style="display:none;">
-        <span>👩‍💻</span>
-        <div>avatar.png をリポジトリに追加してください</div>
+        <svg width="40" height="40" viewBox="0 0 20 20" fill="none" stroke="#C96A38" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.5rem"><circle cx="10" cy="7" r="3.5"/><path d="M3 17c0-3.31 3.13-6 7-6s7 2.69 7 6"/></svg>
+        <div style="font-size:0.7rem;color:#7A8FA0">avatar.png を<br>リポジトリに追加</div>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -490,30 +542,43 @@
         <blockquote class="story-quote">「自分が実際に使う」を前提に設計すると、本当に必要なものだけが残ります。</blockquote>
         <p>その経験から、LINE・スプレッドシート・GASを組み合わせた業務効率化ツールを作り続けています。</p>
       </div>
+      <!-- Value cards — SVG icons -->
       <div class="value-cards fade-in">
         <div class="value-card">
-          <div class="value-icon">👁️</div>
+          <div class="vi-wrap">
+            <!-- eye -->
+            <svg class="ic" viewBox="0 0 20 20"><path d="M2 10s3.3-6 8-6 8 6 8 6-3.3 6-8 6-8-6-8-6z"/><circle cx="10" cy="10" r="2.5"/></svg>
+          </div>
           <div>
             <div class="value-label">使う人の目線で設計</div>
             <div class="value-text">忙しい場面でも迷わない・説明書なしで使えることを最優先にしています。</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="value-icon">⚡</div>
+          <div class="vi-wrap">
+            <!-- play -->
+            <svg class="ic" viewBox="0 0 20 20"><polygon points="6,4 16,10 6,16"/></svg>
+          </div>
           <div>
             <div class="value-label">まず動かして試す</div>
             <div class="value-text">完璧な設計より、実際に使って改善するサイクルを回しています。</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="value-icon">📱</div>
+          <div class="vi-wrap">
+            <!-- link -->
+            <svg class="ic" viewBox="0 0 20 20"><path d="M8.5 11.5a4 4 0 0 0 5.66 0l2-2a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M11.5 8.5a4 4 0 0 0-5.66 0l-2 2a4 4 0 0 0 5.66 5.66l1-1"/></svg>
+          </div>
           <div>
             <div class="value-label">使い慣れたツールと連携</div>
             <div class="value-text">LINEやスプレッドシートを入口に。新アプリを覚えなくても使える設計。</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="value-icon">¥</div>
+          <div class="vi-wrap">
+            <!-- shield check -->
+            <svg class="ic" viewBox="0 0 20 20"><path d="M10 2L4 5v5c0 4 3.5 6.3 6 7.5 2.5-1.2 6-3.5 6-7.5V5l-6-3z"/><polyline points="7.5,10 9.5,12 12.5,8"/></svg>
+          </div>
           <div>
             <div class="value-label">月額コストゼロ</div>
             <div class="value-text">GAS・無料API・GitHub Pagesを組み合わせてランニングコストを抑えます。</div>
@@ -535,11 +600,23 @@
 
 <!-- Contact -->
 <section id="contact">
-  <div class="container">
-    <h2 class="sec-title fade-in">Contact</h2>
-    <p class="contact-desc fade-in">「こんなこと自動化できますか？」という相談から大歓迎です。まだアイデア段階でもOKです。</p>
-    <div class="contact-links">
-      <a href="mailto:yuuy3386@gmail.com" class="contact-btn">📧 メールを送る</a>
+  <div class="contact-inner">
+    <p class="contact-eyebrow fade-in">Contact</p>
+    <div class="contact-box fade-in">
+      <p class="contact-quote">
+        <span>「こんなこと、自動化できますか？」</span><br>
+        そのご相談もお気軽にどうぞ。
+      </p>
+      <p class="contact-desc">
+        業務の流れがまだ整理できていない段階でも大丈夫です。<br>
+        現場に合わせて一緒に考えながら、必要なものを形にしていきます。
+      </p>
+      <a href="mailto:yuuy3386@gmail.com" class="contact-main-btn">
+        <!-- mail icon -->
+        <svg class="ic" viewBox="0 0 20 20"><rect x="2" y="5" width="16" height="12" rx="2"/><path d="M2 7l8 5 8-5"/></svg>
+        業務の自動化について相談する
+      </a>
+      <p class="contact-note">返信は通常1〜2営業日以内にお送りしています</p>
     </div>
   </div>
 </section>
@@ -555,7 +632,6 @@
 <footer><p>© 2026 Yuko_k</p></footer>
 
 <script>
-// ===== Data =====
 const DEMOS = [
   {
     mockType: 'pos',
@@ -672,7 +748,6 @@ const PROJECTS = [
   },
 ];
 
-// ===== Mock UIs =====
 function buildPosMock() {
   return `<div class="mock-pos">
     <div class="mock-menu">
@@ -685,7 +760,7 @@ function buildPosMock() {
       <div class="mock-order-row"><span>ポテト × 1</span><span>¥200</span></div>
     </div>
     <div class="mock-set-banner">
-      <span>🎯 バーガー＋ドリンクで ¥80 割引！</span>
+      <span>バーガー＋ドリンクで ¥80 割引！</span>
       <button class="mock-apply">適用する</button>
     </div>
   </div>`;
@@ -706,7 +781,6 @@ function buildBousaiMock() {
   </div>`;
 }
 
-// ===== Demo cards =====
 const demoGrid = document.getElementById('demo-grid');
 DEMOS.forEach((d, i) => {
   const tagsHtml = d.tags.map(t => `<span class="demo-tag">${t}</span>`).join('');
@@ -726,7 +800,6 @@ DEMOS.forEach((d, i) => {
   demoGrid.appendChild(card);
 });
 
-// ===== Works cards =====
 const worksGrid = document.getElementById('works-grid');
 PROJECTS.forEach((p, i) => {
   const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
@@ -760,7 +833,6 @@ PROJECTS.forEach((p, i) => {
   worksGrid.appendChild(card);
 });
 
-// ===== Modal =====
 const overlay = document.getElementById('modal-overlay');
 const modalContent = document.getElementById('modal-content');
 
@@ -773,17 +845,10 @@ function buildFlowHtml(steps) {
 }
 
 function openModal(idx) {
-  const p = PROJECTS[idx];
-  const d = p.detail;
+  const p = PROJECTS[idx]; const d = p.detail;
   const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
-  const flow2Html = d.flow2 ? `
-    <div class="flow-label-s" style="margin-top:1.2rem">${d.flow2.label}</div>
-    <div class="flow-list">${buildFlowHtml(d.flow2.steps)}</div>` : '';
-  const usecasesHtml = d.usecases ? `
-    <div class="flow-label-s" style="margin-top:1.2rem">応用例</div>
-    <ul style="padding-left:1.2rem;font-size:.81rem;color:var(--sub);line-height:2">
-      ${d.usecases.map(u => `<li>${u}</li>`).join('')}
-    </ul>` : '';
+  const flow2Html = d.flow2 ? `<div class="flow-label-s" style="margin-top:1.2rem">${d.flow2.label}</div><div class="flow-list">${buildFlowHtml(d.flow2.steps)}</div>` : '';
+  const usecasesHtml = d.usecases ? `<div class="flow-label-s" style="margin-top:1.2rem">応用例</div><ul style="padding-left:1.2rem;font-size:.81rem;color:var(--sub);line-height:2">${d.usecases.map(u=>`<li>${u}</li>`).join('')}</ul>` : '';
   modalContent.innerHTML = `
     <div class="modal-head"><div class="modal-icon">${p.emoji}</div><div class="modal-title">${p.title}</div></div>
     <div class="modal-summary">${d.oneliner}</div>
@@ -804,7 +869,6 @@ document.getElementById('works-grid').addEventListener('click', e => {
   if (btn) openModal(Number(btn.dataset.idx));
 });
 
-// ===== Scroll fade =====
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
