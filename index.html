@@ -9,68 +9,78 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <style>
+    /* ── Variables ── */
     :root {
-      --accent:   #C96A38;
-      --accent-l: #E08A58;
-      --navy:     #2B3B50;
-      --navy-m:   #3D526A;
-      --bg:       #FAF9F6;
-      --bg2:      #F2EEE8;
-      --card:     #FFFFFF;
-      --text:     #1E2A38;
-      --sub:      #4A5D6E;
-      --muted:    #7A8FA0;
-      --border:   #E0D8CF;
+      --accent:    #3A6EA8;
+      --accent-l:  #5B8DC2;
+      --accent-d:  #2B5A8C;
+      --teal:      #3A8080;
+      --teal-l:    rgba(58,128,128,0.12);
+      --navy:      #1C3350;
+      --navy-m:    #274868;
+      --bg:        #F5F6F8;
+      --bg2:       #EAEFF6;
+      --bg-warm:   #F4F0E8;
+      --bg-khaki:  #EFECE4;
+      --card:      #FFFFFF;
+      --text:      #18283A;
+      --sub:       #3C5570;
+      --muted:     #697E98;
+      --border:    #CAD5E4;
     }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
 
-    /* ===== SVG Icons ===== */
     .ic {
       width: 15px; height: 15px; flex-shrink: 0;
       stroke: currentColor; fill: none;
       stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
       display: inline-block; vertical-align: middle;
     }
-    .ic-lg { width: 18px; height: 18px; }
 
-    /* ===== Nav ===== */
+    /* ── Nav ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(250,249,246,0.95); backdrop-filter: blur(12px);
+      background: rgba(245,246,248,0.96); backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       padding: 0 1.5rem; height: 54px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .nav-logo { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; color: var(--text); letter-spacing: 0.02em; }
+    .nav-logo { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1rem; color: var(--navy); }
     .nav-links { display: flex; gap: 1.75rem; list-style: none; font-size: 0.82rem; font-weight: 500; }
     .nav-links a { color: var(--muted); transition: color 0.15s; }
     .nav-links a:hover { color: var(--text); }
     @media(max-width:600px){ .nav-links { display: none; } }
 
-    /* ===== Buttons ===== */
+    /* ── Buttons ── */
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
       padding: 0.75rem 1.6rem; border-radius: 10px;
       font-weight: 700; font-size: 0.92rem; cursor: pointer; border: none;
-      transition: opacity 0.15s, transform 0.15s; white-space: nowrap;
+      transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
     }
-    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+    /* Arrow nudge on hover */
+    .btn-arrow { display: inline-block; transition: transform 0.22s ease; }
+    .btn:hover .btn-arrow { transform: translateX(4px); }
+
     .btn-primary {
       background: var(--accent); color: #fff;
-      box-shadow: 0 4px 14px rgba(201,106,56,0.30);
+      box-shadow: 0 4px 14px rgba(58,110,168,0.28);
       font-size: 1rem; padding: 0.85rem 2rem;
     }
+    .btn-primary:hover { box-shadow: 0 8px 24px rgba(58,110,168,0.38); }
     .btn-ghost {
-      background: var(--card); border: 1.5px solid var(--border);
-      color: var(--navy-m);
+      background: var(--card); border: 1.5px solid var(--border); color: var(--navy-m);
     }
-    .btn-ghost:hover { border-color: var(--navy-m); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-    /* ===== Section 共通 ===== */
+    /* ── Section commons ── */
     section { padding: 5rem 1.25rem; }
     .container { max-width: 960px; margin: 0 auto; }
     .sec-eyebrow {
@@ -80,297 +90,534 @@
     }
     .sec-title {
       font-family: 'Inter', sans-serif;
-      font-size: clamp(1.35rem,3vw,1.8rem);
+      font-size: clamp(1.35rem, 3vw, 1.85rem);
       font-weight: 700; color: var(--text);
       margin-bottom: 2rem; line-height: 1.3;
     }
 
-    /* ===== Hero ===== */
+    /* ══════════════════════════════════
+       HERO
+    ══════════════════════════════════ */
     #hero {
-      padding: 5.5rem 1.5rem 5rem;
-      background: var(--bg);
+      padding: 6rem 1.5rem 5.5rem;
+      background: linear-gradient(155deg, var(--bg) 50%, var(--bg-warm) 100%);
       border-bottom: 1px solid var(--border);
+      overflow: hidden;
     }
     .hero-wrap {
-      max-width: 960px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 295px;
-      gap: 3.5rem; align-items: center;
+      max-width: 1020px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 360px;
+      gap: 4.5rem; align-items: center;
     }
-    @media(max-width:740px){
-      .hero-wrap { grid-template-columns: 1fr; gap: 0; }
-    }
+    @media(max-width:800px){ .hero-wrap { grid-template-columns: 1fr; gap: 0; } }
 
-    /* — Eyebrow — */
     .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.4rem;
       font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.5rem;
+      letter-spacing: 0.12em; color: var(--accent); margin-bottom: 0.65rem;
     }
-
-    /* — Headline — */
     .hero-h1 {
       font-family: 'Inter', sans-serif;
-      font-size: clamp(1.9rem, 4.8vw, 2.7rem);
-      font-weight: 800; color: var(--text);
-      line-height: 1.18; letter-spacing: -0.025em;
-      margin-bottom: 0.6rem;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800; color: var(--navy);
+      line-height: 1.13; letter-spacing: -0.025em;
+      margin-bottom: 0.7rem;
     }
     .hero-h1 em { font-style: normal; color: var(--accent); }
-
-    /* — Accent line — */
-    .hero-divider {
-      width: 32px; height: 3px;
-      background: var(--accent); border-radius: 2px;
-      margin-bottom: 1.25rem;
-    }
-
-    /* — Body copy — */
+    .hero-divider { width: 32px; height: 3px; background: var(--accent); border-radius: 2px; margin-bottom: 1.4rem; }
     .hero-copy {
-      font-size: 0.88rem; color: var(--sub);
-      line-height: 1.85; margin-bottom: 1.75rem;
-      max-width: 390px;
+      font-size: 0.92rem; color: var(--sub); line-height: 1.9;
+      margin-bottom: 1.85rem; max-width: 410px;
     }
 
-    /* ── Flow bar ── */
+    /* Flow bar */
     .hero-flow-bar {
       display: flex; align-items: center;
       background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 0.95rem 1.4rem;
-      gap: 0; margin-bottom: 0.75rem;
+      border-radius: 12px; padding: 0.9rem 1.3rem;
+      margin-bottom: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
     .flow-it {
-      flex: 1; display: flex; align-items: center;
-      justify-content: center; gap: 0.45rem;
-      font-size: 0.83rem; font-weight: 600; color: var(--navy-m);
-      white-space: nowrap;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      gap: 0.4rem; font-size: 0.82rem; font-weight: 600; color: var(--sub); white-space: nowrap;
     }
     .flow-it.active { color: var(--accent); }
-    .flow-it .ic { width: 15px; height: 15px; stroke-width: 1.7; }
-    .flow-sp {
-      flex-shrink: 0; padding: 0 0.2rem;
-      font-size: 0.8rem; color: #C8D2DA; font-weight: 500;
-    }
+    .flow-sp { flex-shrink: 0; padding: 0 0.2rem; font-size: 0.8rem; color: var(--border); }
 
-    /* ── 3 feature cards ── */
+    /* Feature cards */
     .hero-features {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 0.65rem; margin-bottom: 1.85rem;
-      align-items: stretch;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem; margin-bottom: 1.9rem;
     }
-    @media(max-width:460px){
-      .hero-features { grid-template-columns: 1fr; }
-    }
+    @media(max-width:460px){ .hero-features { grid-template-columns: 1fr; } }
     .feat-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 12px; padding: 1.1rem 1rem;
-      display: flex; flex-direction: column;
-      gap: 0; min-height: 108px;
+      display: flex; flex-direction: column; min-height: 108px;
+      transition: box-shadow 0.22s, transform 0.22s;
     }
+    .feat-card:hover { box-shadow: 0 5px 20px rgba(58,110,168,0.14); transform: translateY(-2px); }
     .feat-ic-wrap {
-      width: 36px; height: 36px;
-      border-radius: 50%;           /* ← circle */
-      background: rgba(201,106,56,.10);
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(58,110,168,0.10); color: var(--accent);
       display: flex; align-items: center; justify-content: center;
-      color: var(--accent);
       margin-bottom: 0.7rem; flex-shrink: 0;
     }
-    .feat-ic-wrap .ic { width: 16px; height: 16px; stroke-width: 1.6; }
-    .feat-label {
-      font-size: 0.78rem; font-weight: 700;
-      color: var(--text); line-height: 1.3;
-      margin-bottom: 0.25rem;
-    }
-    .feat-sub {
-      font-size: 0.67rem; color: var(--muted);
-      line-height: 1.5; margin-top: auto; padding-top: 0.15rem;
-    }
+    .feat-ic-wrap .ic { width: 16px; height: 16px; }
+    .feat-label { font-size: 0.78rem; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 0.22rem; }
+    .feat-sub { font-size: 0.67rem; color: var(--muted); line-height: 1.5; margin-top: auto; }
 
-    /* ── CTA ── */
-    .hero-cta {
-      display: flex; gap: 0.7rem;
-      flex-wrap: wrap; align-items: stretch;
-    }
-    .hero-cta .btn {
-      height: 52px; padding: 0 1.75rem;
-      font-size: 0.95rem; border-radius: 12px;
-    }
-    .hero-cta .btn-primary {
-      min-width: 210px;
-      box-shadow: 0 4px 16px rgba(201,106,56,.28);
-    }
-    .hero-cta .btn-ghost {
-      min-width: 130px;
-    }
+    /* CTA */
+    .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .hero-cta .btn { height: 52px; padding: 0 1.75rem; font-size: 0.95rem; border-radius: 12px; }
+    .hero-cta .btn-primary { min-width: 215px; }
+    .hero-cta .btn-ghost  { min-width: 132px; }
 
     /* Avatar */
     .hero-avatar-wrap {
-      position: relative;
-      display: flex; justify-content: center; align-items: flex-end;
+      position: relative; display: flex;
+      justify-content: center; align-items: flex-end; min-height: 310px;
     }
-    @media(max-width:740px){
-      .hero-avatar-wrap { order: -1; margin-bottom: 1.5rem; }
+    @media(max-width:800px){
+      .hero-avatar-wrap { order: -1; margin-bottom: 2.25rem; min-height: 200px; }
     }
     .hero-avatar-bg {
-      position: absolute; inset: 0;
-      background: radial-gradient(circle at 55% 55%, #F5E9DC 0%, #FAF4EF 55%, transparent 72%);
-      border-radius: 50%; z-index: 0;
+      position: absolute; bottom: -8%; left: -20%; right: -20%; top: -5%;
+      background: radial-gradient(ellipse 80% 85% at 55% 58%,
+        rgba(210,228,248,0.88) 0%, rgba(236,228,218,0.6) 52%, transparent 73%);
+      z-index: 0;
     }
     .hero-avatar-img {
       position: relative; z-index: 1;
-      width: 100%; max-width: 290px; margin: 0 auto; border-radius: 50%;
+      width: 100%; max-width: 360px; margin: 0 auto;
+      will-change: transform;
     }
     .hero-avatar-img-fallback {
-      position: relative; z-index: 1;
-      width: 220px; height: 220px; margin: 0 auto;
-      background: var(--bg2); border-radius: 50%;
-      border: 2px dashed var(--border);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      font-size: 0.72rem; color: var(--muted);
-      text-align: center; padding: 1rem;
+      position: relative; z-index: 1; width: 240px; height: 240px; margin: 0 auto;
+      background: var(--bg2); border-radius: 50%; border: 2px dashed var(--border);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 0.72rem; color: var(--muted); text-align: center; padding: 1rem;
     }
 
-    /* ===== Demo ===== */
-    #demo { background: var(--navy); padding: 4.5rem 1.25rem; }
-    #demo .sec-eyebrow { color: #94A3B8; }
-    #demo .sec-title { color: #F1F5F9; margin-bottom: 0.5rem; }
-    .demo-sub { color: #64748B; font-size: 0.83rem; margin-bottom: 2.5rem; }
-    .demo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px,1fr)); gap: 1.2rem; }
-    .demo-card {
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px; overflow: hidden;
-      display: flex; flex-direction: column;
-      transition: border-color 0.2s, transform 0.2s;
+    /* ══════════════════════════════════
+       BEFORE / AFTER  — vertical flow
+    ══════════════════════════════════ */
+    #before-after {
+      background: var(--bg2);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 5rem 1.25rem;
     }
-    .demo-card:hover { border-color: rgba(255,255,255,0.22); transform: translateY(-2px); }
-    .demo-mock {
-      background: rgba(255,255,255,0.04);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 1rem; min-height: 155px;
-      display: flex; align-items: flex-start; justify-content: center;
+    #before-after .sec-eyebrow,
+    #before-after .sec-title { display: block; text-align: center; }
+    #before-after .sec-title { margin-bottom: 0.6rem; }
+    .ba-sub { text-align: center; font-size: 0.87rem; color: var(--muted); margin-bottom: 2.75rem; }
+
+    .ba-cols {
+      display: grid; grid-template-columns: 1fr 56px 1fr;
+      align-items: start; gap: 0; max-width: 780px; margin: 0 auto;
     }
-    .mock-pos { width: 100%; font-size: 0.68rem; }
-    .mock-menu { display: flex; gap: 0.4rem; margin-bottom: 0.55rem; }
-    .mock-btn {
-      flex: 1; background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 7px; padding: 0.38rem 0.25rem; text-align: center;
-      color: #E2E8F0; line-height: 1.45;
+    @media(max-width:600px){
+      .ba-cols { grid-template-columns: 1fr; gap: 0; }
     }
-    .mock-btn .mk-price { font-size: 0.7rem; font-weight: 700; color: #FCD34D; }
-    .mock-orders { font-size: 0.63rem; color: #94A3B8; margin-bottom: 0.5rem; }
-    .mock-order-row { display: flex; justify-content: space-between; padding: 0.13rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .mock-set-banner {
-      background: rgba(253,224,71,0.14); border: 1px solid rgba(253,224,71,0.38);
-      border-radius: 7px; padding: 0.42rem 0.55rem;
-      color: #FDE68A; font-size: 0.63rem; line-height: 1.4;
-      display: flex; align-items: center; justify-content: space-between; gap: 0.4rem;
-      animation: set-pulse 3s ease-in-out infinite;
+
+    .ba-col {
+      background: var(--card); border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+    .ba-col-head {
+      padding: 0.9rem 1.4rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .ba-col.before .ba-col-head { background: #FBF0EC; }
+    .ba-col.after  .ba-col-head { background: rgba(58,110,168,0.07); }
+    .ba-col-label {
+      font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.07em; padding: 0.2rem 0.6rem; border-radius: 5px;
+    }
+    .ba-col.before .ba-col-label { background: #F4CFC5; color: #8C3020; }
+    .ba-col.after  .ba-col-label { background: rgba(58,110,168,0.18); color: var(--accent-d); }
+    .ba-col-hint { font-size: 0.72rem; color: var(--muted); }
+
+    .ba-steps { padding: 1.2rem 1.4rem; display: flex; flex-direction: column; gap: 0; }
+    .ba-step { display: flex; gap: 0.65rem; position: relative; }
+    .ba-step:not(:last-child) { padding-bottom: 0.2rem; }
+    /* dashed connector line */
+    .ba-step:not(:last-child)::after {
+      content: ''; position: absolute;
+      left: 10px; top: 24px;
+      width: 1.5px; height: calc(100% - 4px);
+      background: repeating-linear-gradient(to bottom,
+        var(--border) 0, var(--border) 4px, transparent 4px, transparent 8px);
+    }
+    .ba-step-dot {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.62rem; font-weight: 800; position: relative; z-index: 1;
+      margin-top: 0.55rem;
+    }
+    .ba-col.before .ba-step-dot { background: #F4CFC5; color: #8C3020; }
+    .ba-col.after  .ba-step-dot { background: rgba(58,110,168,0.15); color: var(--accent-d); }
+    .ba-step-body { padding: 0.5rem 0 0.85rem; }
+    .ba-step-label { font-size: 0.83rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .ba-step-sub   { font-size: 0.69rem; color: var(--muted); margin-top: 0.15rem; line-height: 1.45; }
+
+    .ba-sep {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.35rem; padding-top: 3.2rem;
+    }
+    @media(max-width:600px){ .ba-sep { padding: 1rem 0; } }
+    .ba-sep-circle {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; box-shadow: 0 3px 10px rgba(58,110,168,0.30);
+    }
+    @media(max-width:600px){ .ba-sep-circle { transform: rotate(90deg); } }
+    .ba-sep-label { font-size: 0.6rem; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; }
+
+    /* ══════════════════════════════════
+       HOW IT WORKS — 導入イメージ
+    ══════════════════════════════════ */
+    #how-it-works {
+      background: var(--bg-warm);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 5rem 1.25rem;
+    }
+    #how-it-works .sec-title { margin-bottom: 0.6rem; }
+    .hiw-sub { font-size: 0.87rem; color: var(--muted); margin-bottom: 3rem; }
+
+    .hiw-steps {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; max-width: 940px; margin: 0 auto;
+      position: relative;
+    }
+    @media(max-width:680px){ .hiw-steps { grid-template-columns: 1fr 1fr; gap: 2rem 0; } }
+    @media(max-width:400px){ .hiw-steps { grid-template-columns: 1fr; } }
+
+    .hiw-step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; padding: 0 0.75rem; position: relative;
+    }
+    /* Arrow between steps on desktop */
+    .hiw-step:not(:last-child)::after {
+      content: '›'; position: absolute;
+      right: -6px; top: 52px;
+      color: var(--accent-l); font-size: 1.4rem; line-height: 1;
+    }
+    @media(max-width:680px){ .hiw-step:not(:last-child)::after { display: none; } }
+
+    .hiw-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 800;
+      margin-bottom: 0.85rem; box-shadow: 0 2px 8px rgba(58,110,168,0.30);
+    }
+    .hiw-mock {
+      width: 100%; max-width: 155px; min-height: 110px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+      padding: 0.85rem 0.75rem; margin-bottom: 0.9rem;
+      display: flex; flex-direction: column; justify-content: flex-start;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .hiw-step:hover .hiw-mock { box-shadow: 0 7px 24px rgba(58,110,168,0.12); transform: translateY(-2px); }
+    .hiw-label { font-size: 0.83rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .hiw-sub2 { font-size: 0.68rem; color: var(--muted); line-height: 1.5; }
+
+    /* mini line mockups inside hiw-mock */
+    .hm-bubble-user {
+      align-self: flex-end; background: #DCFCE7; border-radius: 10px 10px 2px 10px;
+      padding: .25rem .45rem; font-size: .6rem; color: #1A4A1A;
+      max-width: 85%; margin-bottom: .3rem;
+    }
+    .hm-bubble-bot {
+      align-self: flex-start; background: var(--bg2); border-radius: 2px 10px 10px 10px;
+      padding: .25rem .45rem; font-size: .6rem; color: var(--sub);
+      max-width: 90%; line-height: 1.5;
+    }
+    .hm-gear {
+      font-size: 2rem; margin: 0.5rem auto; display: block; text-align: center;
+      color: var(--accent); opacity: 0.7;
+    }
+    .hm-gear-label { font-size: .6rem; color: var(--muted); text-align: center; margin-top: .25rem; }
+    .hm-sheet-row {
+      display: flex; justify-content: space-between;
+      padding: .15rem 0; border-bottom: 1px solid var(--border);
+      font-size: .58rem; color: var(--sub);
+    }
+    .hm-sheet-head { display: flex; justify-content: space-between; font-size: .57rem; font-weight: 700; color: var(--muted); padding-bottom: .2rem; }
+    .hm-notify {
+      background: #EBF7EF; border: 1px solid #96CBA9; border-radius: 8px;
+      padding: .3rem .4rem; font-size: .59rem; color: #1A5C36; line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════
+       AUTO DEMO — キッチンカーPOS
+    ══════════════════════════════════ */
+    #demo { background: var(--bg); padding: 5rem 1.25rem; border-bottom: 1px solid var(--border); }
+    .demo-header { text-align: center; }
+    .demo-header .sec-eyebrow { display: block; }
+    .demo-header .sec-title { margin-bottom: 0.45rem; }
+    .demo-header-sub { text-align: center; font-size: 0.87rem; color: var(--muted); margin-bottom: 2.75rem; }
+
+    .pos-player {
+      max-width: 680px; margin: 0 auto;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.08);
+    }
+    .pos-steps-bar { display: flex; border-bottom: 1px solid var(--border); background: var(--bg); overflow-x: auto; }
+    .pos-step-tab {
+      flex: 1; min-width: 0; padding: 0.65rem 0.2rem; text-align: center;
+      font-size: 0.58rem; font-weight: 700; color: var(--muted); white-space: nowrap;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.3s, border-color 0.3s; cursor: default; line-height: 1.4;
+    }
+    .pos-step-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .pos-step-tab.done   { color: var(--teal);   border-bottom-color: var(--teal); }
+    @media(max-width:420px){ .pos-step-tab { font-size:.5rem; padding:.5rem .1rem; } }
+
+    .pos-progress-bar { height: 3px; background: var(--bg2); position: relative; overflow: hidden; }
+    .pos-progress-fill {
+      position: absolute; left: 0; top: 0; height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--teal)); width: 0%;
+    }
+    .pos-screen {
+      min-height: 280px; display: flex; align-items: center; justify-content: center;
+      padding: 1.75rem 1.5rem; position: relative; overflow: hidden; background: var(--bg);
+    }
+    @media(max-width:480px){ .pos-screen { min-height: 240px; padding: 1.25rem 1rem; } }
+
+    .pos-frame {
+      width: 100%; max-width: 400px; position: absolute;
+      transition: opacity 0.38s ease, transform 0.38s ease;
+    }
+    .pos-frame.entering { opacity: 0; transform: translateY(14px); }
+    .pos-frame.visible  { opacity: 1; transform: translateY(0); }
+    .pos-frame.leaving  { opacity: 0; transform: translateY(-14px); }
+
+    .pos-caption {
+      border-top: 1px solid var(--border); background: var(--card);
+      padding: 1.05rem 1.6rem 1.15rem; display: flex; align-items: flex-start; gap: 0.85rem;
+    }
+    .pos-caption-num {
+      width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+      background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif; font-size: 0.66rem; font-weight: 800;
+    }
+    .pos-caption-title { font-size: 0.89rem; font-weight: 700; color: var(--text); margin-bottom: 0.12rem; }
+    .pos-caption-sub   { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    .demo-cta {
+      max-width: 680px; margin: 1.75rem auto 0;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      padding: 1.6rem 2rem; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .demo-cta.visible { opacity: 1; transform: translateY(0); }
+    .demo-cta-q { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .demo-cta-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+
+    /* Step UI components */
+    .pos-ui-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.05rem 1.05rem 0.95rem;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.06); width: 100%;
+    }
+    .pos-ui-lbl { font-size: 0.63rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.6rem; }
+    .pos-menu-grid { display: flex; gap: 0.45rem; margin-bottom: 0.7rem; }
+    .pos-menu-item {
+      flex: 1; background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 10px; padding: 0.5rem 0.2rem; text-align: center; font-size: 0.7rem;
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+    }
+    .pos-menu-item.sel { background: rgba(58,110,168,0.1); border-color: var(--accent); transform: scale(1.06); }
+    .pos-menu-price { font-size: 0.67rem; font-weight: 700; color: var(--accent); display: block; }
+    .pos-order-list { border-top: 1px solid var(--border); padding-top: 0.45rem; margin-bottom: 0.4rem; }
+    .pos-order-row { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--sub); padding: 0.1rem 0; }
+    .pos-order-row.pop { animation: rowPop 0.32s ease; }
+    @keyframes rowPop { from{ opacity:0; transform:translateX(-7px); } to{ opacity:1; transform:translateX(0); } }
+    .pos-total-row { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: var(--text); padding: 0.28rem 0 0; border-top: 1px solid var(--border); }
+    .pos-set-badge {
+      background: #FFF9EC; border: 1.5px solid #F5C842; border-radius: 10px;
+      padding: 0.48rem 0.7rem; display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.69rem; color: #7A4A00; margin-top: 0.5rem;
+      animation: slideUp 0.32s ease;
+    }
+    .pos-discount-row {
+      background: #EBF7EF; border: 1px solid #96CBA9; border-radius: 8px;
+      padding: 0.36rem 0.62rem; font-size: 0.69rem; color: #1A5C36;
+      margin-top: 0.38rem; animation: slideUp 0.32s ease 0.12s both;
+    }
+    @keyframes slideUp { from{ opacity:0; transform:translateY(7px); } to{ opacity:1; transform:translateY(0); } }
+
+    .pos-checkout-ui {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.2rem 1.2rem 1.1rem;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.06); width: 100%; text-align: center;
+    }
+    .pos-checkout-lbl { font-size: 0.63rem; color: var(--muted); margin-bottom: 0.18rem; }
+    .pos-checkout-total { font-size: 1.5rem; font-weight: 800; color: var(--navy); margin-bottom: 0.8rem; }
+    .pos-change-row {
+      background: var(--bg2); border-radius: 10px; padding: 0.6rem 0.95rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.75rem; margin-bottom: 0.85rem;
+    }
+    .pos-change-val { font-weight: 700; color: var(--teal); font-size: 1.05rem; }
+    .pos-done-circle {
+      width: 46px; height: 46px; background: #EBF7EF; border-radius: 50%; margin: 0 auto;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+      opacity: 0; transform: scale(0.4);
+      transition: opacity 0.42s 0.5s, transform 0.42s 0.5s;
+    }
+    .pos-done-circle.show { opacity: 1; transform: scale(1); }
+    .pos-done-lbl { font-size: 0.74rem; font-weight: 700; color: #1A5C36; margin-top: 0.28rem; opacity: 0; transition: opacity 0.38s 0.85s; }
+    .pos-done-lbl.show { opacity: 1; }
+
+    .pos-sheet-ui {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.1rem 1.15rem;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.06); width: 100%;
+    }
+    .pos-sheet-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; }
+    .pos-sheets-logo { font-size: 0.7rem; font-weight: 700; color: #0F9D58; }
+    .pos-srow { display: flex; justify-content: space-between; padding: 0.35rem 0; border-bottom: 1px solid var(--border); font-size: 0.69rem; color: var(--sub); }
+    .pos-srow:first-of-type { border-top: 1px solid var(--border); }
+    .pos-srow span:last-child { font-weight: 600; color: var(--text); }
+    .pos-save-bar {
+      margin-top: 0.8rem; display: flex; align-items: center; gap: 0.55rem;
+      background: var(--bg2); border-radius: 9px; padding: 0.62rem 0.88rem;
+      font-size: 0.77rem; color: var(--sub); transition: background 0.42s, color 0.42s;
+    }
+    .pos-save-bar.saved { background: #EBF7EF; color: #1A5C36; }
+    .pos-spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to{ transform:rotate(360deg); } }
+    .pos-tick { width: 16px; height: 16px; background: #1A5C36; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.58rem; color: #fff; flex-shrink: 0; opacity: 0; transform: scale(0.3); transition: opacity 0.35s 0.28s, transform 0.35s 0.28s; }
+    .pos-tick.show { opacity: 1; transform: scale(1); }
+
+    .pos-chart-ui {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.05rem 1.15rem;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.06); width: 100%;
+    }
+    .pos-chart-bars { display: flex; gap: 0.7rem; align-items: flex-end; height: 86px; margin-top: 0.8rem; }
+    .pos-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.28rem; }
+    .pos-bar { width: 100%; border-radius: 5px 5px 0 0; position: relative; transition: height 0.82s cubic-bezier(0.34,1.4,0.64,1); }
+    .pos-bar-num { position: absolute; top: -17px; left: 50%; transform: translateX(-50%); font-size: 0.58rem; font-weight: 700; color: var(--text); white-space: nowrap; }
+    .pos-bar-lbl { font-size: 0.59rem; color: var(--muted); text-align: center; }
+
+    .pos-summary-ui {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.35rem 1.35rem 1.25rem;
+      box-shadow: 0 3px 16px rgba(0,0,0,0.06); width: 100%; text-align: center;
+    }
+    .pos-summary-h { font-size: 1.1rem; font-weight: 800; color: var(--navy); line-height: 1.3; margin-bottom: 0.28rem; }
+    .pos-summary-note { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.95rem; }
+    .pos-summary-pts { display: flex; flex-direction: column; gap: 0.4rem; text-align: left; }
+    .pos-summary-pt { display: flex; align-items: center; gap: 0.5rem; background: var(--bg2); border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.77rem; color: var(--sub); font-weight: 500; }
+    .pos-summary-pt::before { content: '✓'; color: var(--teal); font-weight: 800; flex-shrink: 0; }
+
+    /* ── Mocks (Works cards) ── */
+    .mock-pos-l { width: 100%; font-size: .67rem; }
+    .mock-menu-l { display: flex; gap: .38rem; margin-bottom: .5rem; }
+    .mock-btn-l {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: .42rem .18rem; text-align: center;
+      color: var(--text); line-height: 1.5; font-size: .62rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .mk-price-l { font-size: .67rem; font-weight: 700; color: var(--accent); display: block; }
+    .mock-orders-l { margin-bottom: .45rem; }
+    .mock-order-l { display: flex; justify-content: space-between; padding: .15rem 0; border-bottom: 1px solid var(--border); font-size: .61rem; color: var(--sub); }
+    .mock-total-l { display: flex; justify-content: space-between; padding: .28rem 0 .1rem; font-size: .7rem; font-weight: 700; color: var(--text); }
+    .mock-set-l {
+      background: #EBF7EF; border: 1px solid #96CBA9; border-radius: 8px;
+      padding: .4rem .55rem; display: flex; align-items: center;
+      justify-content: space-between; gap: .38rem; font-size: .61rem; color: #1A5C36;
+      animation: set-pulse 3.2s ease-in-out infinite;
     }
     @keyframes set-pulse {
-      0%,100%{ box-shadow: 0 0 0 0 rgba(253,224,71,0); }
-      50%{ box-shadow: 0 0 0 5px rgba(253,224,71,0.1); }
+      0%,100%{ box-shadow: 0 0 0 0 rgba(26,92,54,0); }
+      50%{ box-shadow: 0 0 0 4px rgba(26,92,54,0.08); }
     }
-    .mock-apply {
-      background: #FCD34D; color: #1E2A38; border: none;
-      border-radius: 4px; padding: 0.18rem 0.45rem;
-      font-size: 0.6rem; font-weight: 700; cursor: pointer; white-space: nowrap;
-    }
-    .mock-bousai { width: 100%; font-size: 0.68rem; }
-    .mock-pref {
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 5px; padding: 0.28rem 0.55rem; color: #CBD5E1;
-      font-size: 0.66rem; margin-bottom: 0.55rem; display: inline-block;
-    }
-    .mock-check-item {
-      display: flex; align-items: flex-start; gap: 0.4rem;
-      padding: 0.28rem 0; font-size: 0.65rem; color: #94A3B8;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .mock-check-item.done { color: #6EE7B7; }
-    .mock-check-box {
-      width: 13px; height: 13px; border-radius: 3px; border: 1.5px solid currentColor;
-      flex-shrink: 0; margin-top: 1px; display: flex; align-items: center;
-      justify-content: center; font-size: 0.55rem;
-    }
-    .mock-guide-row { display: flex; gap: 0.35rem; margin-top: 0.45rem; }
-    .mock-guide-chip {
-      background: rgba(96,165,250,0.14); border: 1px solid rgba(96,165,250,0.28);
-      border-radius: 4px; padding: 0.22rem 0.45rem;
-      font-size: 0.6rem; color: #93C5FD;
-    }
-    .demo-body { padding: 1rem 1.2rem 1.2rem; flex: 1; display: flex; flex-direction: column; gap: 0.55rem; }
-    .demo-for { font-size: 0.66rem; font-weight: 600; color: #64748B; letter-spacing: 0.05em; text-transform: uppercase; }
-    .demo-title { font-size: 0.98rem; font-weight: 700; color: #F1F5F9; }
-    .demo-desc { font-size: 0.79rem; color: #94A3B8; line-height: 1.65; flex: 1; }
-    .demo-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
-    .demo-tag { font-size: 0.65rem; font-weight: 500; padding: 0.17rem 0.5rem; border-radius: 4px; background: rgba(255,255,255,0.07); color: #CBD5E1; }
-    .demo-link {
-      display: flex; align-items: center; justify-content: center; gap: 0.35rem;
-      background: var(--accent); color: #fff;
-      font-weight: 700; font-size: 0.84rem;
-      padding: 0.7rem 1rem; border-radius: 8px;
-      transition: opacity 0.15s; margin-top: 0.25rem;
-    }
-    .demo-link:hover { opacity: 0.88; }
+    .mock-set-btn-l { background: #1A5C36; color: #fff; border: none; border-radius: 4px; padding: .2rem .42rem; font-size: .58rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
 
-    /* ===== About ===== */
+    .mock-bousai-l { width: 100%; font-size: .66rem; }
+    .mock-pref-l { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: .23rem .5rem; color: var(--sub); font-size: .63rem; margin-bottom: .46rem; display: inline-flex; align-items: center; gap: .25rem; }
+    .mock-chk-l { display: flex; align-items: flex-start; gap: .38rem; padding: .22rem 0; border-bottom: 1px solid var(--border); font-size: .62rem; color: var(--muted); }
+    .mock-chk-l.done { color: #1A5C36; }
+    .mock-chk-box-l { width: 13px; height: 13px; border-radius: 3px; border: 1.5px solid currentColor; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: .5rem; }
+    .mock-guide-l { display: flex; gap: .3rem; margin-top: .42rem; flex-wrap: wrap; }
+    .mock-chip-l { background: var(--bg2); border: 1px solid var(--border); border-radius: 5px; padding: .18rem .38rem; font-size: .58rem; color: var(--navy-m); }
+
+    .mock-line-wrap { width: 100%; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .mock-line-hd { background: #06C755; padding: .42rem .65rem; color: #fff; font-size: .65rem; font-weight: 700; display: flex; align-items: center; gap: .3rem; }
+    .mock-line-body { background: #D9EDDA; padding: .55rem .5rem; display: flex; flex-direction: column; gap: .32rem; min-height: 100px; }
+    .ml-user { align-self: flex-end; background: #fff; border-radius: 14px 14px 2px 14px; padding: .3rem .52rem; font-size: .61rem; color: var(--text); max-width: 78%; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+    .ml-bot { align-self: flex-start; background: #fff; border-radius: 2px 14px 14px 14px; padding: .4rem .58rem; font-size: .6rem; color: var(--text); max-width: 90%; box-shadow: 0 1px 3px rgba(0,0,0,0.08); line-height: 1.65; }
+    .ml-green { color: #06C755; font-weight: 700; }
+    .ml-hr { border: none; border-top: 1px dashed rgba(0,0,0,0.12); margin: .16rem 0; }
+    .ml-muted { color: #8A9BA8; font-size: .57rem; }
+
+    /* ══════════════════════════════════
+       ABOUT
+    ══════════════════════════════════ */
     #about { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .about-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
     @media(max-width:680px){ .about-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
-    .about-text p { color: var(--sub); font-size: 0.9rem; line-height: 1.85; margin-bottom: 0.9rem; }
+    .about-text p { color: var(--sub); font-size: 0.9rem; line-height: 1.9; margin-bottom: 0.9rem; }
     .about-text p:last-child { margin-bottom: 0; }
     .story-quote {
       border-left: 3px solid var(--accent); padding: 0.7rem 1rem;
       background: var(--bg2); border-radius: 0 8px 8px 0;
-      font-size: 0.88rem; color: var(--sub); line-height: 1.75;
-      margin: 1rem 0; font-style: italic;
+      font-size: 0.88rem; color: var(--sub); line-height: 1.75; margin: 1rem 0; font-style: italic;
     }
     .value-cards { display: flex; flex-direction: column; gap: 0.7rem; }
     .value-card {
       background: var(--bg); border: 1px solid var(--border);
       border-radius: 10px; padding: 0.85rem 1.1rem;
       display: flex; align-items: flex-start; gap: 0.8rem;
+      transition: box-shadow 0.22s, transform 0.22s;
     }
+    .value-card:hover { box-shadow: 0 4px 14px rgba(58,110,168,0.11); transform: translateY(-1px); }
     .vi-wrap {
       width: 34px; height: 34px; flex-shrink: 0;
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--accent);
+      background: var(--card); border: 1px solid var(--border); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center; color: var(--accent);
     }
     .vi-wrap .ic { width: 17px; height: 17px; }
     .value-label { font-size: 0.81rem; font-weight: 700; color: var(--text); }
     .value-text { font-size: 0.76rem; color: var(--muted); line-height: 1.55; margin-top: 0.12rem; }
 
-    /* ===== Works ===== */
+    /* ══════════════════════════════════
+       WORKS
+    ══════════════════════════════════ */
     #works { background: var(--bg); }
-    .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px,1fr)); gap: 1.2rem; }
+    .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.3rem; }
     .work-card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 16px;
       overflow: hidden; display: flex; flex-direction: column;
-      transition: box-shadow 0.2s, border-color 0.2s;
+      transition: box-shadow 0.25s, transform 0.25s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
     }
-    .work-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); border-color: #CBD5E1; }
-    .work-thumb { padding: 0.9rem 1.1rem 0.8rem; display: flex; flex-direction: column; gap: 0.45rem; }
-    .thumb-emoji { font-size: 1.55rem; }
-    .thumb-flow { display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; }
-    .thumb-node {
-      background: rgba(255,255,255,0.55); border-radius: 5px;
-      padding: 0.18rem 0.48rem; font-size: 0.6rem; font-weight: 600; color: #1E2A38;
+    .work-card:hover { box-shadow: 0 10px 32px rgba(0,0,0,0.10); transform: translateY(-3px); }
+    .work-thumb {
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      padding: 1.15rem; min-height: 188px;
+      display: flex; align-items: flex-start; justify-content: center;
     }
-    .thumb-arrow { font-size: 0.62rem; color: rgba(30,42,56,0.35); }
-    .work-body { padding: 1rem 1.2rem 1.2rem; flex: 1; display: flex; flex-direction: column; gap: 0.7rem; }
-    .work-cat { font-size: 0.66rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
-    .work-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; color: var(--text); }
+    .work-body { padding: 1rem 1.2rem 1.25rem; flex: 1; display: flex; flex-direction: column; gap: 0.65rem; }
+    .work-cat { font-size: 0.65rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; }
+    .work-title { font-size: 0.96rem; font-weight: 700; line-height: 1.3; color: var(--text); }
     .work-desc { font-size: 0.82rem; color: var(--sub); line-height: 1.68; }
     .story { display: flex; flex-direction: column; gap: 0.38rem; border-top: 1px solid var(--border); padding-top: 0.7rem; }
     .story-row { display: flex; gap: 0.5rem; align-items: flex-start; }
-    .s-label {
-      font-size: 0.62rem; font-weight: 700; white-space: nowrap; flex-shrink: 0;
-      padding: 0.14rem 0.38rem; border-radius: 4px; margin-top: 0.18rem;
-    }
+    .s-label { font-size: 0.62rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; padding: 0.14rem 0.38rem; border-radius: 4px; margin-top: 0.18rem; }
     .s-label.q { background: #FEE2E2; color: #991B1B; }
     .s-label.a { background: #DCFCE7; color: #166534; }
-    .s-label.p { background: #EEF2FF; color: #3730A3; }
+    .s-label.p { background: #DDE8F8; color: #274868; }
     .s-text { font-size: 0.78rem; color: var(--sub); line-height: 1.6; }
     .work-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
     .tag { font-size: 0.67rem; font-weight: 500; padding: 0.17rem 0.5rem; border-radius: 4px; }
@@ -380,88 +627,82 @@
     .tag-api  { background:#EDE9FE; color:#5B21B6; }
     .tag-html { background:#FEE2E2; color:#991B1B; }
     .tag-ai   { background:#FEF3C7; color:#92400E; }
-    .tag-tool { background:#E0F2FE; color:#075985; }
+    .tag-tool { background:#DDE8F8; color:#274868; }
     .work-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; border-top: 1px solid var(--border); padding-top: 0.75rem; }
     .work-link {
       flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.3rem;
-      background: var(--accent); color: #fff;
-      font-weight: 700; font-size: 0.81rem;
-      padding: 0.58rem 0.9rem; border-radius: 7px;
-      transition: opacity 0.15s;
+      background: var(--accent); color: #fff; font-weight: 700; font-size: 0.81rem;
+      padding: 0.58rem 0.9rem; border-radius: 8px;
+      transition: opacity 0.15s, transform 0.15s;
     }
-    .work-link:hover { opacity: 0.88; }
+    .work-link:hover { opacity: 0.88; transform: translateY(-1px); }
+    .work-link .btn-arrow { transition: transform 0.22s; }
+    .work-link:hover .btn-arrow { transform: translateX(4px); }
     .detail-btn {
       display: inline-flex; align-items: center; gap: 0.3rem;
       font-size: 0.76rem; font-weight: 600; color: var(--navy-m);
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 7px; padding: 0.58rem 0.85rem; cursor: pointer;
-      transition: background 0.15s;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.58rem 0.85rem; cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
     }
-    .detail-btn:hover { background: var(--border); }
+    .detail-btn:hover { background: var(--bg2); border-color: var(--accent); }
 
-    /* ===== Contact ===== */
-    #contact {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      padding: 6rem 1.25rem;
-    }
-    .contact-inner {
-      max-width: 600px; margin: 0 auto; text-align: center;
-    }
+    /* ══════════════════════════════════
+       CONTACT
+    ══════════════════════════════════ */
+    #contact { background: var(--navy); padding: 6.5rem 1.25rem; }
+    .contact-inner { max-width: 580px; margin: 0 auto; text-align: center; }
     .contact-eyebrow {
       font-family: 'Inter', sans-serif; font-size: 0.68rem; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent);
-      margin-bottom: 0.6rem;
+      text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255,255,255,0.45);
+      margin-bottom: 0.7rem; display: block;
     }
-    .contact-box {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 2.75rem 2.5rem;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+    .contact-h2 {
+      font-family: 'Inter', sans-serif; font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+      font-weight: 800; color: #F0F4F8; line-height: 1.4; margin-bottom: 1.1rem;
     }
-    @media(max-width:500px){ .contact-box { padding: 2rem 1.5rem; } }
-    .contact-quote {
-      font-size: clamp(1.1rem, 3vw, 1.35rem);
-      font-weight: 700; color: var(--text);
-      line-height: 1.45; margin-bottom: 1.1rem;
+    .contact-h2 span { color: #7DB3D8; }
+    .contact-desc { font-size: 0.88rem; color: #7A96B4; line-height: 1.9; margin-bottom: 2rem; }
+    .contact-badges {
+      display: flex; justify-content: center; gap: 0.55rem; flex-wrap: wrap; margin-bottom: 2rem;
     }
-    .contact-quote span {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--accent), var(--accent-l));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .contact-desc {
-      font-size: 0.88rem; color: var(--sub); line-height: 1.85;
-      margin-bottom: 1.75rem;
+    .contact-badge {
+      display: inline-flex; align-items: center; gap: 0.28rem;
+      background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 6px; padding: 0.3rem 0.7rem;
+      font-size: 0.72rem; color: #94AECA;
     }
     .contact-main-btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--accent); color: #fff;
-      font-weight: 700; font-size: 0.95rem;
-      padding: 0.9rem 2rem; border-radius: 12px;
-      box-shadow: 0 4px 14px rgba(201,106,56,0.28);
-      transition: opacity 0.15s, transform 0.15s;
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      background: #fff; color: var(--navy);
+      font-weight: 700; font-size: 1rem;
+      padding: 1.05rem 2.5rem; border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
       margin-bottom: 1.1rem;
     }
-    .contact-main-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-    .contact-main-btn .ic { color: #fff; width: 16px; height: 16px; }
-    .contact-note {
-      font-size: 0.76rem; color: var(--muted);
-    }
+    .contact-main-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.35); }
+    .contact-main-btn .btn-arrow { transition: transform 0.22s; }
+    .contact-main-btn:hover .btn-arrow { transform: translateX(4px); }
+    .contact-note { font-size: 0.76rem; color: rgba(255,255,255,0.3); }
 
-    /* ===== Footer ===== */
-    footer { background: var(--navy); color: #475569; text-align: center; padding: 1.4rem; font-size: 0.78rem; }
+    /* ══════════════════════════════════
+       FOOTER
+    ══════════════════════════════════ */
+    footer { background: rgba(0,0,0,0.25); color: #364B62; text-align: center; padding: 1.5rem; font-size: 0.78rem; }
 
-    /* ===== Modal ===== */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
+    /* ══════════════════════════════════
+       MODAL
+    ══════════════════════════════════ */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.42); backdrop-filter: blur(4px); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
     .modal-overlay.open { display: flex; }
-    .modal-box { background: var(--card); border-radius: 16px; padding: 2rem; max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
+    .modal-box { background: var(--card); border-radius: 18px; padding: 2rem; max-width: 540px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.18); }
     .modal-close { position: absolute; top: 1rem; right: 1rem; background: var(--bg2); border: none; border-radius: 6px; width: 30px; height: 30px; font-size: 0.9rem; cursor: pointer; color: var(--muted); display: flex; align-items: center; justify-content: center; }
     .modal-close:hover { background: var(--border); }
     .modal-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem; }
     .modal-icon { font-size: 1.5rem; background: var(--bg2); border-radius: 10px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .modal-title { font-size: 1.1rem; font-weight: 700; }
-    .modal-summary { font-size: 0.87rem; color: var(--sub); background: var(--bg); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin-bottom: 1.25rem; line-height: 1.75; }
+    .modal-summary { font-size: 0.87rem; color: var(--sub); background: var(--bg2); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 0.7rem 1rem; margin-bottom: 1.25rem; line-height: 1.75; }
     .flow-label-s { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem; }
     .flow-list { display: flex; flex-direction: column; }
     .flow-item { display: flex; align-items: flex-start; gap: 0.9rem; }
@@ -476,8 +717,10 @@
     .modal-open { display: block; margin-top: 1.1rem; text-align: center; background: var(--accent); color: #fff; border-radius: 8px; padding: 0.75rem 1.5rem; font-weight: 700; font-size: 0.88rem; transition: opacity 0.15s; }
     .modal-open:hover { opacity: 0.88; }
 
-    /* ===== Scroll fade ===== */
-    .fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    /* ══════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════ */
+    .fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.58s ease, transform 0.58s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
 
     ::-webkit-scrollbar { width: 4px; }
@@ -492,13 +735,13 @@
   <div class="nav-logo">Yuko_k</div>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#demo">デモ</a></li>
+    <li><a href="#how-it-works">仕組み</a></li>
     <li><a href="#works">Works</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- Hero -->
+<!-- ═══ HERO ═══ -->
 <section id="hero">
   <div class="hero-wrap">
     <div class="hero-left">
@@ -510,7 +753,6 @@
         「入力」「通知」「集計」の繰り返し作業をなくすツールを作っています。
       </p>
 
-      <!-- Flow bar -->
       <div class="hero-flow-bar">
         <span class="flow-it">
           <svg class="ic" viewBox="0 0 20 20"><path d="M17 9c0-3.87-3.13-7-7-7S3 5.13 3 9c0 2.1 1 4 2.6 5.3L5 17l2.8-1.4C8.5 15.87 9.23 16 10 16c3.87 0 7-3.13 7-7z"/></svg>
@@ -528,65 +770,222 @@
         </span>
       </div>
 
-      <!-- 3 feature cards -->
       <div class="hero-features">
         <div class="feat-card">
-          <div class="feat-ic-wrap">
-            <svg class="ic" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M7 6.5l3 4.5 3-4.5"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="7" y1="12.5" x2="13" y2="12.5"/></svg>
-          </div>
+          <div class="feat-ic-wrap"><svg class="ic" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M7.5 10.5l2 2 3-3"/></svg></div>
           <div class="feat-label">月額コスト ¥0</div>
           <div class="feat-sub">GAS・無料APIで運用</div>
         </div>
         <div class="feat-card">
-          <div class="feat-ic-wrap">
-            <svg class="ic" viewBox="0 0 20 20"><rect x="6" y="2" width="8" height="16" rx="2"/><circle cx="10" cy="15.5" r="0.7" fill="currentColor" stroke="none"/></svg>
-          </div>
+          <div class="feat-ic-wrap"><svg class="ic" viewBox="0 0 20 20"><rect x="6" y="2" width="8" height="16" rx="2"/><circle cx="10" cy="15.5" r="0.7" fill="currentColor" stroke="none"/></svg></div>
           <div class="feat-label">スマホ完結</div>
           <div class="feat-sub">外出先でも簡単操作</div>
         </div>
         <div class="feat-card">
-          <div class="feat-ic-wrap">
-            <svg class="ic" viewBox="0 0 20 20"><path d="M14.5 3a3.5 3.5 0 0 0-3.46 4l-6 6a1.5 1.5 0 0 0 2.12 2.12l6-6A3.5 3.5 0 0 0 18 5.5a3.5 3.5 0 0 0-.4-1.6l-2.3 2.3L14 5l2.1-2.1A3.5 3.5 0 0 0 14.5 3z"/></svg>
-          </div>
+          <div class="feat-ic-wrap"><svg class="ic" viewBox="0 0 20 20"><path d="M2 10s3.3-6 8-6 8 6 8 6-3.3 6-8 6-8-6-8-6z"/><circle cx="10" cy="10" r="2.5"/></svg></div>
           <div class="feat-label">現場目線で設計</div>
           <div class="feat-sub">使いやすさを最優先</div>
         </div>
       </div>
 
       <div class="hero-cta">
-        <a href="#demo" class="btn btn-primary">デモを触ってみる →</a>
+        <a href="#how-it-works" class="btn btn-primary">仕組みを見る <span class="btn-arrow">→</span></a>
         <a href="#works" class="btn btn-ghost">実績を見る</a>
       </div>
     </div>
 
-    <!-- Avatar -->
     <div class="hero-avatar-wrap">
       <div class="hero-avatar-bg"></div>
-      <img
-        src="./avatar.png"
-        alt="Yuko_k"
-        class="hero-avatar-img"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-      />
+      <img id="avatar-parallax" src="./avatar.png" alt="Yuko_k" class="hero-avatar-img"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
       <div class="hero-avatar-img-fallback" style="display:none;">
-        <svg width="40" height="40" viewBox="0 0 20 20" fill="none" stroke="#C96A38" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.5rem"><circle cx="10" cy="7" r="3.5"/><path d="M3 17c0-3.31 3.13-6 7-6s7 2.69 7 6"/></svg>
-        <div style="font-size:0.7rem;color:#7A8FA0">avatar.png を<br>リポジトリに追加</div>
+        <svg width="40" height="40" viewBox="0 0 20 20" fill="none" stroke="#3A6EA8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:0.5rem"><circle cx="10" cy="7" r="3.5"/><path d="M3 17c0-3.31 3.13-6 7-6s7 2.69 7 6"/></svg>
+        <div style="font-size:0.7rem;color:#697E98">avatar.png を<br>リポジトリに追加</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Demo -->
-<section id="demo">
+<!-- ═══ BEFORE / AFTER ═══ -->
+<section id="before-after">
   <div class="container">
-    <p class="sec-eyebrow fade-in">Live Demo</p>
-    <h2 class="sec-title fade-in" style="color:#F1F5F9;">実際に触れるデモ</h2>
-    <p class="demo-sub fade-in">ブラウザ上で動作確認できます。</p>
-    <div class="demo-grid" id="demo-grid"></div>
+    <p class="sec-eyebrow fade-in">Before / After</p>
+    <h2 class="sec-title fade-in">作業の流れを減らします</h2>
+    <p class="ba-sub fade-in">ツールを入れることで、現場の手作業がこう変わります</p>
+
+    <div class="ba-cols fade-in">
+
+      <!-- Before -->
+      <div class="ba-col before">
+        <div class="ba-col-head">
+          <span class="ba-col-label">Before</span>
+          <span class="ba-col-hint">手作業・口頭・後追い</span>
+        </div>
+        <div class="ba-steps">
+          <div class="ba-step">
+            <div class="ba-step-dot">1</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">注文確認</div>
+              <div class="ba-step-sub">口頭・メモ・記憶で対応</div>
+            </div>
+          </div>
+          <div class="ba-step">
+            <div class="ba-step-dot">2</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">口頭でセット説明</div>
+              <div class="ba-step-sub">伝わらないことも、言い忘れも多い</div>
+            </div>
+          </div>
+          <div class="ba-step">
+            <div class="ba-step-dot">3</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">手入力で記録</div>
+              <div class="ba-step-sub">忙しいと後回し → 記録漏れ</div>
+            </div>
+          </div>
+          <div class="ba-step">
+            <div class="ba-step-dot">4</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">手動で集計</div>
+              <div class="ba-step-sub">時間がかかる・ミスが起きやすい</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Separator -->
+      <div class="ba-sep">
+        <div class="ba-sep-circle">→</div>
+        <div class="ba-sep-label">自動化</div>
+      </div>
+
+      <!-- After -->
+      <div class="ba-col after">
+        <div class="ba-col-head">
+          <span class="ba-col-label">After</span>
+          <span class="ba-col-hint">タップ・自動・リアルタイム</span>
+        </div>
+        <div class="ba-steps">
+          <div class="ba-step">
+            <div class="ba-step-dot">1</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">注文タップ</div>
+              <div class="ba-step-sub">商品ボタンを押すだけで合計が出る</div>
+            </div>
+          </div>
+          <div class="ba-step">
+            <div class="ba-step-dot">2</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">セット自動提案</div>
+              <div class="ba-step-sub">「¥80割引になります」と画面が表示</div>
+            </div>
+          </div>
+          <div class="ba-step">
+            <div class="ba-step-dot">3</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">自動で記録・通知</div>
+              <div class="ba-step-sub">スプレッドシートに即書き込み</div>
+            </div>
+          </div>
+          <div class="ba-step">
+            <div class="ba-step-dot">4</div>
+            <div class="ba-step-body">
+              <div class="ba-step-label">リアルタイム集計</div>
+              <div class="ba-step-sub">売上・件数がいつでも確認できる</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
-<!-- About -->
+<!-- ═══ HOW IT WORKS — 導入イメージ ═══ -->
+<section id="how-it-works">
+  <div class="container">
+    <p class="sec-eyebrow fade-in">How It Works</p>
+    <h2 class="sec-title fade-in">どんな仕組みで動くか</h2>
+    <p class="hiw-sub fade-in">LINEから始まり、スプレッドシートまで自動でつながります</p>
+
+    <div class="hiw-steps">
+
+      <div class="hiw-step fade-in" style="transition-delay:.05s">
+        <div class="hiw-num">1</div>
+        <div class="hiw-mock" style="display:flex;flex-direction:column;gap:.28rem;">
+          <div class="hm-bubble-user">ランチ 800円</div>
+          <div class="hm-bubble-user" style="font-size:.57rem;opacity:.65;margin-top:.1rem">タップで注文</div>
+        </div>
+        <div class="hiw-label">LINE / 画面で操作</div>
+        <div class="hiw-sub2">送信・タップするだけ。専用アプリ不要</div>
+      </div>
+
+      <div class="hiw-step fade-in" style="transition-delay:.13s">
+        <div class="hiw-num">2</div>
+        <div class="hiw-mock" style="align-items:center;justify-content:center;flex-direction:column;">
+          <div style="font-size:1.8rem;color:var(--accent);opacity:.75">⚡</div>
+          <div class="hm-gear-label">GAS が自動処理<br>AI・API 連携</div>
+        </div>
+        <div class="hiw-label">GAS が自動処理</div>
+        <div class="hiw-sub2">AI・API・ルールを組み合わせて即判定</div>
+      </div>
+
+      <div class="hiw-step fade-in" style="transition-delay:.21s">
+        <div class="hiw-num">3</div>
+        <div class="hiw-mock" style="flex-direction:column;justify-content:flex-start;">
+          <div class="hm-sheet-head"><span>日付</span><span>内容</span><span>金額</span></div>
+          <div class="hm-sheet-row"><span>5/15</span><span>ランチ</span><span>¥800</span></div>
+          <div class="hm-sheet-row"><span>5/15</span><span>交通費</span><span>¥230</span></div>
+          <div class="hm-sheet-row" style="opacity:.45"><span>…</span><span></span><span></span></div>
+        </div>
+        <div class="hiw-label">スプレッドシートに記録</div>
+        <div class="hiw-sub2">日時・内容・分類を自動で追記</div>
+      </div>
+
+      <div class="hiw-step fade-in" style="transition-delay:.29s">
+        <div class="hiw-num">4</div>
+        <div class="hiw-mock" style="flex-direction:column;gap:.3rem;">
+          <div class="hm-notify">
+            <span style="color:#06C755;font-weight:700">✅ 経費OK</span><br>
+            【接待交際費】<br>
+            <span style="font-size:.56rem;color:#4A7060">記録しました 📊</span>
+          </div>
+        </div>
+        <div class="hiw-label">結果が届く</div>
+        <div class="hiw-sub2">LINEに自動返信。確認もここで完結</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEMO ═══ -->
+<section id="demo">
+  <div class="container">
+    <div class="demo-header">
+      <p class="sec-eyebrow fade-in">Auto Demo</p>
+      <h2 class="sec-title fade-in">現場の作業をここまで減らせます</h2>
+    </div>
+    <p class="demo-header-sub fade-in">注文 → 提案 → 会計 → 集計 → 保存を自動化した例</p>
+
+    <div class="pos-player fade-in">
+      <div class="pos-steps-bar" id="pos-steps-bar"></div>
+      <div class="pos-progress-bar"><div class="pos-progress-fill" id="pos-progress"></div></div>
+      <div class="pos-screen" id="pos-screen"></div>
+      <div class="pos-caption" id="pos-caption"></div>
+    </div>
+
+    <div class="demo-cta" id="demo-cta">
+      <div class="demo-cta-q">他の業務も自動化できますか？</div>
+      <div class="demo-cta-btns">
+        <a href="mailto:yuuy3386@gmail.com" class="btn btn-primary">相談してみる <span class="btn-arrow">→</span></a>
+        <a href="#works" class="btn btn-ghost">実際の事例を見る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
 <section id="about">
   <div class="container">
     <p class="sec-eyebrow fade-in">About</p>
@@ -597,43 +996,30 @@
         <blockquote class="story-quote">「自分が実際に使う」を前提に設計すると、本当に必要なものだけが残ります。</blockquote>
         <p>その経験から、LINE・スプレッドシート・GASを組み合わせた業務効率化ツールを作り続けています。</p>
       </div>
-      <!-- Value cards — SVG icons -->
       <div class="value-cards fade-in">
         <div class="value-card">
-          <div class="vi-wrap">
-            <!-- eye -->
-            <svg class="ic" viewBox="0 0 20 20"><path d="M2 10s3.3-6 8-6 8 6 8 6-3.3 6-8 6-8-6-8-6z"/><circle cx="10" cy="10" r="2.5"/></svg>
-          </div>
+          <div class="vi-wrap"><svg class="ic" viewBox="0 0 20 20"><path d="M2 10s3.3-6 8-6 8 6 8 6-3.3 6-8 6-8-6-8-6z"/><circle cx="10" cy="10" r="2.5"/></svg></div>
           <div>
             <div class="value-label">使う人の目線で設計</div>
             <div class="value-text">忙しい場面でも迷わない・説明書なしで使えることを最優先にしています。</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="vi-wrap">
-            <!-- play -->
-            <svg class="ic" viewBox="0 0 20 20"><polygon points="6,4 16,10 6,16"/></svg>
-          </div>
+          <div class="vi-wrap"><svg class="ic" viewBox="0 0 20 20"><polygon points="6,4 16,10 6,16"/></svg></div>
           <div>
             <div class="value-label">まず動かして試す</div>
             <div class="value-text">完璧な設計より、実際に使って改善するサイクルを回しています。</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="vi-wrap">
-            <!-- link -->
-            <svg class="ic" viewBox="0 0 20 20"><path d="M8.5 11.5a4 4 0 0 0 5.66 0l2-2a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M11.5 8.5a4 4 0 0 0-5.66 0l-2 2a4 4 0 0 0 5.66 5.66l1-1"/></svg>
-          </div>
+          <div class="vi-wrap"><svg class="ic" viewBox="0 0 20 20"><path d="M8.5 11.5a4 4 0 0 0 5.66 0l2-2a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M11.5 8.5a4 4 0 0 0-5.66 0l-2 2a4 4 0 0 0 5.66 5.66l1-1"/></svg></div>
           <div>
             <div class="value-label">使い慣れたツールと連携</div>
             <div class="value-text">LINEやスプレッドシートを入口に。新アプリを覚えなくても使える設計。</div>
           </div>
         </div>
         <div class="value-card">
-          <div class="vi-wrap">
-            <!-- shield check -->
-            <svg class="ic" viewBox="0 0 20 20"><path d="M10 2L4 5v5c0 4 3.5 6.3 6 7.5 2.5-1.2 6-3.5 6-7.5V5l-6-3z"/><polyline points="7.5,10 9.5,12 12.5,8"/></svg>
-          </div>
+          <div class="vi-wrap"><svg class="ic" viewBox="0 0 20 20"><path d="M10 2L4 5v5c0 4 3.5 6.3 6 7.5 2.5-1.2 6-3.5 6-7.5V5l-6-3z"/><polyline points="7.5,10 9.5,12 12.5,8"/></svg></div>
           <div>
             <div class="value-label">月額コストゼロ</div>
             <div class="value-text">GAS・無料API・GitHub Pagesを組み合わせてランニングコストを抑えます。</div>
@@ -644,7 +1030,7 @@
   </div>
 </section>
 
-<!-- Works -->
+<!-- ═══ WORKS ═══ -->
 <section id="works">
   <div class="container">
     <p class="sec-eyebrow fade-in">Works</p>
@@ -653,26 +1039,27 @@
   </div>
 </section>
 
-<!-- Contact -->
+<!-- ═══ CONTACT ═══ -->
 <section id="contact">
   <div class="contact-inner">
     <p class="contact-eyebrow fade-in">Contact</p>
-    <div class="contact-box fade-in">
-      <p class="contact-quote">
-        <span>「こんなこと、自動化できますか？」</span><br>
-        そのご相談もお気軽にどうぞ。
-      </p>
-      <p class="contact-desc">
-        業務の流れがまだ整理できていない段階でも大丈夫です。<br>
-        現場に合わせて一緒に考えながら、必要なものを形にしていきます。
-      </p>
-      <a href="mailto:yuuy3386@gmail.com" class="contact-main-btn">
-        <!-- mail icon -->
-        <svg class="ic" viewBox="0 0 20 20"><rect x="2" y="5" width="16" height="12" rx="2"/><path d="M2 7l8 5 8-5"/></svg>
-        業務の自動化について相談する
-      </a>
-      <p class="contact-note">返信は通常1〜2営業日以内にお送りしています</p>
+    <h2 class="contact-h2 fade-in">
+      「こんなこと、<span>自動化できますか？</span>」<br>
+      その相談もお気軽にどうぞ。
+    </h2>
+    <p class="contact-desc fade-in">
+      業務の流れが整理できていない段階でも大丈夫です。<br>
+      現場に合わせて一緒に考えながら形にします。
+    </p>
+    <div class="contact-badges fade-in">
+      <span class="contact-badge">📅 返信 1〜2営業日以内</span>
+      <span class="contact-badge">💬 相談・見積もり無料</span>
+      <span class="contact-badge">🔧 小さな依頼も歓迎</span>
     </div>
+    <a href="mailto:yuuy3386@gmail.com" class="contact-main-btn fade-in">
+      業務効率化について相談する <span class="btn-arrow">→</span>
+    </a>
+    <p class="contact-note fade-in">まずは「こんな課題があって…」という一言からでも</p>
   </div>
 </section>
 
@@ -687,189 +1074,422 @@
 <footer><p>© 2026 Yuko_k</p></footer>
 
 <script>
-const DEMOS = [
-  {
-    mockType: 'pos',
-    forWho: 'キッチンカー運営者向け',
-    title: 'キッチンカー向けPOSツール',
-    desc: '商品タップで合計計算・セット自動提案・電卓でお釣り表示まで完結。Google Apps Script経由でスプレッドシートに自動記録。',
-    tags: ['JavaScript', 'Google Apps Script'],
-    url: 'https://yuuy3386.github.io/kitchen-car-demo/',
-    emoji: '🚚',
-  },
-  {
-    mockType: 'bousai',
-    forWho: '家族・ペット飼育者向け',
-    title: '防災チェック・行動ガイド',
-    desc: '都道府県を選ぶと公式防災リンクが切り替わる。地震・水害・ペット同伴の行動ガイドがオフラインで動きます。',
-    tags: ['JavaScript', 'Open-Meteo API'],
-    url: 'https://yuuy3386.github.io/bousai-check-app/',
-    emoji: '🛡️',
-  },
-];
-
-const PROJECTS = [
-  {
-    emoji: '🚚',
-    category: 'Webアプリ / 業務効率化',
-    title: 'キッチンカー向けPOSツール',
-    desc: '混雑時の会計・在庫・売上管理をスマホ一台で完結させる現場向けツール。',
-    challenge: '混雑時に会計・セット提案・売上記録が手作業になり、ミスや記録漏れが発生していた。',
-    solution: '商品タップで合計計算・セット自動提案・スプレッドシート記録まで自動化。GASをWebアプリとしてデプロイし、ボタン一つで実際のスプレッドシートにデータ送信。',
-    innovation: 'スマホ操作前提で電卓式キーパッドを採用。月次CSV出力・原価管理・セット割引を一画面に集約。',
-    tags: [{ label:'JavaScript', cls:'tag-js' }, { label:'HTML/CSS', cls:'tag-html' }, { label:'Google Apps Script', cls:'tag-gas' }],
-    url: 'https://yuuy3386.github.io/kitchen-car-demo/',
-    github: '',
-    thumbColor: 'linear-gradient(135deg, #FEF3C7 0%, #FED7AA 100%)',
-    thumbFlow: ['商品タップ', 'セット自動判定', 'スプレッドシート記録'],
-  },
-  {
-    emoji: '🛡️',
-    category: 'Webアプリ / 防災',
-    title: '防災チェック・行動ガイド',
-    desc: '「いざというとき何をすればいい？」をスマホ一つで確認できる、地域対応の防災サポートアプリ。',
-    challenge: '防災情報は自治体ごとに異なるが、まとめてアクセスできる手軽なツールがなかった。',
-    solution: '47都道府県対応の公式リンク自動切り替え・天気API連携・シーン別チェックリストを1ページに統合。',
-    innovation: 'ペット同伴避難シーン・家族構成別リスト・PWAオフライン対応など実用面を作り込んだ。',
-    tags: [{ label:'JavaScript', cls:'tag-js' }, { label:'Open-Meteo API', cls:'tag-api' }, { label:'PWA', cls:'tag-tool' }],
-    url: 'https://yuuy3386.github.io/bousai-check-app/',
-    github: '',
-    thumbColor: 'linear-gradient(135deg, #DBEAFE 0%, #C7D2FE 100%)',
-    thumbFlow: ['都道府県選択', '公式リンク切替', 'チェックリスト'],
-  },
-  {
-    emoji: '💴',
-    category: 'LINE Bot / AI自動化',
-    title: 'おかねのせんせい',
-    desc: 'LINEに「ランチ800円」と送るだけ。AIが経費を自動判定してスプレッドシートに記録。月額0円。',
-    challenge: '個人事業主が経費を記録する手間が大きく、後からまとめて入力するため漏れが起きやすい。',
-    solution: 'LINEに自然文を送るだけで、Groq AIが勘定科目を自動判定。スプレッドシートへの記録とLINE返信まで全自動化。',
-    innovation: 'APIキー不要の無料AIを選定し、月額0円を実現。WebダッシュボードでCSV確認できる構成にした。',
-    tags: [{ label:'LINE API', cls:'tag-line' }, { label:'Google Apps Script', cls:'tag-gas' }, { label:'Groq AI', cls:'tag-ai' }],
-    url: 'https://script.google.com/macros/s/AKfycbyMW9JRxUsN9D_fptxgDZtje5VESdyLyQsuYG4yel28v0GMAB2jvfgGTs6kmXX9r3I/exec',
-    github: '',
-    thumbColor: 'linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%)',
-    thumbFlow: ['LINE送信', 'AI判定', 'スプレッドシート記録'],
-    detail: {
-      oneliner: 'LINEに「ランチ 800円」と送るだけ。AIが経費かどうかを判定して、スプレッドシートに自動記録。月額0円の経費管理ツール。',
-      flow: [
-        { emoji:'📱', label:'あなた（LINE）', desc:'「ランチ 800円」とLINEで送る' },
-        { emoji:'📨', label:'LINE Messaging API', desc:'メッセージを受け取り、次のステップへ届ける' },
-        { emoji:'⚙️', label:'Google Apps Script', desc:'AI問い合わせ・記録・返信をすべて管理。サーバー不要で無料' },
-        { emoji:'🤖', label:'Groq AI（llama-3.3-70b）', desc:'「経費になるか？ なるなら何の科目？」を判定して結果を返す' },
-        { emoji:'📊', label:'Googleスプレッドシート', desc:'日付・内容・金額・勘定科目・理由を自動で追記' },
-        { emoji:'💬', label:'LINE返信', desc:'「✅ 経費OK【接待交際費】」など判定結果がLINEに届く' },
-        { emoji:'🌐', label:'Webダッシュボード', desc:'URLを開くだけで今月の支出一覧・経費合計が確認できる' },
-      ],
-    },
-  },
-  {
-    emoji: '📰',
-    category: 'LINE Bot / AI自動化',
-    title: 'ニュースBot',
-    desc: '設定したらほったらかしでOK。AIがニュースを要約して毎朝LINEに自動配信。月額0円。',
-    challenge: 'ニュースを毎朝確認したいが時間がない。読んで終わりではなく、自分ごととして捉えられる形で届けたかった。',
-    solution: 'NHK RSSを毎朝自動取得し、Groq AIで「3行で説明」「生活・仕事との関係」「今日の視点」の形式に要約してLINEへ1通配信。子ども向け要約はスプレッドシートとWebで保持。',
-    innovation: '出力フォーマットをv3で刷新。読み流せる構成から"気づきが残る"構成に改善。毎週日曜の週まとめ配信・カテゴリフィルター付きWebダッシュボードも実装。APIキー不要で月額0円を維持。',
-    tags: [{ label:'LINE API', cls:'tag-line' }, { label:'Google Apps Script', cls:'tag-gas' }, { label:'Groq AI', cls:'tag-ai' }, { label:'NHK RSS', cls:'tag-tool' }],
-    url: 'https://script.google.com/macros/s/AKfycbzFfoOGnzphvlH53r5XmuwJ-kUwmPXap47d6wijBURu2l5NgjmCmefNM10Qa43Pfd1E/exec',
-    github: '',
-    thumbColor: 'linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%)',
-    thumbFlow: ['NHK RSS取得', 'AI要約', 'LINEに配信'],
-    detail: {
-      oneliner: '設定したらほったらかしでOK。AIがニュースを「3行で説明＋生活との関係＋今日の視点」の形式で要約して毎朝LINEに1通配信。月額0円。',
-      flow: [
-        { emoji:'📡', label:'NHK RSSフィード（毎朝7時・自動）', desc:'最新の経済・社会ニュースを自動取得。APIキー不要・無料' },
-        { emoji:'⚙️', label:'Google Apps Script', desc:'AI問い合わせ・記録・配信まですべてを担当。サーバー不要で無料' },
-        { emoji:'🤖', label:'Groq AI（llama-3.1-8b-instant）', desc:'「3行で説明」「生活・仕事との関係」「今日の視点」の形式で要約' },
-        { emoji:'📊', label:'Googleスプレッドシート', desc:'配信日時・カテゴリ・大人向け/子ども向け要約をすべて自動記録' },
-        { emoji:'💬', label:'LINEにプッシュ配信（大人向け1通）', desc:'毎朝「今日のニュース」が1通届く。子ども向け要約はWebで確認可' },
-        { emoji:'🌐', label:'Webダッシュボード', desc:'カテゴリフィルター・大人/子ども切り替えで配信履歴を確認' },
-      ],
-      flow2: {
-        label: '毎週日曜：週まとめ配信',
-        steps: [
-          { emoji:'📋', label:'先週分を自動取得', desc:'スプレッドシートから直近7日分を収集' },
-          { emoji:'🤖', label:'AIが週まとめを作成', desc:'「今週のポイント3選／生活への影響／来週の注目テーマ」を生成' },
-          { emoji:'💬', label:'LINEに配信', desc:'日曜朝に「今週のまとめ」が届く' },
-        ],
-      },
-      usecases: [
-        '業界・テーマを変えたニュース配信（不動産・医療・教育など）',
-        '社内向けの情報共有Bot（スタッフへの朝の情報配信）',
-        '学校・塾での子ども向けニュース学習ツール',
-      ],
-    },
-  },
-];
-
+/* ── Mock builders ── */
 function buildPosMock() {
-  return `<div class="mock-pos">
-    <div class="mock-menu">
-      <div class="mock-btn"><div>🍔</div><div style="font-size:.6rem">バーガー</div><div class="mk-price">¥500</div></div>
-      <div class="mock-btn"><div>🍟</div><div style="font-size:.6rem">ポテト</div><div class="mk-price">¥200</div></div>
-      <div class="mock-btn"><div>🥤</div><div style="font-size:.6rem">ドリンク</div><div class="mk-price">¥180</div></div>
+  return `<div class="mock-pos-l">
+    <div class="mock-menu-l">
+      <div class="mock-btn-l"><div>🍔</div><div style="font-size:.59rem">バーガー</div><span class="mk-price-l">¥500</span></div>
+      <div class="mock-btn-l"><div>🍟</div><div style="font-size:.59rem">ポテト</div><span class="mk-price-l">¥200</span></div>
+      <div class="mock-btn-l"><div>🥤</div><div style="font-size:.59rem">ドリンク</div><span class="mk-price-l">¥180</span></div>
     </div>
-    <div class="mock-orders">
-      <div class="mock-order-row"><span>バーガー × 1</span><span>¥500</span></div>
-      <div class="mock-order-row"><span>ポテト × 1</span><span>¥200</span></div>
+    <div class="mock-orders-l">
+      <div class="mock-order-l"><span>バーガー × 1</span><span>¥500</span></div>
+      <div class="mock-order-l"><span>ポテト × 1</span><span>¥200</span></div>
+      <div class="mock-total-l"><span>合計</span><span>¥700</span></div>
     </div>
-    <div class="mock-set-banner">
-      <span>バーガー＋ドリンクで ¥80 割引！</span>
-      <button class="mock-apply">適用する</button>
+    <div class="mock-set-l">
+      <span>🎉 バーガー＋ドリンクで <strong>¥80割引</strong>！</span>
+      <button class="mock-set-btn-l">適用</button>
     </div>
   </div>`;
 }
 
 function buildBousaiMock() {
-  return `<div class="mock-bousai">
-    <div class="mock-pref">📍 東京都 ▼</div>
-    <div class="mock-check-item done"><div class="mock-check-box">✓</div><span>避難場所を確認した</span></div>
-    <div class="mock-check-item done"><div class="mock-check-box">✓</div><span>非常食を用意した（3日分）</span></div>
-    <div class="mock-check-item"><div class="mock-check-box"></div><span>水を用意した（3日分）</span></div>
-    <div class="mock-check-item"><div class="mock-check-box"></div><span>薬・お薬手帳を準備した</span></div>
-    <div class="mock-guide-row">
-      <div class="mock-guide-chip">🌊 水害</div>
-      <div class="mock-guide-chip">🐾 ペット</div>
-      <div class="mock-guide-chip">👨‍👩‍👧 家族</div>
+  return `<div class="mock-bousai-l">
+    <div class="mock-pref-l">📍 東京都 ▼</div>
+    <div class="mock-chk-l done"><div class="mock-chk-box-l">✓</div><span>避難場所を確認した</span></div>
+    <div class="mock-chk-l done"><div class="mock-chk-box-l">✓</div><span>非常食を用意した（3日分）</span></div>
+    <div class="mock-chk-l"><div class="mock-chk-box-l"></div><span>水を用意した（3日分）</span></div>
+    <div class="mock-chk-l"><div class="mock-chk-box-l"></div><span>薬・お薬手帳を準備した</span></div>
+    <div class="mock-guide-l">
+      <div class="mock-chip-l">🌊 水害</div>
+      <div class="mock-chip-l">🐾 ペット</div>
+      <div class="mock-chip-l">👨‍👩‍👧 家族</div>
     </div>
   </div>`;
 }
 
-const demoGrid = document.getElementById('demo-grid');
-DEMOS.forEach((d, i) => {
-  const tagsHtml = d.tags.map(t => `<span class="demo-tag">${t}</span>`).join('');
-  const mockHtml = d.mockType === 'pos' ? buildPosMock() : buildBousaiMock();
-  const card = document.createElement('div');
-  card.className = 'demo-card fade-in';
-  card.style.transitionDelay = `${i * 0.08}s`;
-  card.innerHTML = `
-    <div class="demo-mock">${mockHtml}</div>
-    <div class="demo-body">
-      <div class="demo-for">${d.forWho}</div>
-      <div class="demo-title">${d.emoji} ${d.title}</div>
-      <div class="demo-desc">${d.desc}</div>
-      <div class="demo-tags">${tagsHtml}</div>
-      <a href="${d.url}" target="_blank" rel="noopener" class="demo-link">デモを開いて操作する →</a>
-    </div>`;
-  demoGrid.appendChild(card);
-});
+function buildLineExpenseMock() {
+  return `<div class="mock-line-wrap">
+    <div class="mock-line-hd">💬 おかねのせんせい</div>
+    <div class="mock-line-body">
+      <div class="ml-user">ランチ 800円</div>
+      <div class="ml-bot">
+        <span class="ml-green">✅ 経費OK</span><br>
+        【接待交際費】<br>
+        <hr class="ml-hr">
+        <span class="ml-muted">スプレッドシートに記録しました 📊</span>
+      </div>
+    </div>
+  </div>`;
+}
 
+function buildLineNewsMock() {
+  return `<div class="mock-line-wrap">
+    <div class="mock-line-hd">📰 ニュースBot</div>
+    <div class="mock-line-body">
+      <div class="ml-bot">
+        📰 今日のニュース<br>
+        <span class="ml-muted">━━━━━━━━━━━</span><br>
+        <strong>【タイトル】</strong><br>
+        円相場、一時150円台に<br>
+        <hr class="ml-hr">
+        <strong>【3行で説明】</strong><br>
+        ・日米の金利差が拡大<br>
+        ・輸出企業には追い風<br>
+        💡 <em>輸入品の値上がりに注意</em>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildMock(type) {
+  if (type === 'pos')          return buildPosMock();
+  if (type === 'bousai')       return buildBousaiMock();
+  if (type === 'line-expense') return buildLineExpenseMock();
+  if (type === 'line-news')    return buildLineNewsMock();
+  return '';
+}
+
+/* ── Data ── */
+const DEMOS = [
+  { mockType:'pos', forWho:'キッチンカー運営者向け', emoji:'🚚',
+    title:'キッチンカー向けPOSツール',
+    desc:'商品タップで合計計算・セット自動提案・電卓でお釣り表示まで完結。GAS経由でスプレッドシートに自動記録。',
+    tags:['JavaScript','Google Apps Script'],
+    url:'https://yuuy3386.github.io/kitchen-car-demo/' },
+  { mockType:'bousai', forWho:'家族・ペット飼育者向け', emoji:'🛡️',
+    title:'防災チェック・行動ガイド',
+    desc:'都道府県を選ぶと公式防災リンクが切り替わる。地震・水害・ペット同伴の行動ガイドがオフラインで動きます。',
+    tags:['JavaScript','Open-Meteo API'],
+    url:'https://yuuy3386.github.io/bousai-check-app/' },
+];
+
+const PROJECTS = [
+  { mockType:'pos', emoji:'🚚', category:'Webアプリ / 業務効率化',
+    title:'キッチンカー向けPOSツール',
+    desc:'混雑時の会計・在庫・売上管理をスマホ一台で完結させる現場向けツール。',
+    challenge:'混雑時に会計・セット提案・売上記録が手作業になり、ミスや記録漏れが発生していた。',
+    solution:'商品タップで合計計算・セット自動提案・スプレッドシート記録まで自動化。GASをWebアプリとしてデプロイし、ボタン一つで実際のスプレッドシートにデータ送信。',
+    innovation:'スマホ操作前提で電卓式キーパッドを採用。月次CSV出力・原価管理・セット割引を一画面に集約。',
+    tags:[{label:'JavaScript',cls:'tag-js'},{label:'HTML/CSS',cls:'tag-html'},{label:'Google Apps Script',cls:'tag-gas'}],
+    url:'https://yuuy3386.github.io/kitchen-car-demo/' },
+  { mockType:'bousai', emoji:'🛡️', category:'Webアプリ / 防災',
+    title:'防災チェック・行動ガイド',
+    desc:'「いざというとき何をすればいい？」をスマホ一つで確認できる、地域対応の防災サポートアプリ。',
+    challenge:'防災情報は自治体ごとに異なるが、まとめてアクセスできる手軽なツールがなかった。',
+    solution:'47都道府県対応の公式リンク自動切り替え・天気API連携・シーン別チェックリストを1ページに統合。',
+    innovation:'ペット同伴避難シーン・家族構成別リスト・PWAオフライン対応など実用面を作り込んだ。',
+    tags:[{label:'JavaScript',cls:'tag-js'},{label:'Open-Meteo API',cls:'tag-api'},{label:'PWA',cls:'tag-tool'}],
+    url:'https://yuuy3386.github.io/bousai-check-app/' },
+  { mockType:'line-expense', emoji:'💴', category:'LINE Bot / AI自動化',
+    title:'おかねのせんせい',
+    desc:'LINEに「ランチ800円」と送るだけ。AIが経費を自動判定してスプレッドシートに記録。月額0円。',
+    challenge:'個人事業主が経費を記録する手間が大きく、後からまとめて入力するため漏れが起きやすい。',
+    solution:'LINEに自然文を送るだけで、Groq AIが勘定科目を自動判定。スプレッドシートへの記録とLINE返信まで全自動化。',
+    innovation:'APIキー不要の無料AIを選定し、月額0円を実現。WebダッシュボードでCSV確認できる構成にした。',
+    tags:[{label:'LINE API',cls:'tag-line'},{label:'Google Apps Script',cls:'tag-gas'},{label:'Groq AI',cls:'tag-ai'}],
+    url:'https://script.google.com/macros/s/AKfycbyMW9JRxUsN9D_fptxgDZtje5VESdyLyQsuYG4yel28v0GMAB2jvfgGTs6kmXX9r3I/exec',
+    detail:{
+      oneliner:'LINEに「ランチ 800円」と送るだけ。AIが経費かどうかを判定して、スプレッドシートに自動記録。月額0円の経費管理ツール。',
+      flow:[
+        {emoji:'📱',label:'あなた（LINE）',desc:'「ランチ 800円」とLINEで送る'},
+        {emoji:'📨',label:'LINE Messaging API',desc:'メッセージを受け取り、次のステップへ届ける'},
+        {emoji:'⚙️',label:'Google Apps Script',desc:'AI問い合わせ・記録・返信をすべて管理。サーバー不要で無料'},
+        {emoji:'🤖',label:'Groq AI（llama-3.3-70b）',desc:'「経費になるか？ なるなら何の科目？」を判定して結果を返す'},
+        {emoji:'📊',label:'Googleスプレッドシート',desc:'日付・内容・金額・勘定科目・理由を自動で追記'},
+        {emoji:'💬',label:'LINE返信',desc:'「✅ 経費OK【接待交際費】」など判定結果がLINEに届く'},
+        {emoji:'🌐',label:'Webダッシュボード',desc:'URLを開くだけで今月の支出一覧・経費合計が確認できる'},
+      ],
+    }},
+  { mockType:'line-news', emoji:'📰', category:'LINE Bot / AI自動化',
+    title:'ニュースBot',
+    desc:'設定したらほったらかしでOK。AIがニュースを要約して毎朝LINEに自動配信。月額0円。',
+    challenge:'ニュースを毎朝確認したいが時間がない。読んで終わりではなく、自分ごととして捉えられる形で届けたかった。',
+    solution:'NHK RSSを毎朝自動取得し、Groq AIで「3行で説明」「生活・仕事との関係」「今日の視点」の形式に要約してLINEへ1通配信。子ども向け要約はスプレッドシートとWebで保持。',
+    innovation:'出力フォーマットをv3で刷新。読み流せる構成から"気づきが残る"構成に改善。毎週日曜の週まとめ配信・カテゴリフィルター付きWebダッシュボードも実装。APIキー不要で月額0円を維持。',
+    tags:[{label:'LINE API',cls:'tag-line'},{label:'Google Apps Script',cls:'tag-gas'},{label:'Groq AI',cls:'tag-ai'},{label:'NHK RSS',cls:'tag-tool'}],
+    url:'https://script.google.com/macros/s/AKfycbzFfoOGnzphvlH53r5XmuwJ-kUwmPXap47d6wijBURu2l5NgjmCmefNM10Qa43Pfd1E/exec',
+    detail:{
+      oneliner:'設定したらほったらかしでOK。AIがニュースを「3行で説明＋生活との関係＋今日の視点」の形式で要約して毎朝LINEに1通配信。月額0円。',
+      flow:[
+        {emoji:'📡',label:'NHK RSSフィード（毎朝7時・自動）',desc:'最新の経済・社会ニュースを自動取得。APIキー不要・無料'},
+        {emoji:'⚙️',label:'Google Apps Script',desc:'AI問い合わせ・記録・配信まですべてを担当。サーバー不要で無料'},
+        {emoji:'🤖',label:'Groq AI（llama-3.1-8b-instant）',desc:'「3行で説明」「生活・仕事との関係」「今日の視点」の形式で要約'},
+        {emoji:'📊',label:'Googleスプレッドシート',desc:'配信日時・カテゴリ・大人向け/子ども向け要約をすべて自動記録'},
+        {emoji:'💬',label:'LINEにプッシュ配信（大人向け1通）',desc:'毎朝「今日のニュース」が1通届く。子ども向け要約はWebで確認可'},
+        {emoji:'🌐',label:'Webダッシュボード',desc:'カテゴリフィルター・大人/子ども切り替えで配信履歴を確認'},
+      ],
+      flow2:{
+        label:'毎週日曜：週まとめ配信',
+        steps:[
+          {emoji:'📋',label:'先週分を自動取得',desc:'スプレッドシートから直近7日分を収集'},
+          {emoji:'🤖',label:'AIが週まとめを作成',desc:'「今週のポイント3選／生活への影響／来週の注目テーマ」を生成'},
+          {emoji:'💬',label:'LINEに配信',desc:'日曜朝に「今週のまとめ」が届く'},
+        ],
+      },
+      usecases:[
+        '業界・テーマを変えたニュース配信（不動産・医療・教育など）',
+        '社内向けの情報共有Bot（スタッフへの朝の情報配信）',
+        '学校・塾での子ども向けニュース学習ツール',
+      ],
+    }},
+];
+
+/* ── POS Auto Demo ── */
+const POS_STEPS = [
+  {
+    tab: '1.商品選択',
+    title: '🍔 商品をタップして選択',
+    sub: '商品ボタンを押すだけ。合計が自動で計算されます',
+    render(el) {
+      el.innerHTML = `
+        <div class="pos-ui-card">
+          <div class="pos-ui-lbl">注文入力</div>
+          <div class="pos-menu-grid">
+            <div class="pos-menu-item sel"><div>🍔</div><div style="font-size:.62rem">バーガー</div><span class="pos-menu-price">¥500</span></div>
+            <div class="pos-menu-item"><div>🍟</div><div style="font-size:.62rem">ポテト</div><span class="pos-menu-price">¥200</span></div>
+            <div class="pos-menu-item"><div>🥤</div><div style="font-size:.62rem">ドリンク</div><span class="pos-menu-price">¥180</span></div>
+          </div>
+          <div class="pos-order-list">
+            <div class="pos-order-row pop"><span>🍔 バーガー × 1</span><span>¥500</span></div>
+          </div>
+          <div class="pos-total-row"><span>合計</span><span>¥500</span></div>
+        </div>`;
+    }
+  },
+  {
+    tab: '2.セット提案',
+    title: '🎉 セット割が自動で提案',
+    sub: '「バーガー＋ポテト」の組み合わせを検知し、¥80引きを自動適用',
+    render(el) {
+      el.innerHTML = `
+        <div class="pos-ui-card">
+          <div class="pos-ui-lbl">注文入力</div>
+          <div class="pos-menu-grid">
+            <div class="pos-menu-item sel"><div>🍔</div><div style="font-size:.62rem">バーガー</div><span class="pos-menu-price">¥500</span></div>
+            <div class="pos-menu-item sel"><div>🍟</div><div style="font-size:.62rem">ポテト</div><span class="pos-menu-price">¥200</span></div>
+            <div class="pos-menu-item"><div>🥤</div><div style="font-size:.62rem">ドリンク</div><span class="pos-menu-price">¥180</span></div>
+          </div>
+          <div class="pos-order-list">
+            <div class="pos-order-row"><span>🍔 バーガー × 1</span><span>¥500</span></div>
+            <div class="pos-order-row pop"><span>🍟 ポテト × 1</span><span>¥200</span></div>
+          </div>
+          <div class="pos-total-row"><span>合計</span><span>¥700</span></div>
+          <div class="pos-set-badge">🎉 バーガー＋ポテトで <strong>¥80割引</strong>！</div>
+          <div class="pos-discount-row">✅ セット割 <strong>−¥80</strong> 自動適用 → 合計 <strong>¥620</strong></div>
+        </div>`;
+    }
+  },
+  {
+    tab: '3.会計確定',
+    title: '💴 おつりを自動計算',
+    sub: '受取金額を入力するとおつりが即座に表示。会計完了で記録へ',
+    render(el) {
+      el.innerHTML = `
+        <div class="pos-checkout-ui">
+          <div class="pos-checkout-lbl">お会計</div>
+          <div class="pos-checkout-total">¥620</div>
+          <div class="pos-change-row">
+            <span style="font-size:.72rem;color:var(--muted)">お預かり ¥1,000</span>
+            <div style="text-align:right">
+              <div style="font-size:.6rem;color:var(--muted)">おつり</div>
+              <div class="pos-change-val" id="d-change">¥0</div>
+            </div>
+          </div>
+          <div class="pos-done-circle" id="d-circle">✅</div>
+          <div class="pos-done-lbl" id="d-lbl">会計完了</div>
+        </div>`;
+      let v = 0;
+      const t = setInterval(() => {
+        v = Math.min(v + 38, 380);
+        const el2 = document.getElementById('d-change');
+        if (el2) el2.textContent = '¥' + v;
+        if (v >= 380) {
+          clearInterval(t);
+          setTimeout(() => {
+            document.getElementById('d-circle')?.classList.add('show');
+            document.getElementById('d-lbl')?.classList.add('show');
+          }, 280);
+        }
+      }, 48);
+    }
+  },
+  {
+    tab: '4.シート保存',
+    title: '📊 スプレッドシートに自動保存',
+    sub: '会計完了と同時にGASが起動し、売上データを自動記録',
+    render(el) {
+      el.innerHTML = `
+        <div class="pos-sheet-ui">
+          <div class="pos-sheet-hd">
+            <div class="pos-ui-lbl" style="margin:0">売上レコード</div>
+            <div class="pos-sheets-logo">🟢 Google Sheets</div>
+          </div>
+          <div class="pos-srow"><span>日付</span><span>2026/05/15</span></div>
+          <div class="pos-srow"><span>商品</span><span>バーガー＋ポテト</span></div>
+          <div class="pos-srow"><span>金額</span><span>¥620</span></div>
+          <div class="pos-srow"><span>割引</span><span style="color:#1A5C36">−¥80（セット割）</span></div>
+          <div class="pos-save-bar" id="d-savebar">
+            <div class="pos-spinner" id="d-spin"></div>
+            <div class="pos-tick" id="d-tick">✓</div>
+            <span id="d-savetext">保存中…</span>
+          </div>
+        </div>`;
+      setTimeout(() => {
+        const bar = document.getElementById('d-savebar');
+        const spin = document.getElementById('d-spin');
+        const tick = document.getElementById('d-tick');
+        const txt  = document.getElementById('d-savetext');
+        if (!bar) return;
+        spin.style.display = 'none';
+        tick.classList.add('show');
+        bar.classList.add('saved');
+        txt.textContent = '保存完了！';
+      }, 850);
+    }
+  },
+  {
+    tab: '5.月次集計',
+    title: '📈 月次レポートがリアルタイム更新',
+    sub: 'GASが保存データを自動集計。売上・注文数・人気商品・利益を表示',
+    render(el) {
+      el.innerHTML = `
+        <div class="pos-chart-ui">
+          <div class="pos-ui-lbl" style="margin-bottom:0">今月の集計</div>
+          <div class="pos-chart-bars">
+            <div class="pos-bar-col">
+              <div class="pos-bar" id="cb1" style="height:0;background:var(--accent)"><div class="pos-bar-num">¥78k</div></div>
+              <div class="pos-bar-lbl">売上</div>
+            </div>
+            <div class="pos-bar-col">
+              <div class="pos-bar" id="cb2" style="height:0;background:var(--teal)"><div class="pos-bar-num">142件</div></div>
+              <div class="pos-bar-lbl">注文数</div>
+            </div>
+            <div class="pos-bar-col">
+              <div class="pos-bar" id="cb3" style="height:0;background:#E8A800"><div class="pos-bar-num">🍔×61</div></div>
+              <div class="pos-bar-lbl">人気No.1</div>
+            </div>
+            <div class="pos-bar-col">
+              <div class="pos-bar" id="cb4" style="height:0;background:var(--accent-l)"><div class="pos-bar-num">¥31k</div></div>
+              <div class="pos-bar-lbl">利益</div>
+            </div>
+          </div>
+        </div>`;
+      setTimeout(() => {
+        [['cb1',74],['cb2',56],['cb3',86],['cb4',38]].forEach(([id,h]) => {
+          const b = document.getElementById(id);
+          if (b) b.style.height = h + 'px';
+        });
+      }, 80);
+    }
+  },
+  {
+    tab: '6.まとめ',
+    title: '✅ 注文〜集計まで自動化',
+    sub: 'キッチンカーの現場で実際に動いています',
+    render(el) {
+      el.innerHTML = `
+        <div class="pos-summary-ui">
+          <div class="pos-summary-h">注文〜集計まで<br>すべて自動化</div>
+          <div class="pos-summary-note">キッチンカーの現場で動いています</div>
+          <div class="pos-summary-pts">
+            <div class="pos-summary-pt">会計ミスを削減（手計算ゼロ）</div>
+            <div class="pos-summary-pt">集計作業が月次で自動化</div>
+            <div class="pos-summary-pt">売上・利益がリアルタイムで確認</div>
+          </div>
+        </div>`;
+    }
+  }
+];
+
+let posStep = 0, posTimer = null, posStarted = false;
+
+function renderPosStep(idx) {
+  const bar      = document.getElementById('pos-steps-bar');
+  const screen   = document.getElementById('pos-screen');
+  const caption  = document.getElementById('pos-caption');
+  const progress = document.getElementById('pos-progress');
+  const cta      = document.getElementById('demo-cta');
+  if (!screen || !caption) return;
+
+  const step = POS_STEPS[idx];
+
+  /* Tab bar */
+  if (bar) {
+    bar.innerHTML = POS_STEPS.map((s, i) =>
+      `<div class="pos-step-tab ${i === idx ? 'active' : i < idx ? 'done' : ''}">${i < idx ? '✓ ' : ''}${s.tab}</div>`
+    ).join('');
+  }
+
+  /* Progress bar reset → animate */
+  if (progress) {
+    progress.style.transition = 'none';
+    progress.style.width = '0%';
+    progress.offsetHeight;
+    progress.style.transition = 'width 2s linear';
+    progress.style.width = '100%';
+  }
+
+  /* Swap frame */
+  const old = screen.querySelector('.pos-frame');
+  if (old) {
+    old.classList.remove('visible');
+    old.classList.add('leaving');
+    setTimeout(() => old.remove(), 360);
+  }
+  const frame = document.createElement('div');
+  frame.className = 'pos-frame entering';
+  screen.appendChild(frame);
+  step.render(frame);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    frame.classList.remove('entering');
+    frame.classList.add('visible');
+  }));
+
+  /* Caption */
+  caption.innerHTML = `
+    <div class="pos-caption-num">${idx + 1}</div>
+    <div>
+      <div class="pos-caption-title">${step.title}</div>
+      ${step.sub ? `<div class="pos-caption-sub">${step.sub}</div>` : ''}
+    </div>`;
+
+  /* Show CTA on last step */
+  if (cta && idx === POS_STEPS.length - 1) {
+    setTimeout(() => cta.classList.add('visible'), 700);
+  }
+}
+
+function startPosDemo() {
+  if (posStarted) return;
+  posStarted = true;
+  renderPosStep(0);
+  posTimer = setInterval(() => {
+    posStep = (posStep + 1) % POS_STEPS.length;
+    renderPosStep(posStep);
+  }, 2000);
+}
+
+/* Trigger when section enters viewport */
+const demoSection = document.getElementById('demo');
+if (demoSection) {
+  const dObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { startPosDemo(); dObs.unobserve(demoSection); }
+  }, { threshold: 0.2 });
+  dObs.observe(demoSection);
+}
+
+/* ── Render Works ── */
 const worksGrid = document.getElementById('works-grid');
 PROJECTS.forEach((p, i) => {
   const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
   const detailBtn = p.detail ? `<button class="detail-btn" data-idx="${i}">仕組みを見る</button>` : '';
-  const flowHtml = (p.thumbFlow || []).map((n, idx, arr) =>
-    `<span class="thumb-node">${n}</span>${idx < arr.length-1 ? '<span class="thumb-arrow">→</span>' : ''}`
-  ).join('');
   const card = document.createElement('div');
   card.className = 'work-card fade-in';
   card.style.transitionDelay = `${i * 0.07}s`;
   card.innerHTML = `
-    <div class="work-thumb" style="background:${p.thumbColor||'#F2EEE8'};">
-      <div class="thumb-emoji">${p.emoji}</div>
-      <div class="thumb-flow">${flowHtml}</div>
-    </div>
+    <div class="work-thumb">${buildMock(p.mockType)}</div>
     <div class="work-body">
       <div class="work-cat">${p.category}</div>
       <div class="work-title">${p.title}</div>
@@ -881,13 +1501,14 @@ PROJECTS.forEach((p, i) => {
       </div>
       <div class="work-tags">${tagsHtml}</div>
       <div class="work-actions">
-        <a href="${p.url}" target="_blank" rel="noopener" class="work-link">デモを開く →</a>
+        <a href="${p.url}" target="_blank" rel="noopener" class="work-link">デモを開く <span class="btn-arrow">→</span></a>
         ${detailBtn}
       </div>
     </div>`;
   worksGrid.appendChild(card);
 });
 
+/* ── Modal ── */
 const overlay = document.getElementById('modal-overlay');
 const modalContent = document.getElementById('modal-content');
 
@@ -903,13 +1524,13 @@ function openModal(idx) {
   const p = PROJECTS[idx]; const d = p.detail;
   const tagsHtml = p.tags.map(t => `<span class="tag ${t.cls}">${t.label}</span>`).join('');
   const flow2Html = d.flow2 ? `<div class="flow-label-s" style="margin-top:1.2rem">${d.flow2.label}</div><div class="flow-list">${buildFlowHtml(d.flow2.steps)}</div>` : '';
-  const usecasesHtml = d.usecases ? `<div class="flow-label-s" style="margin-top:1.2rem">応用例</div><ul style="padding-left:1.2rem;font-size:.81rem;color:var(--sub);line-height:2">${d.usecases.map(u=>`<li>${u}</li>`).join('')}</ul>` : '';
+  const ucHtml = d.usecases ? `<div class="flow-label-s" style="margin-top:1.2rem">応用例</div><ul style="padding-left:1.2rem;font-size:.81rem;color:var(--sub);line-height:2">${d.usecases.map(u=>`<li>${u}</li>`).join('')}</ul>` : '';
   modalContent.innerHTML = `
     <div class="modal-head"><div class="modal-icon">${p.emoji}</div><div class="modal-title">${p.title}</div></div>
     <div class="modal-summary">${d.oneliner}</div>
     <div class="flow-label-s">処理の流れ</div>
     <div class="flow-list">${buildFlowHtml(d.flow)}</div>
-    ${flow2Html}${usecasesHtml}
+    ${flow2Html}${ucHtml}
     <div class="modal-tags">${tagsHtml}</div>
     <a href="${p.url}" target="_blank" rel="noopener" class="modal-open">実際に開いて試す →</a>`;
   overlay.classList.add('open');
@@ -924,12 +1545,24 @@ document.getElementById('works-grid').addEventListener('click', e => {
   if (btn) openModal(Number(btn.dataset.idx));
 });
 
+/* ── Scroll fade-in ── */
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
   });
 }, { threshold: 0.07 });
 document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+/* ── Parallax (desktop only, respects prefers-reduced-motion) ── */
+const avatarEl = document.getElementById('avatar-parallax');
+const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = window.matchMedia('(max-width: 800px)').matches;
+if (avatarEl && !noMotion && !isMobile) {
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY * 0.07;
+    avatarEl.style.transform = `translateY(${y}px)`;
+  }, { passive: true });
+}
 </script>
 </body>
 </html>
